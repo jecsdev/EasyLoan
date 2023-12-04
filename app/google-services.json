@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "184255035025",
+    "project_id": "easyloan-feccd",
+    "storage_bucket": "easyloan-feccd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:184255035025:android:c047c3fcc0989011273130",
+        "android_client_info": {
+          "package_name": "com.jecsdev.easyloan"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdqavaj8DQrpxj7ORwJ9L2gRDgMDROTOk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
