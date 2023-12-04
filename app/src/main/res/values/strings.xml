@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">EasyLoan</string>
+    <string name="empty_string">""</string>
+    <string name="sesion_started">Inicio de sesión exitoso</string>
+    <string name="sesion_closed">Sesión cerrada</string>
+    <string name="sign_out">Cerrar sesión</string>
 </resources>
