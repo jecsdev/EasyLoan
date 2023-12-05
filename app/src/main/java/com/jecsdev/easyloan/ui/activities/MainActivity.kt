@@ -25,6 +25,7 @@ import com.jecsdev.easyloan.presentation.signin.GoogleAuthClient
 import com.jecsdev.easyloan.ui.screen.DashboardScreen
 import com.jecsdev.easyloan.ui.screen.SignInScreen
 import com.jecsdev.easyloan.ui.theme.EasyLoanTheme
+import com.jecsdev.easyloan.ui.theme.lightGrayColor
 import com.jecsdev.easyloan.ui.viewmodel.SignInViewModel
 import kotlinx.coroutines.launch
 
@@ -50,7 +51,7 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = lightGrayColor
                 ) {
                     // Navigation Host
                     val navController = rememberNavController()
