@@ -6,5 +6,6 @@
     <string name="sign_out">Cerrar sesión</string>
     <string name="sign_in_with_google">"Iniciar sesión con Google"</string>
     <string name="google_icon_description">"Google icon"</string>
+    <string name="welcome">¡Bienvenido!</string>
     <string name="login_message">Inicia sesión con Google para garantizar que toda tu información se guarde de manera correcta entre dispositivos. ¡No te preocupes! No compartimos ni compartiremos tu información con nadie. :)</string>
 </resources>

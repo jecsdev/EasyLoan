@@ -26,6 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.jecsdev.easyloan.R
 import com.jecsdev.easyloan.ui.state.SignInState
 
@@ -55,12 +56,28 @@ fun SignInScreen(
             .fillMaxSize()
             .padding(16.dp),
         contentAlignment = Alignment.Center
+
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
             modifier = Modifier.fillMaxHeight()
         ) {
+            Spacer(modifier = Modifier.height(80.dp))
+            Image(
+                painterResource(
+                    id = R.drawable.easy_loan
+                ),
+                contentDescription = null,
+                modifier = Modifier
+                    .height(240.dp)
+                    .width(360.dp)
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+            Text(
+                text = stringResource(R.string.welcome),
+                fontSize = 28.sp
+            )
+            Spacer(modifier = Modifier.height(12.dp))
             Button(
                 onClick = onSignInClick,
                 shape = RoundedCornerShape(20.dp),
@@ -77,12 +94,14 @@ fun SignInScreen(
                             .width(20.dp)
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text(stringResource(R.string.sign_in_with_google))
+                    Text(text = stringResource(R.string.sign_in_with_google))
                 }
             }
+            Spacer(modifier = Modifier.height(24.dp))
             Text(
                 text = stringResource(R.string.login_message),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                fontSize = 14.sp
             )
         }
     }
