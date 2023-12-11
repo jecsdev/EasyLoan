@@ -7,12 +7,14 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -27,6 +29,7 @@ import com.jecsdev.easyloan.ui.screen.SignInScreen
 import com.jecsdev.easyloan.ui.theme.EasyLoanTheme
 import com.jecsdev.easyloan.ui.theme.lightGrayColor
 import com.jecsdev.easyloan.ui.viewmodel.SignInViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 
@@ -34,6 +37,7 @@ import kotlinx.coroutines.launch
  * Application's Main Activity
  * @author John Campusano
  */
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     // Set Google Authentication client
@@ -44,6 +48,8 @@ class MainActivity : ComponentActivity() {
         )
     }
 
+    private val viewModel: SignInViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -51,13 +57,13 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = lightGrayColor
+                    color = Color.White
                 ) {
                     // Navigation Host
                     val navController = rememberNavController()
                     NavHost(navController = navController, startDestination = "sign_in") {
                         composable("sign_in") {
-                            val viewModel = viewModel<SignInViewModel>()
+
                             val state by viewModel.state.collectAsStateWithLifecycle()
 
                             // Check's if user's session is active
