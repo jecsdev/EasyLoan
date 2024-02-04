@@ -1,0 +1,171 @@
+package com.jecsdev.easyloan.ui.screens
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import com.jecsdev.easyloan.R
+import com.jecsdev.easyloan.data.entity.user.UserData
+import com.jecsdev.easyloan.ui.composables.card.BalanceCard
+import com.jecsdev.easyloan.ui.composables.card.IconCard
+
+/**
+ * DashboardScreen view.
+ */
+@Composable
+fun DashboardScreen(
+    userData: UserData?,
+    onSignOut: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            if (userData?.profilePictureUri != null && userData.userName.isNotEmpty()) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.weight(3f)
+                ) {
+                    AsyncImage(
+                        model = userData.profilePictureUri,
+                        contentDescription = "Profile picture",
+                        modifier = Modifier
+                            .size(48.dp)
+                            .clip(CircleShape),
+                        contentScale = ContentScale.Crop
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = userData.userName,
+                        textAlign = TextAlign.Center,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        modifier = Modifier.padding(top = 4.dp)
+                    )
+                }
+            }
+            Button(
+                onClick = onSignOut,
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .size(48.dp)
+                    .weight(0.5f),
+                colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.navy_blue_color))
+            ) {
+                Image(
+                    modifier = Modifier
+                        .height(32.dp)
+                        .width(32.dp),
+                    painter = painterResource(id = R.drawable.power_icon_24),
+                    contentDescription = stringResource(id = R.string.power_icon)
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(32.dp))
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            BalanceCard(
+                headerText = stringResource(R.string.available_amount),
+                balance = 20000.00, modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            BalanceCard(
+                headerText = stringResource(R.string.credited_amount),
+                balance = 150000.00, modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+            )
+        }
+        Spacer(modifier = Modifier.height(24.dp))
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                IconCard(painter = painterResource(id = R.drawable.loan_icon_action))
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = stringResource(R.string.create),
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                IconCard(painter = painterResource(id = R.drawable.deposit_icon))
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = stringResource(R.string.deposit),
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                IconCard(painter = painterResource(id = R.drawable.customer_icon))
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = stringResource(R.string.customers),
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        }
+    }
+}
+
+/*
+ * Dashboard Screen preview with dummy data.
+ */
+@Preview(showBackground = true)
+@Composable
+fun DashboardScreenPreview() {
+    DashboardScreen(
+        userData = UserData(
+            userName = "John Doe",
+            userId = "1234",
+            profilePictureUri = ""
+        ),
+        onSignOut = {}
+    )
+}

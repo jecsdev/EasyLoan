@@ -10,6 +10,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.jecsdev.easyloan.R
+import com.jecsdev.easyloan.data.entity.user.UserData
 import com.jecsdev.easyloan.utils.constants.firebaseClientId
 import kotlinx.coroutines.tasks.await
 import java.util.concurrent.CancellationException
@@ -59,7 +60,7 @@ class GoogleAuthClient(
                     UserData(
                         userId = uid,
                         userName = displayName ?: emptyString,
-                        profilePictureUrl = photoUrl?.toString()
+                        profilePictureUri = photoUrl?.toString()
                     )
                 },
                 errorMessage = null
@@ -110,7 +111,7 @@ class GoogleAuthClient(
         UserData(
             userId = uid,
             userName = displayName ?: emptyString,
-            profilePictureUrl = photoUrl?.toString()
+            profilePictureUri = photoUrl?.toString()
         )
     }
 }

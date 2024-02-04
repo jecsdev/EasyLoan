@@ -12,4 +12,11 @@
     <string name="email">Email</string>
     <string name="sign_in">Iniciar sesión</string>
     <string name="forgot_password">¿Olvidaste la contraseña?</string>
+    <string name="power_icon">Power icon</string>
+    <string name="available_amount">Monto disponible</string>
+    <string name="credited_amount">Monto acreditado</string>
+    <string name="create">Crear</string>
+    <string name="deposit">Depositar</string>
+    <string name="customers">Clientes</string>
+    <string name="loan_icon">Icono de prestamo</string>
 </resources>
