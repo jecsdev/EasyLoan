@@ -54,7 +54,7 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = colorResource(R.color.very_light_gray_color)
+                    color = colorResource(R.color.phantom_gray_color)
                 ) {
                     // Navigation Host
                     val navController = rememberNavController()

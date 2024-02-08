@@ -19,4 +19,6 @@
     <string name="deposit">Depositar</string>
     <string name="customers">Clientes</string>
     <string name="loan_icon">Icono de prestamo</string>
+    <string name="recent_transactions">Transacciones recientes</string>
+    <string name="customer_card_icon">Customer card icon</string>
 </resources>

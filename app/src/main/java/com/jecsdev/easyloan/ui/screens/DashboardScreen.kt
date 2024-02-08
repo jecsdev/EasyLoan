@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -32,6 +33,7 @@ import coil.compose.AsyncImage
 import com.jecsdev.easyloan.R
 import com.jecsdev.easyloan.data.entity.user.UserData
 import com.jecsdev.easyloan.ui.composables.card.BalanceCard
+import com.jecsdev.easyloan.ui.composables.card.CustomerTransactionResumeCard
 import com.jecsdev.easyloan.ui.composables.card.IconCard
 
 /**
@@ -112,7 +114,7 @@ fun DashboardScreen(
         Spacer(modifier = Modifier.height(24.dp))
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxWidth()
         ) {
             Column(
                 verticalArrangement = Arrangement.Center,
@@ -149,6 +151,18 @@ fun DashboardScreen(
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold
                 )
+            }
+        }
+        Spacer(modifier = Modifier.height(32.dp))
+        Text(
+            text = stringResource(R.string.recent_transactions),
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        LazyColumn{
+            items(5){
+                CustomerTransactionResumeCard()
             }
         }
     }
