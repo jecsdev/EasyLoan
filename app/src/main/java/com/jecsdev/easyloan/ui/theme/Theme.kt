@@ -48,7 +48,7 @@ fun EasyLoanTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = navyBlueColor.toArgb()
+            window.statusBarColor = ghostColor.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
         }
     }

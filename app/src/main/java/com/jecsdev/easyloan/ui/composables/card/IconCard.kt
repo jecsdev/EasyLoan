@@ -23,6 +23,7 @@ fun IconCard(painter: Painter) {
     Card(modifier = Modifier.size(80.dp),
         shape = RoundedCornerShape(16.dp),
         backgroundColor = lightGrayColor) {
+
         Image(
             modifier = Modifier
                 .fillMaxSize()

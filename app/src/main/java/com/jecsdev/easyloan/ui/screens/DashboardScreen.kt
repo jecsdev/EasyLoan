@@ -59,7 +59,7 @@ fun DashboardScreen(
                 ) {
                     AsyncImage(
                         model = userData.profilePictureUri,
-                        contentDescription = "Profile picture",
+                        contentDescription = stringResource(R.string.profile_picture),
                         modifier = Modifier
                             .size(48.dp)
                             .clip(CircleShape),
@@ -67,9 +67,10 @@ fun DashboardScreen(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = userData.userName,
+                        text = stringResource(R.string.greeting_with_comma) +
+                                " " + userData.userName,
                         textAlign = TextAlign.Center,
-                        fontSize = 16.sp,
+                        fontSize = 18.sp,
                         fontWeight = FontWeight.SemiBold,
                         modifier = Modifier.padding(top = 4.dp)
                     )
@@ -92,7 +93,13 @@ fun DashboardScreen(
                 )
             }
         }
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(24.dp))
+        Text(
+            text = stringResource(R.string.account_status),
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold
+        )
+        Spacer(modifier = Modifier.height(20.dp))
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth()
@@ -112,6 +119,12 @@ fun DashboardScreen(
             )
         }
         Spacer(modifier = Modifier.height(24.dp))
+        Text(
+            text = stringResource(R.string.features),
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold
+        )
+        Spacer(modifier = Modifier.height(20.dp))
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth()
@@ -153,15 +166,15 @@ fun DashboardScreen(
                 )
             }
         }
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(24.dp))
         Text(
             text = stringResource(R.string.recent_transactions),
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold
         )
         Spacer(modifier = Modifier.height(16.dp))
-        LazyColumn{
-            items(5){
+        LazyColumn {
+            items(5) {
                 CustomerTransactionResumeCard()
             }
         }
@@ -176,9 +189,9 @@ fun DashboardScreen(
 fun DashboardScreenPreview() {
     DashboardScreen(
         userData = UserData(
-            userName = "John Doe",
-            userId = "1234",
-            profilePictureUri = ""
+            userName = stringResource(R.string.john_doe),
+            userId = stringResource(R.string.sample_number),
+            profilePictureUri = stringResource(id = R.string.empty_string)
         ),
         onSignOut = {}
     )

@@ -21,4 +21,10 @@
     <string name="loan_icon">Icono de prestamo</string>
     <string name="recent_transactions">Transacciones recientes</string>
     <string name="customer_card_icon">Customer card icon</string>
+    <string name="profile_picture">Profile picture</string>
+    <string name="john_doe">John Doe</string>
+    <string name="sample_number">1234</string>
+    <string name="greeting_with_comma">Hola,</string>
+    <string name="account_status">Estado de la cuenta</string>
+    <string name="features">Características</string>
 </resources>

@@ -27,7 +27,7 @@ fun BalanceCard(headerText: String, balance: Double,modifier: Modifier){
             .width(176.dp)
             .height(120.dp),
         shape = RoundedCornerShape(16.dp),
-        backgroundColor = lightGrayColor,
+        backgroundColor = lightGrayColor
     ) {
         Column(
             modifier = modifier
