@@ -46,7 +46,7 @@ import com.jecsdev.easyloan.ui.theme.navyBlueColor
  * TODO: Add other login options for better User Experience
  */
 @Composable
-fun SignInScreen(
+fun LogInScreen(
     state: SignInState,
     onSignInClick: () -> Unit
 ) {

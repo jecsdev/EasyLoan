@@ -21,9 +21,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.auth.api.identity.Identity
 import com.jecsdev.easyloan.R
+import com.jecsdev.easyloan.presentation.navigation.Destination.*
 import com.jecsdev.easyloan.presentation.signin.GoogleAuthClient
 import com.jecsdev.easyloan.ui.screens.DashboardScreen
-import com.jecsdev.easyloan.ui.screens.SignInScreen
+import com.jecsdev.easyloan.ui.screens.LogInScreen
 import com.jecsdev.easyloan.ui.theme.EasyLoanTheme
 import com.jecsdev.easyloan.ui.viewmodel.SignInViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,15 +59,15 @@ class MainActivity : ComponentActivity() {
                 ) {
                     // Navigation Host
                     val navController = rememberNavController()
-                    NavHost(navController = navController, startDestination = "sign_in") {
-                        composable("sign_in") {
+                    NavHost(navController = navController, startDestination = LogIn.route) {
+                        composable(LogIn.route) {
 
                             val state by viewModel.state.collectAsStateWithLifecycle()
 
                             // Check's if user's session is active
                             LaunchedEffect(key1 = Unit) {
                                 if (googleAuthUiClient.getSignedUser() != null) {
-                                    navController.navigate("profile")
+                                    navController.navigate(Dashboard.route)
                                 }
                             }
 
@@ -92,11 +93,12 @@ class MainActivity : ComponentActivity() {
                                         getString(R.string.sesion_started),
                                         Toast.LENGTH_LONG
                                     ).show()
-                                    navController.navigate("profile")
+                                    navController.navigate(Dashboard.route)
                                     viewModel.resetState()
                                 }
                             }
-                            SignInScreen(state = state, onSignInClick = {
+                            // Sign In Screen
+                            LogInScreen(state = state, onSignInClick = {
                                 lifecycleScope.launch {
                                     val signInIntentSender = googleAuthUiClient.signIn()
                                     launcher.launch(
@@ -107,7 +109,7 @@ class MainActivity : ComponentActivity() {
                                 }
                             })
                         }
-                        composable("profile") {
+                        composable(Dashboard.route) {
                             DashboardScreen(
                                 userData = googleAuthUiClient.getSignedUser(),
                                 onSignOut = {
