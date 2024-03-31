@@ -27,4 +27,6 @@
     <string name="greeting_with_comma">Hola,</string>
     <string name="account_status">Estado de la cuenta</string>
     <string name="features">Características</string>
+    <string name="customers_list">Listado de clientes</string>
+    <string name="floating_action_button_add_customer_description">Floating Action Button Add Customer</string>
 </resources>

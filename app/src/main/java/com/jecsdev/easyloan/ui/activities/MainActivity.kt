@@ -23,6 +23,7 @@ import com.google.android.gms.auth.api.identity.Identity
 import com.jecsdev.easyloan.R
 import com.jecsdev.easyloan.presentation.navigation.Destination.*
 import com.jecsdev.easyloan.presentation.signin.GoogleAuthClient
+import com.jecsdev.easyloan.ui.screens.CustomersListScreen
 import com.jecsdev.easyloan.ui.screens.DashboardScreen
 import com.jecsdev.easyloan.ui.screens.LogInScreen
 import com.jecsdev.easyloan.ui.theme.EasyLoanTheme
@@ -122,8 +123,12 @@ class MainActivity : ComponentActivity() {
                                         ).show()
                                         navController.popBackStack()
                                     }
-                                }
+                                },
+                                navController = navController
                             )
+                        }
+                        composable(CustomersList.route) {
+                            CustomersListScreen()
                         }
                     }
                 }
