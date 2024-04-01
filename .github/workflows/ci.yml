@@ -2,9 +2,9 @@ name: Android Ci
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master", "feature_customers_screen" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "master", "feature_customers_screen" ]
 
 jobs:
   build:
