@@ -1,4 +1,4 @@
-package com.jecsdev.easyloan.ui.screens
+package com.jecsdev.easyloan.ui.screens.login
 
 import android.widget.Toast
 import androidx.compose.foundation.Image

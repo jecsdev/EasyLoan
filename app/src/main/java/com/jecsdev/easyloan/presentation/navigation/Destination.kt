@@ -8,5 +8,6 @@ sealed class Destination(val route: String) {
     object LogIn: Destination("login")
     object Dashboard: Destination("dashboard")
     object CustomersList: Destination("customers_list")
+    object CreateCustomer: Destination("create_customer")
 
 }

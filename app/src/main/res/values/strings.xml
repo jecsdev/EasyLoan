@@ -29,4 +29,14 @@
     <string name="features">Características</string>
     <string name="customers_list">Listado de clientes</string>
     <string name="floating_action_button_add_customer_description">Floating Action Button Add Customer</string>
+    <string name="back_icon_button">Back icon button</string>
+    <string name="search">Buscar</string>
+    <string name="search_text_field_icon">Search text field icon</string>
+    <string name="customers_text_field_disclaimer">Encuentre rápidamente a sus clientes escribiendo aquí.</string>
+    <string name="add_customer">Agregar nuevo cliente</string>
+    <string name="selected_image_description">selected_image_description</string>
+    <string name="name">Nombre</string>
+    <string name="last_name">Apellido</string>
+    <string name="identification_number">Cédula</string>
+    <string name="address">Dirección</string>
 </resources>

@@ -23,9 +23,10 @@ import com.google.android.gms.auth.api.identity.Identity
 import com.jecsdev.easyloan.R
 import com.jecsdev.easyloan.presentation.navigation.Destination.*
 import com.jecsdev.easyloan.presentation.signin.GoogleAuthClient
-import com.jecsdev.easyloan.ui.screens.CustomersListScreen
-import com.jecsdev.easyloan.ui.screens.DashboardScreen
-import com.jecsdev.easyloan.ui.screens.LogInScreen
+import com.jecsdev.easyloan.ui.screens.customers.CreateCustomerScreen
+import com.jecsdev.easyloan.ui.screens.customers.CustomersListScreen
+import com.jecsdev.easyloan.ui.screens.dashboard.DashboardScreen
+import com.jecsdev.easyloan.ui.screens.login.LogInScreen
 import com.jecsdev.easyloan.ui.theme.EasyLoanTheme
 import com.jecsdev.easyloan.ui.viewmodel.SignInViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -128,7 +129,10 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable(CustomersList.route) {
-                            CustomersListScreen()
+                            CustomersListScreen(navController = navController)
+                        }
+                        composable(CreateCustomer.route){
+                            CreateCustomerScreen(navController = navController)
                         }
                     }
                 }

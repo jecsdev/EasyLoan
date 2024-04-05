@@ -1,4 +1,4 @@
-package com.jecsdev.easyloan.ui.screens
+package com.jecsdev.easyloan.ui.screens.dashboard
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -134,7 +134,10 @@ fun DashboardScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                IconCard(painter = painterResource(id = R.drawable.loan_icon_action))
+                IconCard(
+                    painter = painterResource(id = R.drawable.loan_icon_action),
+                    modifier = Modifier
+                )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = stringResource(R.string.create),
@@ -146,7 +149,10 @@ fun DashboardScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                IconCard(painter = painterResource(id = R.drawable.deposit_icon))
+                IconCard(
+                    painter = painterResource(id = R.drawable.deposit_icon),
+                    modifier = Modifier
+                )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = stringResource(R.string.deposit),
@@ -156,16 +162,17 @@ fun DashboardScreen(
             }
             Column(
                 verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.clickable {
-                    navController?.let { navigation ->
-                        navigateToCustomersScreen(
-                            navigation
-                        )
-                    }
-                }
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                IconCard(painter = painterResource(id = R.drawable.customer_icon))
+                IconCard(painter = painterResource(id = R.drawable.customer_icon),
+                    modifier = Modifier.clickable {
+                        navController?.let { navigation ->
+                            navigateToCustomersScreen(
+                                navigation
+                            )
+                        }
+                    }
+                )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = stringResource(R.string.customers),
