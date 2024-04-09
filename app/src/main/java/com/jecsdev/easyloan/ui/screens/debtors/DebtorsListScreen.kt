@@ -1,4 +1,4 @@
-package com.jecsdev.easyloan.ui.screens.customers
+package com.jecsdev.easyloan.ui.screens.debtors
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -32,10 +32,11 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.jecsdev.easyloan.R
 import com.jecsdev.easyloan.presentation.navigation.Destination
-import com.jecsdev.easyloan.ui.composables.card.CustomerCard
+import com.jecsdev.easyloan.ui.composables.card.DebtorCard
 import com.jecsdev.easyloan.ui.composables.header.TitleHeader
-import com.jecsdev.easyloan.ui.theme.lightGrayColor
+import com.jecsdev.easyloan.ui.theme.ghostColor
 import com.jecsdev.easyloan.ui.theme.navyBlueColor
+
 
 /**
  * Customers list Screen composable.
@@ -43,19 +44,19 @@ import com.jecsdev.easyloan.ui.theme.navyBlueColor
  * @author John Campusano.
  */
 @Composable
-fun CustomersListScreen(navController: NavController?) {
+fun DebtorsListScreen(navController: NavController?) {
     val searchResource = stringResource(R.string.search)
     var searchValue by rememberSaveable { mutableStateOf("") }
 
     Scaffold(floatingActionButton = {
         FloatingActionButton(
-            onClick = { navigateToCreateCustomerScreen(navController) },
+            onClick = { navigateToCreateDebtorScreen(navController) },
             containerColor = navyBlueColor,
             contentColor = Color.White
         ) {
             Icon(
                 Icons.Filled.Add,
-                stringResource(R.string.floating_action_button_add_customer_description)
+                stringResource(R.string.floating_action_button_add_debtor_description)
             )
         }
     }, containerColor = colorResource(id = R.color.phantom_gray_color)) {
@@ -67,7 +68,7 @@ fun CustomersListScreen(navController: NavController?) {
         ) {
             Spacer(modifier = Modifier.height(24.dp))
             TitleHeader(
-                titleText = stringResource(id = R.string.customers_list),
+                titleText = stringResource(id = R.string.debtorss_list),
                 navController = navController
             )
             Spacer(modifier = Modifier.height(24.dp))
@@ -78,12 +79,12 @@ fun CustomersListScreen(navController: NavController?) {
                     .background(color = Color.Transparent),
                 value = searchValue,
                 colors = TextFieldDefaults.colors(
-                    cursorColor = lightGrayColor,
+                    cursorColor = navyBlueColor,
                     disabledLabelColor = navyBlueColor,
-                    focusedIndicatorColor = Color.Transparent,
+                    focusedIndicatorColor = navyBlueColor,
                     unfocusedIndicatorColor = Color.Transparent,
-                    focusedContainerColor = lightGrayColor,
-                    unfocusedContainerColor = lightGrayColor
+                    focusedContainerColor = ghostColor,
+                    unfocusedContainerColor = ghostColor
                 ),
                 onValueChange = { value -> searchValue = value },
                 label = { Text(searchResource) },
@@ -102,7 +103,7 @@ fun CustomersListScreen(navController: NavController?) {
             Spacer(modifier = Modifier.height(16.dp))
             LazyColumn {
                 items(10) {
-                    CustomerCard()
+                    DebtorCard()
                 }
             }
         }
@@ -116,13 +117,13 @@ fun CustomersListScreen(navController: NavController?) {
 @Composable
 @Preview(showSystemUi = true)
 fun CustomersListScreenPreview() {
-    CustomersListScreen(null)
+    DebtorsListScreen(null)
 }
 
 /**
  * Navigates to create customer screen.
  * @param navController Navigation controller which handle this transaction.
  */
-fun navigateToCreateCustomerScreen(navController: NavController?) {
-    navController?.navigate(Destination.CreateCustomer.route)
+fun navigateToCreateDebtorScreen(navController: NavController?) {
+    navController?.navigate(Destination.CreateDebtor.route)
 }

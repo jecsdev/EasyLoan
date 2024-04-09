@@ -23,8 +23,8 @@ import com.google.android.gms.auth.api.identity.Identity
 import com.jecsdev.easyloan.R
 import com.jecsdev.easyloan.presentation.navigation.Destination.*
 import com.jecsdev.easyloan.presentation.signin.GoogleAuthClient
-import com.jecsdev.easyloan.ui.screens.customers.CreateCustomerScreen
-import com.jecsdev.easyloan.ui.screens.customers.CustomersListScreen
+import com.jecsdev.easyloan.ui.screens.debtors.CreateDebtorScreen
+import com.jecsdev.easyloan.ui.screens.debtors.DebtorsListScreen
 import com.jecsdev.easyloan.ui.screens.dashboard.DashboardScreen
 import com.jecsdev.easyloan.ui.screens.login.LogInScreen
 import com.jecsdev.easyloan.ui.theme.EasyLoanTheme
@@ -92,7 +92,7 @@ class MainActivity : ComponentActivity() {
                                 if (state.isSuccessful) {
                                     Toast.makeText(
                                         applicationContext,
-                                        getString(R.string.sesion_started),
+                                        getString(R.string.session_started),
                                         Toast.LENGTH_LONG
                                     ).show()
                                     navController.navigate(Dashboard.route)
@@ -119,7 +119,7 @@ class MainActivity : ComponentActivity() {
                                         googleAuthUiClient.signOut()
                                         Toast.makeText(
                                             applicationContext,
-                                            getString(R.string.sesion_closed),
+                                            getString(R.string.session_closed),
                                             Toast.LENGTH_LONG
                                         ).show()
                                         navController.popBackStack()
@@ -128,11 +128,11 @@ class MainActivity : ComponentActivity() {
                                 navController = navController
                             )
                         }
-                        composable(CustomersList.route) {
-                            CustomersListScreen(navController = navController)
+                        composable(DebtorsList.route) {
+                            DebtorsListScreen(navController = navController)
                         }
-                        composable(CreateCustomer.route){
-                            CreateCustomerScreen(navController = navController)
+                        composable(CreateDebtor.route){
+                            CreateDebtorScreen(navController = navController)
                         }
                     }
                 }

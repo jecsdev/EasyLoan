@@ -43,9 +43,9 @@ fun CustomerTransactionResumeCard() {
             Column() {
                 Image(
                     modifier = Modifier.size(64.dp),
-                    painter = painterResource(id = R.drawable.customer_icon),
+                    painter = painterResource(id = R.drawable.debtor_icon),
                     contentDescription = stringResource(
-                        R.string.customer_card_icon
+                        R.string.debtor_card_icon
                     )
                 )
             }

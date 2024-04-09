@@ -164,7 +164,7 @@ fun DashboardScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                IconCard(painter = painterResource(id = R.drawable.customer_icon),
+                IconCard(painter = painterResource(id = R.drawable.debtor_icon),
                     modifier = Modifier.clickable {
                         navController?.let { navigation ->
                             navigateToCustomersScreen(
@@ -175,7 +175,7 @@ fun DashboardScreen(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = stringResource(R.string.customers),
+                    text = stringResource(R.string.debtors),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -218,5 +218,5 @@ fun DashboardScreenPreview() {
  * @param navController navigation controller,
  */
 fun navigateToCustomersScreen(navController: NavController) {
-    navController.navigate(Destination.CustomersList.route)
+    navController.navigate(Destination.DebtorsList.route)
 }

@@ -30,7 +30,7 @@ import com.jecsdev.easyloan.ui.theme.lightGrayColor
  */
 @Composable
 @Preview(showSystemUi = true)
-fun CustomerCard() {
+fun DebtorCard() {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = lightGrayColor),
@@ -45,9 +45,9 @@ fun CustomerCard() {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Image(
                     modifier = Modifier.size(64.dp),
-                    painter = painterResource(id = R.drawable.customer_icon),
+                    painter = painterResource(id = R.drawable.debtor_icon),
                     contentDescription = stringResource(
-                        R.string.customer_card_icon
+                        R.string.debtor_card_icon
                     )
                 )
             }

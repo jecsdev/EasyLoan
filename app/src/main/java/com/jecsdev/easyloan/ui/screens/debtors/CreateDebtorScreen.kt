@@ -1,4 +1,4 @@
-package com.jecsdev.easyloan.ui.screens.customers
+package com.jecsdev.easyloan.ui.screens.debtors
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -35,15 +35,15 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.jecsdev.easyloan.R
 import com.jecsdev.easyloan.ui.composables.header.TitleHeader
-import com.jecsdev.easyloan.ui.theme.lightGrayColor
+import com.jecsdev.easyloan.ui.theme.brownGrayColor
+import com.jecsdev.easyloan.ui.theme.ghostColor
 import com.jecsdev.easyloan.ui.theme.navyBlueColor
 
 /**
  * This is the customer creation screen.
  */
 @Composable
-fun CreateCustomerScreen(navController: NavController?) {
-    val lightGrayGhostColor = colorResource(id = R.color.light_gray_ghost)
+fun CreateDebtorScreen(navController: NavController?) {
     var name by rememberSaveable {
         mutableStateOf("")
     }
@@ -58,13 +58,13 @@ fun CreateCustomerScreen(navController: NavController?) {
     }
     Scaffold(floatingActionButton = {
         FloatingActionButton(
-            onClick = { /*Save customer*/ },
+            onClick = { saveDebtor(navController) },
             containerColor = navyBlueColor,
             contentColor = Color.White
         ) {
             Icon(
                 Icons.Filled.Save,
-                stringResource(R.string.floating_action_button_add_customer_description)
+                stringResource(R.string.floating_action_button_add_debtor_description)
             )
         }
     }, containerColor = colorResource(id = R.color.phantom_gray_color)) {
@@ -76,7 +76,7 @@ fun CreateCustomerScreen(navController: NavController?) {
         ) {
             Spacer(modifier = Modifier.height(24.dp))
             TitleHeader(
-                titleText = stringResource(id = R.string.add_customer),
+                titleText = stringResource(id = R.string.add_debtor),
                 navController = navController
             )
             Spacer(modifier = Modifier.height(24.dp))
@@ -85,7 +85,7 @@ fun CreateCustomerScreen(navController: NavController?) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.customer_icon),
+                    painter = painterResource(id = R.drawable.debtor_icon),
                     contentDescription = stringResource(
                         R.string.selected_image_description
                     ),
@@ -102,15 +102,15 @@ fun CreateCustomerScreen(navController: NavController?) {
                         .background(color = Color.Transparent),
                     value = name,
                     colors = TextFieldDefaults.colors(
-                        cursorColor = lightGrayColor,
+                        cursorColor = navyBlueColor,
                         disabledLabelColor = navyBlueColor,
                         focusedIndicatorColor = navyBlueColor,
                         unfocusedIndicatorColor = Color.Transparent,
-                        focusedContainerColor = lightGrayGhostColor,
-                        unfocusedContainerColor = lightGrayGhostColor
+                        focusedContainerColor = ghostColor,
+                        unfocusedContainerColor = ghostColor
                     ),
                     onValueChange = { value -> name = value },
-                    label = { Text(text = stringResource(id = R.string.name)) },
+                    label = { Text(text = stringResource(id = R.string.name), color = brownGrayColor) },
                     singleLine = true
                 )
                 Spacer(modifier = Modifier.height(12.dp))
@@ -121,15 +121,15 @@ fun CreateCustomerScreen(navController: NavController?) {
                         .background(color = Color.Transparent),
                     value = lastName,
                     colors = TextFieldDefaults.colors(
-                        cursorColor = lightGrayColor,
+                        cursorColor = navyBlueColor,
                         disabledLabelColor = navyBlueColor,
                         focusedIndicatorColor = navyBlueColor,
                         unfocusedIndicatorColor = Color.Transparent,
-                        focusedContainerColor = lightGrayGhostColor,
-                        unfocusedContainerColor = lightGrayGhostColor
+                        focusedContainerColor = ghostColor,
+                        unfocusedContainerColor = ghostColor
                     ),
                     onValueChange = { value -> lastName = value },
-                    label = { Text(text = stringResource(id = R.string.last_name)) },
+                    label = { Text(text = stringResource(id = R.string.last_name), color = brownGrayColor) },
                     singleLine = true
                 )
                 Spacer(modifier = Modifier.height(12.dp))
@@ -140,15 +140,15 @@ fun CreateCustomerScreen(navController: NavController?) {
                         .background(color = Color.Transparent),
                     value = identificationNumber,
                     colors = TextFieldDefaults.colors(
-                        cursorColor = lightGrayColor,
+                        cursorColor = navyBlueColor,
                         disabledLabelColor = navyBlueColor,
                         focusedIndicatorColor = navyBlueColor,
                         unfocusedIndicatorColor = Color.Transparent,
-                        focusedContainerColor = lightGrayGhostColor,
-                        unfocusedContainerColor = lightGrayGhostColor
+                        focusedContainerColor = ghostColor,
+                        unfocusedContainerColor = ghostColor
                     ),
                     onValueChange = { value -> identificationNumber = value },
-                    label = { Text(text = stringResource(id = R.string.identification_number)) },
+                    label = { Text(text = stringResource(id = R.string.identification_number), color = brownGrayColor) },
                     singleLine = true
                 )
                 Spacer(modifier = Modifier.height(12.dp))
@@ -159,15 +159,15 @@ fun CreateCustomerScreen(navController: NavController?) {
                         .background(color = Color.Transparent),
                     value = address,
                     colors = TextFieldDefaults.colors(
-                        cursorColor = lightGrayColor,
+                        cursorColor = navyBlueColor,
                         disabledLabelColor = navyBlueColor,
                         focusedIndicatorColor = navyBlueColor,
                         unfocusedIndicatorColor = Color.Transparent,
-                        focusedContainerColor = lightGrayGhostColor,
-                        unfocusedContainerColor = lightGrayGhostColor
+                        focusedContainerColor = ghostColor,
+                        unfocusedContainerColor = ghostColor
                     ),
                     onValueChange = { value -> address = value },
-                    label = { Text(text = stringResource(id = R.string.address)) },
+                    label = { Text(text = stringResource(id = R.string.address), color = brownGrayColor) },
                     singleLine = false
                 )
             }
@@ -181,5 +181,12 @@ fun CreateCustomerScreen(navController: NavController?) {
 @Composable
 @Preview(showSystemUi = true)
 fun CreateCustomerScreenPreview() {
-    CreateCustomerScreen(navController = null)
+    CreateDebtorScreen(navController = null)
+}
+
+/**
+ * Stores the current debtor in database.
+ */
+fun saveDebtor(navController: NavController?){
+    navController?.popBackStack()
 }
