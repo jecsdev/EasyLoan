@@ -1,6 +1,6 @@
-package com.jecsdev.easyloan.ui.screens
+package com.jecsdev.easyloan.ui.screens.dashboard
 
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,15 +13,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -29,11 +28,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.jecsdev.easyloan.R
 import com.jecsdev.easyloan.data.entity.user.UserData
+import com.jecsdev.easyloan.presentation.navigation.Destination
 import com.jecsdev.easyloan.ui.composables.card.BalanceCard
-import com.jecsdev.easyloan.ui.composables.card.CustomerTransactionResumeCard
+import com.jecsdev.easyloan.ui.composables.card.DebtorTransactionResumeCard
 import com.jecsdev.easyloan.ui.composables.card.IconCard
 
 /**
@@ -42,7 +43,8 @@ import com.jecsdev.easyloan.ui.composables.card.IconCard
 @Composable
 fun DashboardScreen(
     userData: UserData?,
-    onSignOut: () -> Unit
+    onSignOut: () -> Unit,
+    navController: NavController?
 ) {
     Column(
         modifier = Modifier
@@ -76,22 +78,21 @@ fun DashboardScreen(
                     )
                 }
             }
-            Button(
+            IconButton(
                 onClick = onSignOut,
                 modifier = Modifier
                     .clip(CircleShape)
                     .size(48.dp)
-                    .weight(0.5f),
-                colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.navy_blue_color))
             ) {
-                Image(
+
+                Icon(
                     modifier = Modifier
-                        .height(32.dp)
-                        .width(32.dp),
+                        .padding(start = 4.dp, top = 4.dp),
                     painter = painterResource(id = R.drawable.power_icon_24),
                     contentDescription = stringResource(id = R.string.power_icon)
                 )
             }
+
         }
         Spacer(modifier = Modifier.height(24.dp))
         Text(
@@ -133,7 +134,10 @@ fun DashboardScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                IconCard(painter = painterResource(id = R.drawable.loan_icon_action))
+                IconCard(
+                    painter = painterResource(id = R.drawable.loan_icon_action),
+                    modifier = Modifier
+                )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = stringResource(R.string.create),
@@ -145,7 +149,10 @@ fun DashboardScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                IconCard(painter = painterResource(id = R.drawable.deposit_icon))
+                IconCard(
+                    painter = painterResource(id = R.drawable.deposit_icon),
+                    modifier = Modifier
+                )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = stringResource(R.string.deposit),
@@ -157,10 +164,18 @@ fun DashboardScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                IconCard(painter = painterResource(id = R.drawable.customer_icon))
+                IconCard(painter = painterResource(id = R.drawable.debtor_icon),
+                    modifier = Modifier.clickable {
+                        navController?.let { navigation ->
+                            navigateToDebtorsScreen(
+                                navigation
+                            )
+                        }
+                    }
+                )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = stringResource(R.string.customers),
+                    text = stringResource(R.string.debtors),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -175,7 +190,7 @@ fun DashboardScreen(
         Spacer(modifier = Modifier.height(16.dp))
         LazyColumn {
             items(5) {
-                CustomerTransactionResumeCard()
+                DebtorTransactionResumeCard()
             }
         }
     }
@@ -193,6 +208,15 @@ fun DashboardScreenPreview() {
             userId = stringResource(R.string.sample_number),
             profilePictureUri = stringResource(id = R.string.empty_string)
         ),
-        onSignOut = {}
+        onSignOut = {},
+        navController = null
     )
+}
+
+/**
+ * Handles navigation to Debtors list screen.
+ * @param navController navigation controller,
+ */
+fun navigateToDebtorsScreen(navController: NavController) {
+    navController.navigate(Destination.DebtorsList.route)
 }

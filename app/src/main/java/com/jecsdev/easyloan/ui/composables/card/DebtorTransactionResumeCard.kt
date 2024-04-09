@@ -11,8 +11,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Text
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -25,13 +26,13 @@ import com.jecsdev.easyloan.R
 import com.jecsdev.easyloan.ui.theme.lightGrayColor
 
 /**
- * Composable to show the customer transaction resume.
+ * Composable to show the debtor transaction resume.
  */
 @Composable
 @Preview
-fun CustomerTransactionResumeCard() {
+fun DebtorTransactionResumeCard() {
     Card(modifier = Modifier.fillMaxWidth(),
-        backgroundColor = lightGrayColor,
+        colors = CardDefaults.cardColors(containerColor = lightGrayColor),
         shape = RoundedCornerShape(8.dp)) {
         Row(
             modifier = Modifier
@@ -42,9 +43,9 @@ fun CustomerTransactionResumeCard() {
             Column() {
                 Image(
                     modifier = Modifier.size(64.dp),
-                    painter = painterResource(id = R.drawable.customer_icon),
+                    painter = painterResource(id = R.drawable.debtor_icon),
                     contentDescription = stringResource(
-                        R.string.customer_card_icon
+                        R.string.debtor_card_icon
                     )
                 )
             }

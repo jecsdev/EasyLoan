@@ -5,7 +5,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
@@ -19,13 +20,14 @@ import com.jecsdev.easyloan.ui.theme.lightGrayColor
  * Composable that show a card with an Icon only.
  */
 @Composable
-fun IconCard(painter: Painter) {
-    Card(modifier = Modifier.size(80.dp),
+fun IconCard(painter: Painter, modifier: Modifier) {
+    Card(modifier = modifier.size(80.dp),
         shape = RoundedCornerShape(16.dp),
-        backgroundColor = lightGrayColor) {
+        colors = CardDefaults.cardColors(containerColor = lightGrayColor),
+        ) {
 
         Image(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize()
                 .padding(16.dp),
             painter = painter,
