@@ -32,7 +32,7 @@
     <string name="back_icon_button">Back icon button</string>
     <string name="search">Buscar</string>
     <string name="search_text_field_icon">Search text field icon</string>
-    <string name="customers_text_field_disclaimer">Encuentre rápidamente a sus deudores escribiendo aquí.</string>
+    <string name="debtors_text_field_disclaimer">Encuentre rápidamente a sus deudores escribiendo aquí.</string>
     <string name="add_debtor">Agregar nuevo deudor</string>
     <string name="selected_image_description">selected_image_description</string>
     <string name="name">Nombre</string>

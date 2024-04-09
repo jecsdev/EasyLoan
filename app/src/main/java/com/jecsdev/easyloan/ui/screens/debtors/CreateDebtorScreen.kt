@@ -40,7 +40,7 @@ import com.jecsdev.easyloan.ui.theme.ghostColor
 import com.jecsdev.easyloan.ui.theme.navyBlueColor
 
 /**
- * This is the customer creation screen.
+ * This is the debtor creation screen.
  */
 @Composable
 fun CreateDebtorScreen(navController: NavController?) {
@@ -176,11 +176,11 @@ fun CreateDebtorScreen(navController: NavController?) {
 }
 
 /**
- * Create customer Screen preview.
+ * Create debtor Screen preview.
  */
 @Composable
 @Preview(showSystemUi = true)
-fun CreateCustomerScreenPreview() {
+fun CreateDebtorScreenPreview() {
     CreateDebtorScreen(navController = null)
 }
 

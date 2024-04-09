@@ -26,11 +26,11 @@ import com.jecsdev.easyloan.R
 import com.jecsdev.easyloan.ui.theme.lightGrayColor
 
 /**
- * Composable to show the customer transaction resume.
+ * Composable to show the debtor transaction resume.
  */
 @Composable
 @Preview
-fun CustomerTransactionResumeCard() {
+fun DebtorTransactionResumeCard() {
     Card(modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = lightGrayColor),
         shape = RoundedCornerShape(8.dp)) {

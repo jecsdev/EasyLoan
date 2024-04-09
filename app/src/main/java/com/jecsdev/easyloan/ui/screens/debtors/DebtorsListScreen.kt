@@ -39,7 +39,7 @@ import com.jecsdev.easyloan.ui.theme.navyBlueColor
 
 
 /**
- * Customers list Screen composable.
+ * Debtors list Screen composable.
  * @param navController Navigation controller which handles this transaction.
  * @author John Campusano.
  */
@@ -89,7 +89,7 @@ fun DebtorsListScreen(navController: NavController?) {
                 onValueChange = { value -> searchValue = value },
                 label = { Text(searchResource) },
                 supportingText = {
-                    Text(stringResource(R.string.customers_text_field_disclaimer), color = colorResource(
+                    Text(stringResource(R.string.debtors_text_field_disclaimer), color = colorResource(
                         id = R.color.dark_gray_color2
                     ))
                 },
@@ -112,16 +112,16 @@ fun DebtorsListScreen(navController: NavController?) {
 
 
 /**
- * Customer list Screen preview.
+ * Debtors list Screen preview.
  */
 @Composable
 @Preview(showSystemUi = true)
-fun CustomersListScreenPreview() {
+fun DebtorsListScreenPreview() {
     DebtorsListScreen(null)
 }
 
 /**
- * Navigates to create customer screen.
+ * Navigates to create debtor screen.
  * @param navController Navigation controller which handle this transaction.
  */
 fun navigateToCreateDebtorScreen(navController: NavController?) {

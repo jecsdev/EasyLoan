@@ -34,7 +34,7 @@ import com.jecsdev.easyloan.R
 import com.jecsdev.easyloan.data.entity.user.UserData
 import com.jecsdev.easyloan.presentation.navigation.Destination
 import com.jecsdev.easyloan.ui.composables.card.BalanceCard
-import com.jecsdev.easyloan.ui.composables.card.CustomerTransactionResumeCard
+import com.jecsdev.easyloan.ui.composables.card.DebtorTransactionResumeCard
 import com.jecsdev.easyloan.ui.composables.card.IconCard
 
 /**
@@ -167,7 +167,7 @@ fun DashboardScreen(
                 IconCard(painter = painterResource(id = R.drawable.debtor_icon),
                     modifier = Modifier.clickable {
                         navController?.let { navigation ->
-                            navigateToCustomersScreen(
+                            navigateToDebtorsScreen(
                                 navigation
                             )
                         }
@@ -190,7 +190,7 @@ fun DashboardScreen(
         Spacer(modifier = Modifier.height(16.dp))
         LazyColumn {
             items(5) {
-                CustomerTransactionResumeCard()
+                DebtorTransactionResumeCard()
             }
         }
     }
@@ -214,9 +214,9 @@ fun DashboardScreenPreview() {
 }
 
 /**
- * Handles navigation to Customers list screen.
+ * Handles navigation to Debtors list screen.
  * @param navController navigation controller,
  */
-fun navigateToCustomersScreen(navController: NavController) {
+fun navigateToDebtorsScreen(navController: NavController) {
     navController.navigate(Destination.DebtorsList.route)
 }

@@ -26,7 +26,7 @@ import com.jecsdev.easyloan.R
 import com.jecsdev.easyloan.ui.theme.lightGrayColor
 
 /**
- * Customer's information card.
+ * Debtor's information card.
  */
 @Composable
 @Preview(showSystemUi = true)
