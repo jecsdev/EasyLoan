@@ -19,13 +19,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jecsdev.easyloan.R
 import com.jecsdev.easyloan.ui.theme.lightGrayColor
-import com.jecsdev.easyloan.utils.formatters.StringFormatter
 
 /**
- * Composable to display balance cards.
+ * Represents the Composable to show the Loans quantity.
+ * @param headerText active loans header.
+ * @param quantity loans quantity.
+ * @param modifier modifier to apply.
  */
 @Composable
-fun BalanceCard(headerText: String, balance: Double,modifier: Modifier){
+fun QuantityCard(headerText: String, quantity: Int, modifier: Modifier) {
     Card(
         modifier = modifier
             .width(176.dp)
@@ -35,7 +37,7 @@ fun BalanceCard(headerText: String, balance: Double,modifier: Modifier){
     ) {
         Column(
             modifier = modifier
-                .padding(16.dp),
+                .padding(12.dp),
             verticalArrangement = Arrangement.Center
         ) {
             Text(
@@ -44,7 +46,7 @@ fun BalanceCard(headerText: String, balance: Double,modifier: Modifier){
                 fontSize = 16.sp
             )
             Text(
-                text = StringFormatter.amountFormatter(balance),
+                text = quantity.toString(),
                 color = Color.Black,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
@@ -55,7 +57,7 @@ fun BalanceCard(headerText: String, balance: Double,modifier: Modifier){
 
 @Composable
 @Preview(showSystemUi = true)
-fun BalanceCardPreview(){
+fun QuantityCardPreview() {
     val modifier = Modifier
-    BalanceCard(headerText = stringResource(id = R.string.credited_balance), balance = 200000.00, modifier = modifier)
+    QuantityCard(headerText = stringResource(id = R.string.active_loans), quantity = 10, modifier = modifier)
 }

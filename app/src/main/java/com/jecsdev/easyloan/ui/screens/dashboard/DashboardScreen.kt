@@ -36,6 +36,7 @@ import com.jecsdev.easyloan.presentation.navigation.Destination
 import com.jecsdev.easyloan.ui.composables.card.BalanceCard
 import com.jecsdev.easyloan.ui.composables.card.DebtorTransactionResumeCard
 import com.jecsdev.easyloan.ui.composables.card.IconCard
+import com.jecsdev.easyloan.ui.composables.card.QuantityCard
 
 /**
  * DashboardScreen view.
@@ -105,15 +106,15 @@ fun DashboardScreen(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth()
         ) {
-            BalanceCard(
-                headerText = stringResource(R.string.available_amount),
-                balance = 20000.00, modifier = Modifier
+            QuantityCard(
+                headerText = stringResource(R.string.active_loans),
+                quantity = 200, modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
             )
             Spacer(modifier = Modifier.width(8.dp))
             BalanceCard(
-                headerText = stringResource(R.string.credited_amount),
+                headerText = stringResource(R.string.credited_balance),
                 balance = 150000.00, modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)

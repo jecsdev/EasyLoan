@@ -190,3 +190,4 @@ fun CreateDebtorScreenPreview() {
 fun saveDebtor(navController: NavController?){
     navController?.popBackStack()
 }
+

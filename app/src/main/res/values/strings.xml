@@ -13,8 +13,10 @@
     <string name="sign_in">Iniciar sesión</string>
     <string name="forgot_password">¿Olvidaste la contraseña?</string>
     <string name="power_icon">Power icon</string>
-    <string name="available_amount">Monto disponible</string>
-    <string name="credited_amount">Monto acreditado</string>
+    <string name="active_loans">Préstamos activos</string>
+    <string name="active_loan">Préstamos activo</string>
+    <string name="you_have">Tienes</string>
+    <string name="credited_balance">Balance acreditado</string>
     <string name="create">Crear</string>
     <string name="deposit">Depositar</string>
     <string name="debtors">Deudores</string>
@@ -39,4 +41,6 @@
     <string name="last_name">Apellido</string>
     <string name="identification_number">Cédula</string>
     <string name="address">Dirección</string>
+    <string name="loan">Préstamo</string>
+    <string name="loans">Préstamos</string>
 </resources>
