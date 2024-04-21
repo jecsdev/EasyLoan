@@ -17,9 +17,9 @@
     <string name="active_loan">Préstamos activo</string>
     <string name="you_have">Tienes</string>
     <string name="credited_balance">Balance acreditado</string>
-    <string name="create">Crear</string>
+    <string name="create_loan">Crear préstamo</string>
     <string name="deposit">Depositar</string>
-    <string name="debtors">Deudores</string>
+    <string name="manage_debtors">Administrar deudores</string>
     <string name="loan_icon">Icono de prestamo</string>
     <string name="recent_transactions">Transacciones recientes</string>
     <string name="debtor_card_icon">Debtor card icon</string>
@@ -31,10 +31,11 @@
     <string name="features">Características</string>
     <string name="debtorss_list">Listado de deudores</string>
     <string name="floating_action_button_add_debtor_description">Floating Action Button Add Debtor</string>
+    <string name="add_customer">Add customer button</string>
     <string name="back_icon_button">Back icon button</string>
     <string name="search">Buscar</string>
     <string name="search_text_field_icon">Search text field icon</string>
-    <string name="debtors_text_field_disclaimer">Encuentre rápidamente a sus deudores escribiendo aquí.</string>
+    <string name="debtors_text_field_disclaimer">Encuentre rápidamente a sus deudores escribiendo su nombre aquí.</string>
     <string name="add_debtor">Agregar nuevo deudor</string>
     <string name="selected_image_description">selected_image_description</string>
     <string name="name">Nombre</string>
@@ -43,4 +44,5 @@
     <string name="address">Dirección</string>
     <string name="loan">Préstamo</string>
     <string name="loans">Préstamos</string>
+    <string name="loan_creation">Crear nuevo préstamo</string>
 </resources>

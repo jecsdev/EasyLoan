@@ -6,8 +6,8 @@ package com.jecsdev.easyloan.presentation.navigation
  */
 sealed class Destination(val route: String) {
     object LogIn: Destination("login")
-    object Dashboard: Destination("dashboard")
+    object Home: Destination("home")
     object DebtorsList: Destination("debtors_list")
     object CreateDebtor: Destination("create_debtor")
-
+    object CreateLoan: Destination("create_loan")
 }

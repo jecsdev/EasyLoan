@@ -60,11 +60,11 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.activity:activity-compose:1.8.2")
-    implementation("androidx.compose.ui:ui:1.6.4")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.6.4")
+    implementation("androidx.compose.ui:ui:1.6.5")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.6.5")
 
     //Material
-    implementation("androidx.compose.material:material:1.6.4")
+    implementation("androidx.compose.material:material:1.6.5")
 
     //Material 3
     implementation("androidx.compose.material3:material3:1.2.1")
@@ -76,16 +76,16 @@ dependencies {
 
     androidTestImplementation("io.mockk:mockk-android:1.13.7")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.6.4")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.6.5")
 
-    debugImplementation("androidx.compose.ui:ui-tooling:1.6.4")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:1.6.4")
+    debugImplementation("androidx.compose.ui:ui-tooling:1.6.5")
+    debugImplementation("androidx.compose.ui:ui-test-manifest:1.6.5")
 
     // Compose dependencies
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
-    implementation("androidx.compose.material:material-icons-extended:1.6.4")
+    implementation("androidx.compose.material:material-icons-extended:1.6.5")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
     //Coil

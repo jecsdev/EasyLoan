@@ -1,4 +1,4 @@
-package com.jecsdev.easyloan.ui.screens.dashboard
+package com.jecsdev.easyloan.ui.screens.home
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -42,7 +42,7 @@ import com.jecsdev.easyloan.ui.composables.card.QuantityCard
  * DashboardScreen view.
  */
 @Composable
-fun DashboardScreen(
+fun HomeScreen(
     userData: UserData?,
     onSignOut: () -> Unit,
     navController: NavController?
@@ -132,21 +132,24 @@ fun DashboardScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(
+                modifier = Modifier.width(80.dp) ,
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 IconCard(
                     painter = painterResource(id = R.drawable.loan_icon_action),
-                    modifier = Modifier
+                    modifier = Modifier.clickable { navController?.let{ navigation -> navigateToCreateLoanScreen(navigation)} }
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = stringResource(R.string.create),
+                    text = stringResource(R.string.create_loan),
                     fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center
                 )
             }
             Column(
+                modifier = Modifier.width(80.dp),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -158,10 +161,12 @@ fun DashboardScreen(
                 Text(
                     text = stringResource(R.string.deposit),
                     fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center
                 )
             }
             Column(
+                modifier = Modifier.width(80.dp),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -176,9 +181,10 @@ fun DashboardScreen(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = stringResource(R.string.debtors),
+                    text = stringResource(R.string.manage_debtors),
                     fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center
                 )
             }
         }
@@ -196,6 +202,21 @@ fun DashboardScreen(
         }
     }
 }
+/**
+ * Handles navigation to Debtors list screen.
+ * @param navController navigation controller,
+ */
+fun navigateToDebtorsScreen(navController: NavController) {
+    navController.navigate(Destination.DebtorsList.route)
+}
+
+/**
+ * Handles navigation to Create loan screen.
+ * @param navController navigation controller.
+ */
+fun navigateToCreateLoanScreen(navController: NavController){
+    navController.navigate(Destination.CreateLoan.route)
+}
 
 /*
  * Dashboard Screen preview with dummy data.
@@ -203,7 +224,7 @@ fun DashboardScreen(
 @Preview(showBackground = true)
 @Composable
 fun DashboardScreenPreview() {
-    DashboardScreen(
+    HomeScreen(
         userData = UserData(
             userName = stringResource(R.string.john_doe),
             userId = stringResource(R.string.sample_number),
@@ -214,10 +235,4 @@ fun DashboardScreenPreview() {
     )
 }
 
-/**
- * Handles navigation to Debtors list screen.
- * @param navController navigation controller,
- */
-fun navigateToDebtorsScreen(navController: NavController) {
-    navController.navigate(Destination.DebtorsList.route)
-}
+
