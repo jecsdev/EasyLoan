@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -52,9 +53,23 @@ fun DebtorCard() {
                 )
             }
             Spacer(modifier = Modifier.width(8.dp))
-            Text(
-                text = "Jane Doe", fontSize = 18.sp
-            )
+            Column {
+                Text(
+                    text = stringResource(R.string.dummy_text_name),
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = stringResource(R.string.dummy_vat_id),
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = stringResource(R.string.dummy_address),
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
         }
     }
     Spacer(Modifier.height(8.dp))

@@ -53,7 +53,7 @@ fun SearchTextField(searchText: String?, labelString: String, supportingTextLege
         leadingIcon = {
             Icon(
                 painter = painterResource(id = R.drawable.baseline_search_24),
-                contentDescription = stringResource(R.string.search_text_field_icon)
+                contentDescription = stringResource(R.string.search_text_field_icon),
             )
         }
     )

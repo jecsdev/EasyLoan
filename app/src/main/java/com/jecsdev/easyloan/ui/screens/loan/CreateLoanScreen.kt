@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.jecsdev.easyloan.R
 import com.jecsdev.easyloan.presentation.navigation.Destination
+import com.jecsdev.easyloan.ui.composables.card.DebtorCard
 import com.jecsdev.easyloan.ui.composables.header.TitleHeader
 import com.jecsdev.easyloan.ui.composables.textfield.SearchTextField
 import com.jecsdev.easyloan.ui.theme.navyBlueColor
@@ -87,6 +88,8 @@ fun CreateLoanScreen(navController: NavController?) {
                 )
             }
         }
+        Spacer(modifier = Modifier.height(16.dp))
+        DebtorCard()
     }
 }
 

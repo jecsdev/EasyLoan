@@ -45,4 +45,7 @@
     <string name="loan">Préstamo</string>
     <string name="loans">Préstamos</string>
     <string name="loan_creation">Crear nuevo préstamo</string>
+    <string name="dummy_text_name">Jane Doe</string>
+    <string name="dummy_vat_id">001"–"0000000"-"1</string>
+    <string name="dummy_address">Calle Ramón Cáreces #23, Los Rios</string>
 </resources>
