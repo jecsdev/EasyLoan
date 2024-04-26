@@ -48,4 +48,6 @@
     <string name="dummy_text_name">Jane Doe</string>
     <string name="dummy_vat_id">001"–"0000000"-"1</string>
     <string name="dummy_address">Calle Ramón Cáreces #23, Los Rios</string>
+    <string name="demo_string">Demo string</string>
+    <string name="dummy_ammount">$0.00</string>
 </resources>

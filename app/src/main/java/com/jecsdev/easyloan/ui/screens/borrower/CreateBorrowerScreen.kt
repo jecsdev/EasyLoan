@@ -1,11 +1,9 @@
 package com.jecsdev.easyloan.ui.screens.borrower
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -15,9 +13,6 @@ import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,9 +30,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.jecsdev.easyloan.R
 import com.jecsdev.easyloan.ui.composables.header.TitleHeader
-import com.jecsdev.easyloan.ui.theme.brownGrayColor
-import com.jecsdev.easyloan.ui.theme.ghostColor
+import com.jecsdev.easyloan.ui.composables.textfield.SimpleTextField
 import com.jecsdev.easyloan.ui.theme.navyBlueColor
+import com.jecsdev.easyloan.ui.uihelpers.InputType
 
 /**
  * This is the borrower creation screen.
@@ -95,81 +90,13 @@ fun CreateBorrowerScreen(navController: NavController?) {
                         .clip(CircleShape)
                 )
                 Spacer(modifier = Modifier.height(12.dp))
-                TextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 12.dp, end = 12.dp)
-                        .background(color = Color.Transparent),
-                    value = name,
-                    colors = TextFieldDefaults.colors(
-                        cursorColor = navyBlueColor,
-                        disabledLabelColor = navyBlueColor,
-                        focusedIndicatorColor = navyBlueColor,
-                        unfocusedIndicatorColor = Color.Transparent,
-                        focusedContainerColor = ghostColor,
-                        unfocusedContainerColor = ghostColor
-                    ),
-                    onValueChange = { value -> name = value },
-                    label = { Text(text = stringResource(id = R.string.name), color = brownGrayColor) },
-                    singleLine = true
-                )
+                SimpleTextField(textTyped = name, labelValue = stringResource(id = R.string.name), isSingleLine = true, inputType = InputType.TEXT)
                 Spacer(modifier = Modifier.height(12.dp))
-                TextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 12.dp, end = 12.dp)
-                        .background(color = Color.Transparent),
-                    value = lastName,
-                    colors = TextFieldDefaults.colors(
-                        cursorColor = navyBlueColor,
-                        disabledLabelColor = navyBlueColor,
-                        focusedIndicatorColor = navyBlueColor,
-                        unfocusedIndicatorColor = Color.Transparent,
-                        focusedContainerColor = ghostColor,
-                        unfocusedContainerColor = ghostColor
-                    ),
-                    onValueChange = { value -> lastName = value },
-                    label = { Text(text = stringResource(id = R.string.last_name), color = brownGrayColor) },
-                    singleLine = true
-                )
+                SimpleTextField(textTyped = lastName, labelValue = stringResource(id = R.string.last_name), isSingleLine = true, inputType =  InputType.TEXT)
                 Spacer(modifier = Modifier.height(12.dp))
-                TextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 12.dp, end = 12.dp)
-                        .background(color = Color.Transparent),
-                    value = identificationNumber,
-                    colors = TextFieldDefaults.colors(
-                        cursorColor = navyBlueColor,
-                        disabledLabelColor = navyBlueColor,
-                        focusedIndicatorColor = navyBlueColor,
-                        unfocusedIndicatorColor = Color.Transparent,
-                        focusedContainerColor = ghostColor,
-                        unfocusedContainerColor = ghostColor
-                    ),
-                    onValueChange = { value -> identificationNumber = value },
-                    label = { Text(text = stringResource(id = R.string.identification_number), color = brownGrayColor) },
-                    singleLine = true
-                )
+                SimpleTextField(textTyped = identificationNumber, labelValue = stringResource(id = R.string.identification_number), isSingleLine = true, inputType =  InputType.TEXT)
                 Spacer(modifier = Modifier.height(12.dp))
-                TextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 12.dp, end = 12.dp)
-                        .background(color = Color.Transparent),
-                    value = address,
-                    colors = TextFieldDefaults.colors(
-                        cursorColor = navyBlueColor,
-                        disabledLabelColor = navyBlueColor,
-                        focusedIndicatorColor = navyBlueColor,
-                        unfocusedIndicatorColor = Color.Transparent,
-                        focusedContainerColor = ghostColor,
-                        unfocusedContainerColor = ghostColor
-                    ),
-                    onValueChange = { value -> address = value },
-                    label = { Text(text = stringResource(id = R.string.address), color = brownGrayColor) },
-                    singleLine = false
-                )
+                SimpleTextField(textTyped = address, labelValue = stringResource(id = R.string.address),isSingleLine = true, inputType =  InputType.TEXT)
             }
         }
     }

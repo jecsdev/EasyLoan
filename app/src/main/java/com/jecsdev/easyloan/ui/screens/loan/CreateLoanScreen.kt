@@ -16,8 +16,10 @@ import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -29,7 +31,9 @@ import com.jecsdev.easyloan.presentation.navigation.Destination
 import com.jecsdev.easyloan.ui.composables.card.BorrowerCard
 import com.jecsdev.easyloan.ui.composables.header.TitleHeader
 import com.jecsdev.easyloan.ui.composables.textfield.SearchTextField
+import com.jecsdev.easyloan.ui.composables.textfield.SimpleTextField
 import com.jecsdev.easyloan.ui.theme.navyBlueColor
+import com.jecsdev.easyloan.ui.uihelpers.InputType
 
 
 /**
@@ -40,6 +44,9 @@ import com.jecsdev.easyloan.ui.theme.navyBlueColor
 fun CreateLoanScreen(navController: NavController?) {
     val searchResource = stringResource(R.string.search)
     val searchValue by rememberSaveable { mutableStateOf("") }
+    var loanAmount by rememberSaveable {
+        mutableDoubleStateOf(0.00)
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -90,6 +97,11 @@ fun CreateLoanScreen(navController: NavController?) {
         }
         Spacer(modifier = Modifier.height(16.dp))
         BorrowerCard()
+        SimpleTextField(
+            textTyped = loanAmount.toString(),
+            labelValue = stringResource(id = R.string.dummy_ammount),
+            isSingleLine = true, inputType = InputType.TEXT
+        )
     }
 }
 
