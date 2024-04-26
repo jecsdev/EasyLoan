@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.jecsdev.easyloan.R
 import com.jecsdev.easyloan.presentation.navigation.Destination
-import com.jecsdev.easyloan.ui.composables.card.DebtorCard
+import com.jecsdev.easyloan.ui.composables.card.BorrowerCard
 import com.jecsdev.easyloan.ui.composables.header.TitleHeader
 import com.jecsdev.easyloan.ui.composables.textfield.SearchTextField
 import com.jecsdev.easyloan.ui.theme.navyBlueColor
@@ -59,7 +59,7 @@ fun CreateLoanScreen(navController: NavController?) {
             SearchTextField(
                 searchText = searchValue,
                 labelString = searchResource,
-                supportingTextLegend = stringResource(R.string.debtors_text_field_disclaimer),
+                supportingTextLegend = stringResource(R.string.borrower_text_field_disclaimer),
                 modifier = Modifier
                     .width(80.dp)
                     .weight(1f)
@@ -70,7 +70,7 @@ fun CreateLoanScreen(navController: NavController?) {
                     .height(64.dp),
                 onClick = {
                     navController?.let { navigation ->
-                        navigateToCreteDebtorScreen(
+                        navigateToCreateBorrowerScreen(
                             navigation
                         )
                     }
@@ -89,7 +89,7 @@ fun CreateLoanScreen(navController: NavController?) {
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-        DebtorCard()
+        BorrowerCard()
     }
 }
 
@@ -103,9 +103,9 @@ fun CreateLoanScreenPreview() {
 }
 
 /**
- * Navigates to create debtor's screen if necessary.
+ * Navigates to create borrower's screen if necessary.
  * @param navController navigation controller for this navigation.
  */
-fun navigateToCreteDebtorScreen(navController: NavController?) {
-    navController?.navigate(Destination.CreateDebtor.route)
+fun navigateToCreateBorrowerScreen(navController: NavController?) {
+    navController?.navigate(Destination.CreateBorrower.route)
 }

@@ -23,8 +23,8 @@ import com.google.android.gms.auth.api.identity.Identity
 import com.jecsdev.easyloan.R
 import com.jecsdev.easyloan.presentation.navigation.Destination.*
 import com.jecsdev.easyloan.presentation.signin.GoogleAuthClient
-import com.jecsdev.easyloan.ui.screens.debtors.CreateDebtorScreen
-import com.jecsdev.easyloan.ui.screens.debtors.DebtorsListScreen
+import com.jecsdev.easyloan.ui.screens.borrower.CreateBorrowerScreen
+import com.jecsdev.easyloan.ui.screens.borrower.BorrowersListScreen
 import com.jecsdev.easyloan.ui.screens.home.HomeScreen
 import com.jecsdev.easyloan.ui.screens.loan.CreateLoanScreen
 import com.jecsdev.easyloan.ui.screens.login.LogInScreen
@@ -130,13 +130,13 @@ class MainActivity : ComponentActivity() {
                                 navController = navController
                             )
                         }
-                        composable(DebtorsList.route) {
-                            // Debtors list screen
-                            DebtorsListScreen(navController = navController)
+                        composable(BorrowersList.route) {
+                            // Borrowers list screen
+                            BorrowersListScreen(navController = navController)
                         }
-                        composable(CreateDebtor.route){
-                            //Create Debtors screen
-                            CreateDebtorScreen(navController = navController)
+                        composable(CreateBorrower.route){
+                            //Create Borrowers screen
+                            CreateBorrowerScreen(navController = navController)
                         }
                         composable(CreateLoan.route){
                             //Create Loan Screen

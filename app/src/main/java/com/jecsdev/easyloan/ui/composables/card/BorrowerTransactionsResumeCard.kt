@@ -26,26 +26,28 @@ import com.jecsdev.easyloan.R
 import com.jecsdev.easyloan.ui.theme.lightGrayColor
 
 /**
- * Composable to show the debtor transaction resume.
+ * Composable to show the borrower transaction resume.
  */
 @Composable
 @Preview
-fun DebtorTransactionResumeCard() {
-    Card(modifier = Modifier.fillMaxWidth(),
+fun BorrowerTransactionsResumeCard() {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = lightGrayColor),
-        shape = RoundedCornerShape(8.dp)) {
+        shape = RoundedCornerShape(8.dp)
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Column() {
+            Column {
                 Image(
                     modifier = Modifier.size(64.dp),
-                    painter = painterResource(id = R.drawable.debtor_icon),
+                    painter = painterResource(id = R.drawable.borrower_icon),
                     contentDescription = stringResource(
-                        R.string.debtor_card_icon
+                        R.string.borrower_card_icon
                     )
                 )
             }
@@ -65,7 +67,7 @@ fun DebtorTransactionResumeCard() {
                     fontWeight = FontWeight.Bold
                 )
             }
-            Column() {
+            Column {
                 Text(
                     text = "+$5000.00",
                     fontWeight = FontWeight.Bold

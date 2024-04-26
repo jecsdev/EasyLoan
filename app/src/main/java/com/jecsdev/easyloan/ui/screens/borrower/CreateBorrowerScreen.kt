@@ -1,4 +1,4 @@
-package com.jecsdev.easyloan.ui.screens.debtors
+package com.jecsdev.easyloan.ui.screens.borrower
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -40,10 +40,10 @@ import com.jecsdev.easyloan.ui.theme.ghostColor
 import com.jecsdev.easyloan.ui.theme.navyBlueColor
 
 /**
- * This is the debtor creation screen.
+ * This is the borrower creation screen.
  */
 @Composable
-fun CreateDebtorScreen(navController: NavController?) {
+fun CreateBorrowerScreen(navController: NavController?) {
     var name by rememberSaveable {
         mutableStateOf("")
     }
@@ -58,13 +58,13 @@ fun CreateDebtorScreen(navController: NavController?) {
     }
     Scaffold(floatingActionButton = {
         FloatingActionButton(
-            onClick = { saveDebtor(navController) },
+            onClick = { savaBorrower(navController) },
             containerColor = navyBlueColor,
             contentColor = Color.White
         ) {
             Icon(
                 Icons.Filled.Save,
-                stringResource(R.string.floating_action_button_add_debtor_description)
+                stringResource(R.string.floating_action_button_add_borrower_description)
             )
         }
     }, containerColor = colorResource(id = R.color.phantom_gray_color)) {
@@ -76,7 +76,7 @@ fun CreateDebtorScreen(navController: NavController?) {
         ) {
             Spacer(modifier = Modifier.height(24.dp))
             TitleHeader(
-                titleText = stringResource(id = R.string.add_debtor),
+                titleText = stringResource(id = R.string.add_borrower),
                 navController = navController
             )
             Spacer(modifier = Modifier.height(24.dp))
@@ -85,7 +85,7 @@ fun CreateDebtorScreen(navController: NavController?) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.debtor_icon),
+                    painter = painterResource(id = R.drawable.borrower_icon),
                     contentDescription = stringResource(
                         R.string.selected_image_description
                     ),
@@ -176,18 +176,18 @@ fun CreateDebtorScreen(navController: NavController?) {
 }
 
 /**
- * Create debtor Screen preview.
+ * Create borrower Screen preview.
  */
 @Composable
 @Preview(showSystemUi = true)
-fun CreateDebtorScreenPreview() {
-    CreateDebtorScreen(navController = null)
+fun CreateBorrowerScreenPreview() {
+    CreateBorrowerScreen(navController = null)
 }
 
 /**
- * Stores the current debtor in database.
+ * Stores the current borrower in database.
  */
-fun saveDebtor(navController: NavController?){
+fun savaBorrower(navController: NavController?){
     navController?.popBackStack()
 }
 

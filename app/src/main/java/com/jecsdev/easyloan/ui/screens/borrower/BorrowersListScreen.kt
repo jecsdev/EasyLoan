@@ -1,4 +1,4 @@
-package com.jecsdev.easyloan.ui.screens.debtors
+package com.jecsdev.easyloan.ui.screens.borrower
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -24,31 +24,31 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.jecsdev.easyloan.R
 import com.jecsdev.easyloan.presentation.navigation.Destination
-import com.jecsdev.easyloan.ui.composables.card.DebtorCard
+import com.jecsdev.easyloan.ui.composables.card.BorrowerCard
 import com.jecsdev.easyloan.ui.composables.header.TitleHeader
 import com.jecsdev.easyloan.ui.composables.textfield.SearchTextField
 import com.jecsdev.easyloan.ui.theme.navyBlueColor
 
 
 /**
- * Debtors list Screen composable.
+ * Borrowers list Screen composable.
  * @param navController Navigation controller which handles this transaction.
  * @author John Campusano.
  */
 @Composable
-fun DebtorsListScreen(navController: NavController?) {
+fun BorrowersListScreen(navController: NavController?) {
     val searchResource = stringResource(R.string.search)
     val searchValue by rememberSaveable { mutableStateOf("") }
 
     Scaffold(floatingActionButton = {
         FloatingActionButton(
-            onClick = { navigateToCreateDebtorScreen(navController) },
+            onClick = { navigateToCreateBorrowerScreen(navController) },
             containerColor = navyBlueColor,
             contentColor = Color.White
         ) {
             Icon(
                 Icons.Filled.Add,
-                stringResource(R.string.floating_action_button_add_debtor_description)
+                stringResource(R.string.floating_action_button_add_borrower_description)
             )
         }
     }, containerColor = colorResource(id = R.color.phantom_gray_color)) {
@@ -60,16 +60,16 @@ fun DebtorsListScreen(navController: NavController?) {
         ) {
             Spacer(modifier = Modifier.height(24.dp))
             TitleHeader(
-                titleText = stringResource(id = R.string.debtorss_list),
+                titleText = stringResource(id = R.string.borrowers_list),
                 navController = navController
             )
             Spacer(modifier = Modifier.height(24.dp))
             SearchTextField(searchText = searchValue, labelString = searchResource,
-                supportingTextLegend = stringResource(R.string.debtors_text_field_disclaimer), modifier = Modifier)
+                supportingTextLegend = stringResource(R.string.borrower_text_field_disclaimer), modifier = Modifier)
             Spacer(modifier = Modifier.height(16.dp))
             LazyColumn {
                 items(10) {
-                    DebtorCard()
+                    BorrowerCard()
                 }
             }
         }
@@ -78,18 +78,18 @@ fun DebtorsListScreen(navController: NavController?) {
 
 
 /**
- * Debtors list Screen preview.
+ * Borrowers list Screen preview.
  */
 @Composable
 @Preview(showSystemUi = true)
-fun DebtorsListScreenPreview() {
-    DebtorsListScreen(null)
+fun BorrowersListScreenPreview() {
+    BorrowersListScreen(null)
 }
 
 /**
- * Navigates to create debtor screen.
+ * Navigates to create borrower's screen.
  * @param navController Navigation controller which handle this transaction.
  */
-fun navigateToCreateDebtorScreen(navController: NavController?) {
-    navController?.navigate(Destination.CreateDebtor.route)
+fun navigateToCreateBorrowerScreen(navController: NavController?) {
+    navController?.navigate(Destination.CreateBorrower.route)
 }

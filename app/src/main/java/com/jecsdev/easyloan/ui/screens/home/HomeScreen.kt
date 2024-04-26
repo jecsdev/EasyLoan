@@ -34,7 +34,7 @@ import com.jecsdev.easyloan.R
 import com.jecsdev.easyloan.data.entity.user.UserData
 import com.jecsdev.easyloan.presentation.navigation.Destination
 import com.jecsdev.easyloan.ui.composables.card.BalanceCard
-import com.jecsdev.easyloan.ui.composables.card.DebtorTransactionResumeCard
+import com.jecsdev.easyloan.ui.composables.card.BorrowerTransactionsResumeCard
 import com.jecsdev.easyloan.ui.composables.card.IconCard
 import com.jecsdev.easyloan.ui.composables.card.QuantityCard
 
@@ -170,10 +170,10 @@ fun HomeScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                IconCard(painter = painterResource(id = R.drawable.debtor_icon),
+                IconCard(painter = painterResource(id = R.drawable.borrower_icon),
                     modifier = Modifier.clickable {
                         navController?.let { navigation ->
-                            navigateToDebtorsScreen(
+                            navigateToBorrowersScreen(
                                 navigation
                             )
                         }
@@ -181,7 +181,7 @@ fun HomeScreen(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = stringResource(R.string.manage_debtors),
+                    text = stringResource(R.string.manage_borrowers),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center
@@ -197,17 +197,17 @@ fun HomeScreen(
         Spacer(modifier = Modifier.height(16.dp))
         LazyColumn {
             items(5) {
-                DebtorTransactionResumeCard()
+                BorrowerTransactionsResumeCard()
             }
         }
     }
 }
 /**
- * Handles navigation to Debtors list screen.
+ * Handles navigation to borrowers list screen.
  * @param navController navigation controller,
  */
-fun navigateToDebtorsScreen(navController: NavController) {
-    navController.navigate(Destination.DebtorsList.route)
+fun navigateToBorrowersScreen(navController: NavController) {
+    navController.navigate(Destination.BorrowersList.route)
 }
 
 /**
