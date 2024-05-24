@@ -43,7 +43,6 @@ import com.jecsdev.easyloan.ui.theme.navyBlueColor
  * Composable that shows Sign In Screen
  * @param state Sign in state
  * @param onSignInClick capture sign in click
- * TODO: Add other login options for better User Experience
  */
 @Composable
 fun LogInScreen(

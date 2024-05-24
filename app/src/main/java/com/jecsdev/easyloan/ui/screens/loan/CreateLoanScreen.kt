@@ -33,7 +33,7 @@ import com.jecsdev.easyloan.ui.composables.header.TitleHeader
 import com.jecsdev.easyloan.ui.composables.textfield.SearchTextField
 import com.jecsdev.easyloan.ui.composables.textfield.SimpleTextField
 import com.jecsdev.easyloan.ui.theme.navyBlueColor
-import com.jecsdev.easyloan.ui.uihelpers.InputType
+import com.jecsdev.easyloan.presentation.uihelpers.InputType
 
 
 /**

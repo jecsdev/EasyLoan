@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "com.jecsdev.easyloan"
-        minSdk = 24
+        minSdk = 28
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -55,16 +55,16 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.core:core-ktx:1.13.1")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.20")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
-    implementation("androidx.activity:activity-compose:1.8.2")
-    implementation("androidx.compose.ui:ui:1.6.5")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.6.5")
+    implementation("androidx.activity:activity-compose:1.9.0")
+    implementation("androidx.compose.ui:ui:1.6.7")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.6.7")
 
     //Material
-    implementation("androidx.compose.material:material:1.6.5")
+    implementation("androidx.compose.material:material:1.6.7")
 
     //Material 3
     implementation("androidx.compose.material3:material3:1.2.1")
@@ -76,16 +76,16 @@ dependencies {
 
     androidTestImplementation("io.mockk:mockk-android:1.13.7")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.6.5")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.6.7")
 
-    debugImplementation("androidx.compose.ui:ui-tooling:1.6.5")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:1.6.5")
+    debugImplementation("androidx.compose.ui:ui-tooling:1.6.7")
+    debugImplementation("androidx.compose.ui:ui-test-manifest:1.6.7")
 
     // Compose dependencies
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.7.0")
-    implementation("androidx.compose.material:material-icons-extended:1.6.5")
+    implementation("androidx.compose.material:material-icons-extended:1.6.7")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
     //Coil
@@ -96,8 +96,14 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
     //Firebase
-    implementation("com.google.firebase:firebase-auth-ktx:22.3.1")
-    implementation("com.google.android.gms:play-services-auth:21.0.0")
+    implementation("com.google.firebase:firebase-auth-ktx:23.0.0")
+    implementation("com.google.android.gms:play-services-auth:21.1.1")
+
+    // Credential manager
+    implementation("androidx.credentials:credentials:1.2.2")
+    implementation("androidx.credentials:credentials-play-services-auth:1.2.2")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.0")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.0")
 
     //Dagger - Hilt
     implementation("com.google.dagger:hilt-android:2.49")

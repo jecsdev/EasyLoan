@@ -22,7 +22,7 @@ import com.jecsdev.easyloan.R
 import com.jecsdev.easyloan.ui.theme.brownGrayColor
 import com.jecsdev.easyloan.ui.theme.ghostColor
 import com.jecsdev.easyloan.ui.theme.navyBlueColor
-import com.jecsdev.easyloan.ui.uihelpers.InputType
+import com.jecsdev.easyloan.presentation.uihelpers.InputType
 
 /**
  * Composable to use to create simple text fields.

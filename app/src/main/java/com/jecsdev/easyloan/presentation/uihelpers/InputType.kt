@@ -1,4 +1,4 @@
-package com.jecsdev.easyloan.ui.uihelpers
+package com.jecsdev.easyloan.presentation.uihelpers
 
 /**
  * This is an enum that indicates the type of keyboard to show in each situation.

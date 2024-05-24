@@ -1,17 +1,23 @@
 package com.jecsdev.easyloan.presentation.signin
 
 import android.content.Context
-import android.content.Intent
-import android.content.IntentSender
-import com.google.android.gms.auth.api.identity.BeginSignInRequest
-import com.google.android.gms.auth.api.identity.BeginSignInRequest.GoogleIdTokenRequestOptions
-import com.google.android.gms.auth.api.identity.SignInClient
+import android.util.Log
+import android.widget.Toast
+import androidx.credentials.Credential
+import androidx.credentials.CredentialManager
+import androidx.credentials.GetCredentialRequest
+import androidx.credentials.GetCredentialResponse
+import androidx.credentials.exceptions.GetCredentialException
+import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.jecsdev.easyloan.R
 import com.jecsdev.easyloan.data.entity.user.UserData
 import com.jecsdev.easyloan.utils.constants.firebaseClientId
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.tasks.await
 import java.util.concurrent.CancellationException
 
@@ -20,42 +26,66 @@ import java.util.concurrent.CancellationException
  * @author John Campusano
  *
  * @param context Application Context
- * @param oneTapClient this is te sign in client
  */
 class GoogleAuthClient(
-    private val context: Context,
-    private val oneTapClient: SignInClient
+    private val context: Context
 ) {
     private val auth = Firebase.auth
     private val emptyString = context.getString(R.string.empty_string)
+    private val credentialManager = CredentialManager.create(context)
+    private lateinit var googleIdTokenCredential: GoogleIdTokenCredential
+    private lateinit var googleIdToken: String
+    private lateinit var credential: Credential
+    private lateinit var signInResult: SignInResult
+
+    private val googleIdOption: GetSignInWithGoogleOption =
+        GetSignInWithGoogleOption.Builder(firebaseClientId)
+            .setNonce("")
+            .build()
+
+    private val request: GetCredentialRequest = GetCredentialRequest.Builder()
+        .addCredentialOption(googleIdOption)
+        .build()
 
     /**
      * Handles the sign in
      */
-    suspend fun signIn(): IntentSender? {
-        val result = try {
-            oneTapClient.beginSignIn(
-                buildSignInRequest()
-            ).await()
-        }catch(exception: Exception){
-            exception.printStackTrace()
-            if(exception is CancellationException) throw exception
-            null
+    suspend fun signIn() {
+        coroutineScope {
+            try {
+                val result = credentialManager.getCredential(
+                    request = request,
+                    context = context
+                )
+
+                credential = result.credential
+
+                googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
+
+                googleIdToken = googleIdTokenCredential.idToken
+
+                signInResultFromIntent(result)
+                Log.i("Login", googleIdToken)
+
+                Toast.makeText(context, "logged in", Toast.LENGTH_SHORT).show()
+            } catch (exception: GetCredentialException) {
+                Toast.makeText(context, exception.message, Toast.LENGTH_SHORT).show()
+            } catch (exception: GoogleIdTokenParsingException) {
+                Toast.makeText(context, exception.message, Toast.LENGTH_SHORT).show()
+            }
         }
-        return result?.pendingIntent?.intentSender
     }
 
     /**
      * Manages the sign in from the intent
-     * @param intent the intent for display the account sheet
+     * @param result credentials response result.
      */
-    suspend fun signInResultFromIntent(intent: Intent): SignInResult{
-        val credential = oneTapClient.getSignInCredentialFromIntent(intent)
-        val googleIdToken = credential.googleIdToken
+    private suspend fun signInResultFromIntent(result: GetCredentialResponse) {
+
         val googleCredentials = GoogleAuthProvider.getCredential(googleIdToken, null)
-        return try {
+        try {
             val user = auth.signInWithCredential(googleCredentials).await().user
-            SignInResult(
+            signInResult = SignInResult(
                 data = user?.run {
                     UserData(
                         userId = uid,
@@ -65,10 +95,10 @@ class GoogleAuthClient(
                 },
                 errorMessage = null
             )
-        }catch (exception: Exception){
+        } catch (exception: Exception) {
             exception.printStackTrace()
-            if(exception is CancellationException) throw exception
-            SignInResult(
+            if (exception is CancellationException) throw exception
+            signInResult = SignInResult(
                 data = null,
                 errorMessage = exception.message
             )
@@ -76,33 +106,25 @@ class GoogleAuthClient(
     }
 
     /**
-     * Handles when user sign out
+     * Obtains the sign in result from Google Login.
+     * @return Retrieve the sign in result from login performed.
      */
-    suspend fun signOut(){
-        try {
-            oneTapClient.signOut().await()
-            auth.signOut()
-        }catch (exception: Exception){
-            exception.printStackTrace()
-            if(exception is CancellationException) throw exception
-        }
+    fun getUserSigned(): SignInResult {
+        return signInResult
     }
 
     /**
-     * Handles the builder request
+     * Handles when user sign out
      */
-    private fun buildSignInRequest() : BeginSignInRequest {
-        return BeginSignInRequest.Builder()
-            .setGoogleIdTokenRequestOptions(
-                GoogleIdTokenRequestOptions.Builder()
-                    .setSupported(true)
-                    .setFilterByAuthorizedAccounts(false)
-                    .setServerClientId(firebaseClientId)
-                    .build()
-            )
-            .setAutoSelectEnabled(true)
-            .build()
+    fun signOut() {
+        try {
+            auth.signOut()
+        } catch (exception: Exception) {
+            exception.printStackTrace()
+            if (exception is CancellationException) throw exception
+        }
     }
+
 
     /**
      * Retrieves the data once the user is signed in
