@@ -6,9 +6,8 @@ import android.widget.Toast
 import androidx.credentials.Credential
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
-import androidx.credentials.GetCredentialResponse
 import androidx.credentials.exceptions.GetCredentialException
-import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 import com.google.firebase.auth.GoogleAuthProvider
@@ -33,24 +32,24 @@ class GoogleAuthClient(
     private val auth = Firebase.auth
     private val emptyString = context.getString(R.string.empty_string)
     private val credentialManager = CredentialManager.create(context)
-    private lateinit var googleIdTokenCredential: GoogleIdTokenCredential
-    private lateinit var googleIdToken: String
-    private lateinit var credential: Credential
+
     private lateinit var signInResult: SignInResult
-
-    private val googleIdOption: GetSignInWithGoogleOption =
-        GetSignInWithGoogleOption.Builder(firebaseClientId)
-            .setNonce("")
-            .build()
-
-    private val request: GetCredentialRequest = GetCredentialRequest.Builder()
-        .addCredentialOption(googleIdOption)
-        .build()
 
     /**
      * Handles the sign in
      */
     suspend fun signIn() {
+
+        val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
+            .setFilterByAuthorizedAccounts(true)
+            .setServerClientId(firebaseClientId)
+            .setNonce("")
+            .build()
+
+        val request: GetCredentialRequest = GetCredentialRequest.Builder()
+            .addCredentialOption(googleIdOption)
+            .build()
+
         coroutineScope {
             try {
                 val result = credentialManager.getCredential(
@@ -58,13 +57,13 @@ class GoogleAuthClient(
                     context = context
                 )
 
-                credential = result.credential
+                val credential: Credential = result.credential
 
-                googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
+                val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
 
-                googleIdToken = googleIdTokenCredential.idToken
+                val googleIdToken = googleIdTokenCredential.idToken
 
-                signInResultFromIntent(result)
+                signInResult(googleIdToken)
                 Log.i("Login", googleIdToken)
 
                 Toast.makeText(context, "logged in", Toast.LENGTH_SHORT).show()
@@ -77,12 +76,12 @@ class GoogleAuthClient(
     }
 
     /**
-     * Manages the sign in from the intent
-     * @param result credentials response result.
+     * Manages the sign in from the Credential manager
+     * @param idToken token received from credentials result.
      */
-    private suspend fun signInResultFromIntent(result: GetCredentialResponse) {
+    private suspend fun signInResult(idToken: String) {
 
-        val googleCredentials = GoogleAuthProvider.getCredential(googleIdToken, null)
+        val googleCredentials = GoogleAuthProvider.getCredential(idToken, null)
         try {
             val user = auth.signInWithCredential(googleCredentials).await().user
             signInResult = SignInResult(
