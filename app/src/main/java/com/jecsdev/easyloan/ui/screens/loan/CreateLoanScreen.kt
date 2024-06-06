@@ -16,7 +16,7 @@ import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableDoubleStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -34,6 +34,7 @@ import com.jecsdev.easyloan.ui.composables.textfield.SearchTextField
 import com.jecsdev.easyloan.ui.composables.textfield.SimpleTextField
 import com.jecsdev.easyloan.ui.theme.navyBlueColor
 import com.jecsdev.easyloan.presentation.uihelpers.InputType
+import com.jecsdev.easyloan.ui.composables.dropdown.DropDown
 
 
 /**
@@ -44,8 +45,15 @@ import com.jecsdev.easyloan.presentation.uihelpers.InputType
 fun CreateLoanScreen(navController: NavController?) {
     val searchResource = stringResource(R.string.search)
     val searchValue by rememberSaveable { mutableStateOf("") }
-    var loanAmount by rememberSaveable {
-        mutableDoubleStateOf(0.00)
+    val loanAmount by rememberSaveable {
+        mutableStateOf("")
+    }
+    var selectedOption by rememberSaveable {
+        mutableStateOf("")
+    }
+    val demoOptions = listOf("Semanal", "Quincenal", "Mensual")
+    val interestRate by rememberSaveable {
+        mutableIntStateOf(0)
     }
     Column(
         modifier = Modifier
@@ -98,15 +106,21 @@ fun CreateLoanScreen(navController: NavController?) {
         Spacer(modifier = Modifier.height(16.dp))
         BorrowerCard()
         SimpleTextField(
-            textTyped = loanAmount.toString(),
+            textTyped = loanAmount,
             labelValue = stringResource(id = R.string.dummy_ammount),
-            isSingleLine = true, inputType = InputType.TEXT
+            isSingleLine = true, inputType = InputType.NUMBER
         )
+        DropDown(label = stringResource(R.string.select_due),
+           options = demoOptions,  onOptionSelected = { dueSelected -> selectedOption = dueSelected})
+        SimpleTextField(textTyped = interestRate.toString(),
+            labelValue = stringResource(R.string.interest_rate),
+            isSingleLine = true, inputType = InputType.NUMBER)
     }
+
 }
 
 /**
- * Composable's preview.
+ * Composable preview.
  */
 @Composable
 @Preview(showSystemUi = true)

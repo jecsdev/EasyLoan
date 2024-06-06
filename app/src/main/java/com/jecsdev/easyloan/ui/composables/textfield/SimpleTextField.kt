@@ -34,7 +34,7 @@ import com.jecsdev.easyloan.presentation.uihelpers.InputType
 @Composable
 fun SimpleTextField(
     textTyped: String?,
-    labelValue: String,
+    labelValue: String?,
     isSingleLine: Boolean,
     inputType: InputType
 ) {
@@ -44,7 +44,7 @@ fun SimpleTextField(
     TextField(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 12.dp, end = 12.dp)
+            .padding(16.dp)
             .background(color = Color.Transparent),
         value = textValue,
         colors = TextFieldDefaults.colors(
@@ -56,7 +56,7 @@ fun SimpleTextField(
             unfocusedContainerColor = ghostColor
         ),
         onValueChange = { value -> textValue = value },
-        label = { Text(text = labelValue, color = brownGrayColor) },
+        label = { Text(text = labelValue ?: stringResource(id = R.string.empty_string), color = brownGrayColor) },
         singleLine = isSingleLine,
         keyboardOptions = when(inputType){
             InputType.TEXT -> KeyboardOptions(keyboardType = KeyboardType.Text)
