@@ -3,10 +3,7 @@ package com.jecsdev.easyloan.ui.activities
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
-import androidx.activity.result.IntentSenderRequest
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
@@ -19,13 +16,17 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.google.android.gms.auth.api.identity.Identity
 import com.jecsdev.easyloan.R
-import com.jecsdev.easyloan.presentation.navigation.Destination.*
+import com.jecsdev.easyloan.presentation.navigation.Destination.BorrowersList
+import com.jecsdev.easyloan.presentation.navigation.Destination.CreateBorrower
+import com.jecsdev.easyloan.presentation.navigation.Destination.CreateLoan
+import com.jecsdev.easyloan.presentation.navigation.Destination.Home
+import com.jecsdev.easyloan.presentation.navigation.Destination.LogIn
 import com.jecsdev.easyloan.presentation.signin.GoogleAuthClient
-import com.jecsdev.easyloan.ui.screens.debtors.CreateDebtorScreen
-import com.jecsdev.easyloan.ui.screens.debtors.DebtorsListScreen
-import com.jecsdev.easyloan.ui.screens.dashboard.DashboardScreen
+import com.jecsdev.easyloan.ui.screens.borrower.BorrowersListScreen
+import com.jecsdev.easyloan.ui.screens.borrower.CreateBorrowerScreen
+import com.jecsdev.easyloan.ui.screens.home.HomeScreen
+import com.jecsdev.easyloan.ui.screens.loan.CreateLoanScreen
 import com.jecsdev.easyloan.ui.screens.login.LogInScreen
 import com.jecsdev.easyloan.ui.theme.EasyLoanTheme
 import com.jecsdev.easyloan.ui.viewmodel.SignInViewModel
@@ -43,8 +44,7 @@ class MainActivity : ComponentActivity() {
     // Set Google Authentication client
     private val googleAuthUiClient by lazy {
         GoogleAuthClient(
-            context = applicationContext,
-            oneTapClient = Identity.getSignInClient(applicationContext)
+            context = applicationContext
         )
     }
 
@@ -69,24 +69,9 @@ class MainActivity : ComponentActivity() {
                             // Check's if user's session is active
                             LaunchedEffect(key1 = Unit) {
                                 if (googleAuthUiClient.getSignedUser() != null) {
-                                    navController.navigate(Dashboard.route)
+                                    navController.navigate(Home.route)
                                 }
                             }
-
-                            val launcher = rememberLauncherForActivityResult(
-                                contract = ActivityResultContracts.StartIntentSenderForResult(),
-                                onResult = { result ->
-                                    if (result.resultCode == RESULT_OK) {
-                                        lifecycleScope.launch {
-                                            val signInResult =
-                                                googleAuthUiClient.signInResultFromIntent(
-                                                    intent = result.data ?: return@launch
-                                                )
-                                            viewModel.onSignInResult(signInResult)
-                                        }
-                                    }
-                                }
-                            )
                             // Handles The sign in successfully
                             LaunchedEffect(key1 = state.isSuccessful) {
                                 if (state.isSuccessful) {
@@ -95,24 +80,22 @@ class MainActivity : ComponentActivity() {
                                         getString(R.string.session_started),
                                         Toast.LENGTH_LONG
                                     ).show()
-                                    navController.navigate(Dashboard.route)
+                                    navController.navigate(Home.route)
                                     viewModel.resetState()
                                 }
                             }
                             // Sign In Screen
                             LogInScreen(state = state, onSignInClick = {
                                 lifecycleScope.launch {
-                                    val signInIntentSender = googleAuthUiClient.signIn()
-                                    launcher.launch(
-                                        IntentSenderRequest.Builder(
-                                            signInIntentSender ?: return@launch
-                                        ).build()
-                                    )
+                                    googleAuthUiClient.signIn()
+                                    viewModel.onSignInResult(result = googleAuthUiClient.getUserSigned())
                                 }
+
                             })
                         }
-                        composable(Dashboard.route) {
-                            DashboardScreen(
+                        composable(Home.route) {
+                            //Home screen
+                            HomeScreen(
                                 userData = googleAuthUiClient.getSignedUser(),
                                 onSignOut = {
                                     lifecycleScope.launch {
@@ -128,11 +111,17 @@ class MainActivity : ComponentActivity() {
                                 navController = navController
                             )
                         }
-                        composable(DebtorsList.route) {
-                            DebtorsListScreen(navController = navController)
+                        composable(BorrowersList.route) {
+                            // Borrowers list screen
+                            BorrowersListScreen(navController = navController)
                         }
-                        composable(CreateDebtor.route){
-                            CreateDebtorScreen(navController = navController)
+                        composable(CreateBorrower.route) {
+                            //Create Borrowers screen
+                            CreateBorrowerScreen(navController = navController)
+                        }
+                        composable(CreateLoan.route) {
+                            //Create Loan Screen
+                            CreateLoanScreen(navController = navController)
                         }
                     }
                 }
