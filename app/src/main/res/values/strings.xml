@@ -51,6 +51,11 @@
     <string name="demo_string">Demo string</string>
     <string name="dummy_ammount">$0.00</string>
     <string name="select_due">Seleccione las cuotas</string>
+    <string name="select_period_number">Plazos</string>
+    <string name="select_period">Periodos</string>
     <string name="arrow_state_icon">Arrow state icon</string>
-    <string name="interest_rate">Tasa de interes</string>
+    <string name="interest_rate">Tasa de interés</string>
+    <string name="loan_start_date">Fecha inicio</string>
+    <string name="loan_end_date">Fecha fin</string>
+    <string name="create">Crear</string>
 </resources>

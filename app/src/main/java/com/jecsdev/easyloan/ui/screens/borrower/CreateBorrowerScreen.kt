@@ -17,7 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,16 +38,16 @@ import com.jecsdev.easyloan.presentation.uihelpers.InputType
  */
 @Composable
 fun CreateBorrowerScreen(navController: NavController?) {
-    var name by rememberSaveable {
+    val name by rememberSaveable {
         mutableStateOf("")
     }
-    var lastName by rememberSaveable {
+    val lastName by rememberSaveable {
         mutableStateOf("")
     }
-    var identificationNumber by rememberSaveable {
+    val identificationNumber by rememberSaveable {
         mutableStateOf("")
     }
-    var address by rememberSaveable {
+    val address by rememberSaveable {
         mutableStateOf("")
     }
     Scaffold(floatingActionButton = {
@@ -90,13 +89,13 @@ fun CreateBorrowerScreen(navController: NavController?) {
                         .clip(CircleShape)
                 )
                 Spacer(modifier = Modifier.height(12.dp))
-                SimpleTextField(textTyped = name, labelValue = stringResource(id = R.string.name), isSingleLine = true, inputType = InputType.TEXT)
+                SimpleTextField(textTyped = name, labelValue = stringResource(id = R.string.name), isSingleLine = true, inputType = InputType.TEXT, modifier = Modifier)
                 Spacer(modifier = Modifier.height(12.dp))
-                SimpleTextField(textTyped = lastName, labelValue = stringResource(id = R.string.last_name), isSingleLine = true, inputType =  InputType.TEXT)
+                SimpleTextField(textTyped = lastName, labelValue = stringResource(id = R.string.last_name), isSingleLine = true, inputType =  InputType.TEXT, modifier = Modifier)
                 Spacer(modifier = Modifier.height(12.dp))
-                SimpleTextField(textTyped = identificationNumber, labelValue = stringResource(id = R.string.identification_number), isSingleLine = true, inputType =  InputType.TEXT)
+                SimpleTextField(textTyped = identificationNumber, labelValue = stringResource(id = R.string.identification_number), isSingleLine = true, inputType =  InputType.TEXT, modifier = Modifier)
                 Spacer(modifier = Modifier.height(12.dp))
-                SimpleTextField(textTyped = address, labelValue = stringResource(id = R.string.address),isSingleLine = true, inputType =  InputType.TEXT)
+                SimpleTextField(textTyped = address, labelValue = stringResource(id = R.string.address),isSingleLine = true, inputType =  InputType.TEXT, modifier = Modifier)
             }
         }
     }

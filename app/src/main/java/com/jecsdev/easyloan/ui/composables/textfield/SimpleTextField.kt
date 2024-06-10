@@ -36,13 +36,14 @@ fun SimpleTextField(
     textTyped: String?,
     labelValue: String?,
     isSingleLine: Boolean,
-    inputType: InputType
+    inputType: InputType,
+    modifier: Modifier
 ) {
     var textValue by rememberSaveable {
         mutableStateOf(if (!textTyped.isNullOrEmpty()) textTyped else "")
     }
     TextField(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(16.dp)
             .background(color = Color.Transparent),
@@ -82,6 +83,7 @@ fun SimpleTextFieldPreview() {
         stringResource(id = R.string.name),
         stringResource(id = R.string.last_name),
         true,
-        InputType.TEXT
+        InputType.TEXT,
+        Modifier
     )
 }

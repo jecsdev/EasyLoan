@@ -21,7 +21,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,6 +35,7 @@ fun DropDown(
     label: String,
     options: List<String>,
     onOptionSelected: (String) -> Unit,
+    modifier: Modifier
 ) {
     var isExpanded by remember { mutableStateOf(false) }
     var selectedOption by remember { mutableStateOf("") }
@@ -46,7 +46,7 @@ fun DropDown(
         Icons.Filled.KeyboardArrowDown
     }
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(16.dp)
     ) {
@@ -57,7 +57,7 @@ fun DropDown(
                 isExpanded = true
             },
             label = { Text(text = label) },
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth(),
             shape = RoundedCornerShape(8.dp),
             colors = TextFieldDefaults.colors(
@@ -73,13 +73,13 @@ fun DropDown(
                 Icon(
                     icon,
                     contentDescription = stringResource(R.string.arrow_state_icon),
-                    modifier = Modifier.clickable { isExpanded = !isExpanded })
+                    modifier = modifier.clickable { isExpanded = !isExpanded })
             }
         )
         DropdownMenu(
             expanded = isExpanded,
             onDismissRequest = { isExpanded = false },
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxWidth()
                 .padding(vertical = 4.dp)
         ) {
@@ -96,7 +96,7 @@ fun DropDown(
                         Text(
                             text = option,
                             fontSize = 12.sp,
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = modifier.fillMaxWidth()
                         )
                     }
                 )
@@ -112,6 +112,7 @@ fun DropDownMenuPreview() {
     DropDown(
         label = "Label ",
         options = demoOptions,
-        onOptionSelected = { _ -> }
+        onOptionSelected = { _ -> },
+        modifier = Modifier
     )
 }

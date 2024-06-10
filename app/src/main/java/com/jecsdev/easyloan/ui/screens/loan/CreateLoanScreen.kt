@@ -14,9 +14,9 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -51,9 +51,11 @@ fun CreateLoanScreen(navController: NavController?) {
     var selectedOption by rememberSaveable {
         mutableStateOf("")
     }
-    val demoOptions = listOf("Semanal", "Quincenal", "Mensual")
+    val demoDueOptions = listOf("Semanal", "Quincenal", "Mensual")
+    val demoDateList = listOf("1","2","3","4","5","6","7","8","9")
+    val demoDatesOptions = listOf("Días", "Meses", "Años")
     val interestRate by rememberSaveable {
-        mutableIntStateOf(0)
+        mutableStateOf("")
     }
     Column(
         modifier = Modifier
@@ -103,20 +105,62 @@ fun CreateLoanScreen(navController: NavController?) {
                 )
             }
         }
-        Spacer(modifier = Modifier.height(16.dp))
         BorrowerCard()
         SimpleTextField(
             textTyped = loanAmount,
             labelValue = stringResource(id = R.string.dummy_ammount),
-            isSingleLine = true, inputType = InputType.NUMBER
+            isSingleLine = true, inputType = InputType.NUMBER,
+            modifier = Modifier.fillMaxWidth()
         )
         DropDown(label = stringResource(R.string.select_due),
-           options = demoOptions,  onOptionSelected = { dueSelected -> selectedOption = dueSelected})
-        SimpleTextField(textTyped = interestRate.toString(),
+           options = demoDueOptions,  onOptionSelected = { dueSelected -> selectedOption = dueSelected},
+            modifier = Modifier)
+        SimpleTextField(
+            textTyped = interestRate,
             labelValue = stringResource(R.string.interest_rate),
-            isSingleLine = true, inputType = InputType.NUMBER)
-    }
+            isSingleLine = true,
+            inputType = InputType.NUMBER,
+            modifier = Modifier.fillMaxWidth()
+        )
+        Row (modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween){
+            DropDown(label = stringResource(R.string.select_period_number),
+                options = demoDateList,  onOptionSelected = { dueSelected -> selectedOption = dueSelected},
+                modifier = Modifier.weight(1f))
+            DropDown(label = stringResource(R.string.select_period),
+                options = demoDatesOptions,  onOptionSelected = { dueSelected -> selectedOption = dueSelected},
+                modifier = Modifier.weight(1f))
 
+        }
+        Row (modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween){
+            SimpleTextField(
+                textTyped = interestRate,
+                labelValue = stringResource(R.string.loan_start_date),
+                isSingleLine = true,
+                inputType = InputType.TEXT,
+                modifier = Modifier.weight(1f)
+            )
+            SimpleTextField(textTyped = interestRate,
+                labelValue = stringResource(R.string.loan_end_date),
+                isSingleLine = true, inputType = InputType.TEXT,
+                modifier = Modifier.weight(1f))
+
+        }
+        Spacer(modifier = Modifier.height(4.dp))
+        Button(onClick = { /*Pending to add function*/ },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, end = 16.dp),
+            colors = ButtonColors(
+                containerColor = navyBlueColor,
+                contentColor = Color.White,
+                disabledContainerColor = Color.Transparent,
+                disabledContentColor = Color.Transparent
+            )) {
+            Text(text = stringResource(R.string.create))
+        }
+    }
 }
 
 /**
