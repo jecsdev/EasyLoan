@@ -1,4 +1,4 @@
-package com.jecsdev.easyloan.data.entity.user
+package com.jecsdev.easyloan.feature_authentication.data.model
 
 /**
  * This class represents the data from the user.

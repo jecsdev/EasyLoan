@@ -1,4 +1,4 @@
-package com.jecsdev.easyloan.data.repository
+package com.jecsdev.easyloan.feature_authentication.repository
 
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.AuthResult
