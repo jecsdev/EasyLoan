@@ -1,8 +1,9 @@
-package com.jecsdev.easyloan.data.repository
+package com.jecsdev.easyloan.feature_authentication.data.repository
 
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.jecsdev.easyloan.feature_authentication.repository.AuthRepository
 import com.jecsdev.easyloan.utils.resources.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -24,7 +25,6 @@ class AuthRepositoryImplementation @Inject constructor(
         }.catch {
             emit(Resource.Error(it.message.toString()))
         }
-
     }
 
     override fun registerUser(email: String, password: String): Flow<Resource<AuthResult>> {
@@ -46,6 +46,4 @@ class AuthRepositoryImplementation @Inject constructor(
             emit(Resource.Error(it.message.toString()))
         }
     }
-
-
 }
