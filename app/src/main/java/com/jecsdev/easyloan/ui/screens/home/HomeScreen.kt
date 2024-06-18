@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.jecsdev.easyloan.R
-import com.jecsdev.easyloan.data.entity.user.UserData
+import com.jecsdev.easyloan.feature_authentication.data.model.UserData
 import com.jecsdev.easyloan.presentation.navigation.Destination
 import com.jecsdev.easyloan.ui.composables.card.BalanceCard
 import com.jecsdev.easyloan.ui.composables.card.BorrowerTransactionsResumeCard

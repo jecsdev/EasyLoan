@@ -24,7 +24,7 @@ import com.jecsdev.easyloan.R
 @Composable
 fun TitleHeader(titleText: String,navController: NavController?){
     Row(verticalAlignment = Alignment.CenterVertically) {
-        IconButton(onClick = { navController?.popBackStack()}) {
+        IconButton(onClick = { navController?.navigateUp()}) {
             Icon(
                 Icons.AutoMirrored.Filled.ArrowBack,
                 contentDescription = stringResource(R.string.back_icon_button)

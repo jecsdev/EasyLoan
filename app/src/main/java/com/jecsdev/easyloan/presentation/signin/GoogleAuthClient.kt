@@ -14,7 +14,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.jecsdev.easyloan.R
-import com.jecsdev.easyloan.data.entity.user.UserData
+import com.jecsdev.easyloan.feature_authentication.data.model.UserData
 import com.jecsdev.easyloan.utils.constants.firebaseClientId
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.tasks.await
