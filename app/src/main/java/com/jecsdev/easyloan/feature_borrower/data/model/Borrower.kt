@@ -9,5 +9,6 @@ data class Borrower(
     var name: String,
     var lastName: String,
     var identificationNumber: String,
-    var address: String
+    var address: String,
+    var photo: String
 )

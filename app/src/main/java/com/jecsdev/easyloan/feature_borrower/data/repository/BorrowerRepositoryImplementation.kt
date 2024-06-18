@@ -34,7 +34,7 @@ class BorrowerRepositoryImplementation @Inject constructor(
         val borrower = document.toObject<Borrower>()?.copy(id = document.id)
         emit(borrower)
     }.catch {
-        val emptyBorrower = Borrower("","", "", "", "")
+        val emptyBorrower = Borrower("","", "", "", "", "")
         emit(emptyBorrower)
     }
 
