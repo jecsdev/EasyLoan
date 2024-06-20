@@ -4,7 +4,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
 import com.jecsdev.easyloan.feature_borrower.data.model.Borrower
 import com.jecsdev.easyloan.feature_borrower.domain.repository.BorrowerRepository
-import com.jecsdev.easyloan.utils.constants.FirebaseCollectionNames.borrower
+import com.jecsdev.easyloan.utils.constants.FirebaseCollectionNames.borrowers
 import com.jecsdev.easyloan.utils.constants.FirebaseCollectionNames.id
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -18,8 +18,8 @@ class BorrowerRepositoryImplementation @Inject constructor(
     firestore: FirebaseFirestore
 ) : BorrowerRepository {
 
-    private val borrowerCollection = firestore.collection(borrower)
-    override fun getBorrowers(): Flow<List<Borrower>> = flow {
+    private val borrowerCollection = firestore.collection(borrowers)
+    override suspend fun getBorrowers(): Flow<List<Borrower>> = flow {
         val snapshot = borrowerCollection.get().await()
         val borrowers = snapshot.documents.map { document ->
             document.toObject<Borrower>()!!.copy(id = document.id)
@@ -29,7 +29,7 @@ class BorrowerRepositoryImplementation @Inject constructor(
         emit(emptyList())
     }
 
-    override fun getBorrower(id: String): Flow<Borrower?> = flow {
+    override suspend fun getBorrower(id: String): Flow<Borrower?> = flow {
         val document = borrowerCollection.document(id).get().await()
         val borrower = document.toObject<Borrower>()?.copy(id = document.id)
         emit(borrower)

@@ -1,6 +1,14 @@
 package com.jecsdev.easyloan.feature_borrower.domain.use_case
 
-import com.jecsdev.easyloan.feature_borrower.domain.repository.BorrowerRepository
+import com.jecsdev.easyloan.feature_borrower.data.model.Borrower
+import com.jecsdev.easyloan.feature_borrower.data.repository.BorrowerRepositoryImplementation
 
-class UpdateBorrower(borrowerRepository: BorrowerRepository) {
+/**
+ * Update a borrower in the repository.
+ * @param borrowerRepository: The repository used to update the borrower.
+ */
+class UpdateBorrower(private val borrowerRepository: BorrowerRepositoryImplementation) {
+    suspend operator fun invoke(borrower: Borrower) {
+        borrowerRepository.updateBorrower(borrower)
+    }
 }

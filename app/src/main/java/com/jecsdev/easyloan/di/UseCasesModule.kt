@@ -1,6 +1,6 @@
 package com.jecsdev.easyloan.di
 
-import com.jecsdev.easyloan.feature_borrower.domain.repository.BorrowerRepository
+import com.jecsdev.easyloan.feature_borrower.data.repository.BorrowerRepositoryImplementation
 import com.jecsdev.easyloan.feature_borrower.domain.use_case.AddBorrower
 import com.jecsdev.easyloan.feature_borrower.domain.use_case.BorrowerUseCases
 import com.jecsdev.easyloan.feature_borrower.domain.use_case.DeleteBorrower
@@ -13,12 +13,15 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+/**
+ * Use cases module.
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object UseCasesModule {
     @Provides
     @Singleton
-    fun provideBorrowerUseCases(repository: BorrowerRepository): BorrowerUseCases {
+    fun provideBorrowerUseCases(repository: BorrowerRepositoryImplementation): BorrowerUseCases {
         return BorrowerUseCases(
             getBorrower = GetBorrower(repository),
             getBorrowers = GetBorrowers(repository),

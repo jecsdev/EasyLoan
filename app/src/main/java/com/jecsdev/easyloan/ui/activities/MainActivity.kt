@@ -29,6 +29,7 @@ import com.jecsdev.easyloan.ui.screens.home.HomeScreen
 import com.jecsdev.easyloan.ui.screens.loan.CreateLoanScreen
 import com.jecsdev.easyloan.ui.screens.login.LogInScreen
 import com.jecsdev.easyloan.ui.theme.EasyLoanTheme
+import com.jecsdev.easyloan.ui.viewmodel.BorrowerViewModel
 import com.jecsdev.easyloan.ui.viewmodel.SignInViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -40,39 +41,36 @@ import kotlinx.coroutines.launch
  */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    // Set Google Authentication client
     private val googleAuthUiClient by lazy {
         GoogleAuthClient(
             context = applicationContext
         )
     }
-
     private val viewModel: SignInViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             EasyLoanTheme {
-                // A surface container using the 'background' color from the theme
+
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = colorResource(R.color.phantom_gray_color)
                 ) {
-                    // Navigation Host
+
                     val navController = rememberNavController()
                     NavHost(navController = navController, startDestination = LogIn.route) {
                         composable(LogIn.route) {
 
                             val state by viewModel.state.collectAsStateWithLifecycle()
 
-                            // Check's if user's session is active
+
                             LaunchedEffect(key1 = Unit) {
                                 if (googleAuthUiClient.getSignedUser() != null) {
                                     navController.navigate(Home.route)
                                 }
                             }
-                            // Handles The sign in successfully
+
                             LaunchedEffect(key1 = state.isSuccessful) {
                                 if (state.isSuccessful) {
                                     Toast.makeText(
@@ -84,7 +82,7 @@ class MainActivity : ComponentActivity() {
                                     viewModel.resetState()
                                 }
                             }
-                            // Sign In Screen
+
                             LogInScreen(state = state, onSignInClick = {
                                 lifecycleScope.launch {
                                     googleAuthUiClient.signIn()
@@ -94,7 +92,7 @@ class MainActivity : ComponentActivity() {
                             })
                         }
                         composable(Home.route) {
-                            //Home screen
+
                             HomeScreen(
                                 userData = googleAuthUiClient.getSignedUser(),
                                 onSignOut = {
@@ -112,15 +110,15 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable(BorrowersList.route) {
-                            // Borrowers list screen
+
                             BorrowersListScreen(navController = navController)
                         }
                         composable(CreateBorrower.route) {
-                            //Create Borrowers screen
-                            CreateBorrowerScreen(navController = navController)
+                            val borrowerViewModel: BorrowerViewModel by viewModels()
+                            CreateBorrowerScreen(viewModel = borrowerViewModel, navController = navController)
                         }
                         composable(CreateLoan.route) {
-                            //Create Loan Screen
+
                             CreateLoanScreen(navController = navController)
                         }
                     }
