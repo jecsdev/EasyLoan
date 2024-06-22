@@ -8,3 +8,8 @@ object FirebaseCollectionNames {
     var user = "user"
     var id = "id"
 }
+
+object ExceptionConstants {
+    const val EXCEPTION_TAG = "Exception"
+    const val EXCEPTION_MESSAGE = "Exception message"
+}

@@ -1,9 +1,11 @@
 package com.jecsdev.easyloan.feature_borrower.data.repository
 
+import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
 import com.jecsdev.easyloan.feature_borrower.data.model.Borrower
 import com.jecsdev.easyloan.feature_borrower.domain.repository.BorrowerRepository
+import com.jecsdev.easyloan.utils.constants.ExceptionConstants
 import com.jecsdev.easyloan.utils.constants.FirebaseCollectionNames.borrowers
 import com.jecsdev.easyloan.utils.constants.FirebaseCollectionNames.id
 import kotlinx.coroutines.flow.Flow
@@ -22,10 +24,11 @@ class BorrowerRepositoryImplementation @Inject constructor(
     override suspend fun getBorrowers(): Flow<List<Borrower>> = flow {
         val snapshot = borrowerCollection.get().await()
         val borrowers = snapshot.documents.map { document ->
-            document.toObject<Borrower>()!!.copy(id = document.id)
+            document.toObject(Borrower::class.java)!!.copy(id = document.id)
         }
         emit(borrowers)
-    }.catch {
+    }.catch { exception ->
+        Log.e(ExceptionConstants.EXCEPTION_TAG, ExceptionConstants.EXCEPTION_MESSAGE, exception)
         emit(emptyList())
     }
 
@@ -33,15 +36,17 @@ class BorrowerRepositoryImplementation @Inject constructor(
         val document = borrowerCollection.document(id).get().await()
         val borrower = document.toObject<Borrower>()?.copy(id = document.id)
         emit(borrower)
-    }.catch {
-        val emptyBorrower = Borrower("","", "", "", "", "")
+    }.catch { exception ->
+        Log.e(ExceptionConstants.EXCEPTION_TAG, ExceptionConstants.EXCEPTION_MESSAGE, exception)
+        val emptyBorrower = Borrower("", "", "", "", "", "")
         emit(emptyBorrower)
     }
 
     override suspend fun addBorrower(borrower: Borrower) {
         try {
             val documentReference = borrowerCollection.add(borrower).await()
-            borrowerCollection.document(documentReference.id).update(id, documentReference.id).await()
+            borrowerCollection.document(documentReference.id).update(id, documentReference.id)
+                .await()
         } catch (exception: RuntimeException) {
             throw exception
         }

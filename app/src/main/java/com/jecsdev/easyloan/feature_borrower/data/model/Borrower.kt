@@ -17,4 +17,7 @@ data class Borrower(
     var identificationNumber: String,
     var address: String,
     var photo: String
-)
+) {
+    // Empty constructor.
+    constructor() : this("", "", "", "", "", "")
+}
