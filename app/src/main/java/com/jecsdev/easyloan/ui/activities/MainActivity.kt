@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity() {
         )
     }
     private val viewModel: SignInViewModel by viewModels()
-
+    private val borrowerViewModel: BorrowerViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -110,12 +110,16 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable(BorrowersList.route) {
-
-                            BorrowersListScreen(navController = navController)
+                            BorrowersListScreen(
+                                viewModel = borrowerViewModel,
+                                navController = navController
+                            )
                         }
                         composable(CreateBorrower.route) {
-                            val borrowerViewModel: BorrowerViewModel by viewModels()
-                            CreateBorrowerScreen(viewModel = borrowerViewModel, navController = navController)
+                            CreateBorrowerScreen(
+                                viewModel = borrowerViewModel,
+                                navController = navController
+                            )
                         }
                         composable(CreateLoan.route) {
 

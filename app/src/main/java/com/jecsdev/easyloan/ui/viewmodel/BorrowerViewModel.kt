@@ -1,10 +1,16 @@
 package com.jecsdev.easyloan.ui.viewmodel
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jecsdev.easyloan.feature_borrower.data.model.Borrower
 import com.jecsdev.easyloan.feature_borrower.domain.use_case.BorrowerUseCases
+import com.jecsdev.easyloan.ui.state.BorrowerState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,11 +21,27 @@ import javax.inject.Inject
 @HiltViewModel
 class BorrowerViewModel @Inject constructor(private val borrowerUseCases: BorrowerUseCases) :
     ViewModel() {
+
+    private val _state = mutableStateOf(BorrowerState.Success())
+    val state: State<BorrowerState.Success> = _state
+
+    private var getBorrowersJob: Job? = null
+
+    init {
+        getBorrowers()
+    }
+
     /**
      * Retrieves a list of borrowers.
      */
-    suspend fun getBorrowers() = borrowerUseCases.getBorrowers()
-
+    private fun getBorrowers() {
+        getBorrowersJob?.cancel()
+        getBorrowersJob = viewModelScope.launch {
+            borrowerUseCases.getBorrowers().onEach { borrowers ->
+                _state.value = BorrowerState.Success(borrowers)
+            }.launchIn(viewModelScope)
+        }
+    }
     /*
      * Retrieves a borrower from the repository.
      */

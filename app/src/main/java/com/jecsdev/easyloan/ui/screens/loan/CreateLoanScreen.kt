@@ -45,18 +45,19 @@ import com.jecsdev.easyloan.ui.composables.dropdown.DropDown
 fun CreateLoanScreen(navController: NavController?) {
     val searchResource = stringResource(R.string.search)
     val searchValue by rememberSaveable { mutableStateOf("") }
-    val loanAmount by rememberSaveable {
+    var loanAmount by rememberSaveable {
         mutableStateOf("")
     }
     var selectedOption by rememberSaveable {
         mutableStateOf("")
     }
+    var interestRate by rememberSaveable {
+        mutableStateOf("")
+    }
     val demoDueOptions = listOf("Semanal", "Quincenal", "Mensual")
     val demoDateList = listOf("1","2","3","4","5","6","7","8","9")
     val demoDatesOptions = listOf("Días", "Meses", "Años")
-    val interestRate by rememberSaveable {
-        mutableStateOf("")
-    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -105,10 +106,11 @@ fun CreateLoanScreen(navController: NavController?) {
                 )
             }
         }
-        BorrowerCard()
+        BorrowerCard(null)
         SimpleTextField(
             textTyped = loanAmount,
             labelValue = stringResource(id = R.string.dummy_ammount),
+            onValueChange = { value -> loanAmount = value },
             isSingleLine = true, inputType = InputType.NUMBER,
             modifier = Modifier.fillMaxWidth()
         )
@@ -118,6 +120,7 @@ fun CreateLoanScreen(navController: NavController?) {
         SimpleTextField(
             textTyped = interestRate,
             labelValue = stringResource(R.string.interest_rate),
+            onValueChange = { value -> interestRate = value },
             isSingleLine = true,
             inputType = InputType.NUMBER,
             modifier = Modifier.fillMaxWidth()
@@ -137,12 +140,15 @@ fun CreateLoanScreen(navController: NavController?) {
             SimpleTextField(
                 textTyped = interestRate,
                 labelValue = stringResource(R.string.loan_start_date),
+                onValueChange = { value -> interestRate = value },
                 isSingleLine = true,
                 inputType = InputType.TEXT,
                 modifier = Modifier.weight(1f)
             )
-            SimpleTextField(textTyped = interestRate,
+            SimpleTextField(
+                textTyped = interestRate,
                 labelValue = stringResource(R.string.loan_end_date),
+                onValueChange = { value -> interestRate = value },
                 isSingleLine = true, inputType = InputType.TEXT,
                 modifier = Modifier.weight(1f))
 

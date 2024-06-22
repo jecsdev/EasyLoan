@@ -11,7 +11,7 @@ package com.jecsdev.easyloan.feature_borrower.data.model
  * @param photo: The photo of the borrower.
  */
 data class Borrower(
-    var id: String,
+    var id: String? = "",
     var name: String,
     var lastName: String,
     var identificationNumber: String,

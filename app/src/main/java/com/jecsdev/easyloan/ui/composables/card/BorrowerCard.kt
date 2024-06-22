@@ -24,14 +24,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jecsdev.easyloan.R
+import com.jecsdev.easyloan.feature_borrower.data.model.Borrower
 import com.jecsdev.easyloan.ui.theme.lightGrayColor
 
 /**
  * Borrower's information card.
  */
 @Composable
-@Preview(showSystemUi = true)
-fun BorrowerCard() {
+fun BorrowerCard(borrower: Borrower?) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = lightGrayColor),
@@ -54,23 +54,41 @@ fun BorrowerCard() {
             }
             Spacer(modifier = Modifier.width(8.dp))
             Column {
-                Text(
-                    text = stringResource(R.string.dummy_text_name),
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                    text = stringResource(R.string.dummy_vat_id),
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                    text = stringResource(R.string.dummy_address),
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold
-                )
+                borrower?.let { borrower ->
+                    Text(
+                        text = borrower.name,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+                borrower?.let { borrower ->
+                    Text(
+                        text = borrower.lastName,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+                borrower?.let { borrower ->
+                    Text(
+                        text = borrower.identificationNumber,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
             }
         }
     }
     Spacer(Modifier.height(4.dp))
+}
+
+@Composable
+@Preview(showSystemUi = true)
+fun BorrowerCardPreview() {
+    BorrowerCard(borrower = Borrower(
+        "100",
+        "John",
+        "Doe",
+        "0001-00052545-8",
+        "Calle demo 123",
+        ""))
 }

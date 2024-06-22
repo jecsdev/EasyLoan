@@ -49,7 +49,7 @@ class BorrowerRepositoryImplementation @Inject constructor(
 
     override suspend fun updateBorrower(borrower: Borrower) {
         try {
-            borrowerCollection.document(borrower.id).set(borrower).await()
+            borrower.id?.let { borrowerCollection.document(it).set(borrower).await() }
         } catch (exception: RuntimeException) {
             throw exception
         }
@@ -57,7 +57,7 @@ class BorrowerRepositoryImplementation @Inject constructor(
 
     override suspend fun deleteBorrower(borrower: Borrower) {
         try {
-            borrowerCollection.document(borrower.id).delete().await()
+            borrower.id?.let { borrowerCollection.document(it).delete().await() }
         } catch (exception: RuntimeException) {
             throw exception
         }

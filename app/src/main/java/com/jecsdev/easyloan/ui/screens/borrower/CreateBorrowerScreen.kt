@@ -18,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,16 +45,16 @@ import java.util.UUID
  */
 @Composable
 fun CreateBorrowerScreen(viewModel: BorrowerViewModel, navController: NavController?) {
-    val name by rememberSaveable {
+    var name by rememberSaveable {
         mutableStateOf("")
     }
-    val lastName by rememberSaveable {
+    var lastName by rememberSaveable {
         mutableStateOf("")
     }
-    val identificationNumber by rememberSaveable {
+    var identificationNumber by rememberSaveable {
         mutableStateOf("")
     }
-    val address by rememberSaveable {
+    var address by rememberSaveable {
         mutableStateOf("")
     }
     val coroutineScope = rememberCoroutineScope()
@@ -64,7 +65,7 @@ fun CreateBorrowerScreen(viewModel: BorrowerViewModel, navController: NavControl
                     saveBorrower(
                         viewModel = viewModel,
                         borrower = Borrower(
-                            id = UUID.randomUUID().toString(),
+                            id = null,
                             name = name,
                             lastName = lastName,
                             identificationNumber = identificationNumber,
@@ -113,6 +114,7 @@ fun CreateBorrowerScreen(viewModel: BorrowerViewModel, navController: NavControl
                 SimpleTextField(
                     textTyped = name,
                     labelValue = stringResource(id = R.string.name),
+                    onValueChange = { value -> name = value },
                     isSingleLine = true,
                     inputType = InputType.TEXT,
                     modifier = Modifier
@@ -121,6 +123,7 @@ fun CreateBorrowerScreen(viewModel: BorrowerViewModel, navController: NavControl
                 SimpleTextField(
                     textTyped = lastName,
                     labelValue = stringResource(id = R.string.last_name),
+                    onValueChange = { value -> lastName = value },
                     isSingleLine = true,
                     inputType = InputType.TEXT,
                     modifier = Modifier
@@ -129,6 +132,7 @@ fun CreateBorrowerScreen(viewModel: BorrowerViewModel, navController: NavControl
                 SimpleTextField(
                     textTyped = identificationNumber,
                     labelValue = stringResource(id = R.string.identification_number),
+                    onValueChange = { value -> identificationNumber = value },
                     isSingleLine = true,
                     inputType = InputType.TEXT,
                     modifier = Modifier
@@ -137,6 +141,7 @@ fun CreateBorrowerScreen(viewModel: BorrowerViewModel, navController: NavControl
                 SimpleTextField(
                     textTyped = address,
                     labelValue = stringResource(id = R.string.address),
+                    onValueChange = { value -> address = value },
                     isSingleLine = true,
                     inputType = InputType.TEXT,
                     modifier = Modifier

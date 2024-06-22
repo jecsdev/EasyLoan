@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
@@ -21,6 +22,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.jecsdev.easyloan.R
 import com.jecsdev.easyloan.presentation.navigation.Destination
@@ -28,17 +30,20 @@ import com.jecsdev.easyloan.ui.composables.card.BorrowerCard
 import com.jecsdev.easyloan.ui.composables.header.TitleHeader
 import com.jecsdev.easyloan.ui.composables.textfield.SearchTextField
 import com.jecsdev.easyloan.ui.theme.navyBlueColor
+import com.jecsdev.easyloan.ui.viewmodel.BorrowerViewModel
 
 
 /**
  * Borrowers list Screen composable.
+ * @param viewModel BorrowerViewModel instance.
  * @param navController Navigation controller which handles this transaction.
  * @author John Campusano.
  */
 @Composable
-fun BorrowersListScreen(navController: NavController?) {
+fun BorrowersListScreen(viewModel: BorrowerViewModel, navController: NavController?) {
     val searchResource = stringResource(R.string.search)
     val searchValue by rememberSaveable { mutableStateOf("") }
+    val state = viewModel.state.value
 
     Scaffold(floatingActionButton = {
         FloatingActionButton(
@@ -64,12 +69,16 @@ fun BorrowersListScreen(navController: NavController?) {
                 navController = navController
             )
             Spacer(modifier = Modifier.height(24.dp))
-            SearchTextField(searchText = searchValue, labelString = searchResource,
-                supportingTextLegend = stringResource(R.string.borrower_text_field_disclaimer), modifier = Modifier)
+            SearchTextField(
+                searchText = searchValue,
+                labelString = searchResource,
+                supportingTextLegend = stringResource(R.string.borrower_text_field_disclaimer),
+                modifier = Modifier
+            )
             Spacer(modifier = Modifier.height(16.dp))
             LazyColumn {
-                items(10) {
-                    BorrowerCard()
+                items(state.borrowers) { borrower ->
+                    BorrowerCard(borrower)
                 }
             }
         }
@@ -83,7 +92,8 @@ fun BorrowersListScreen(navController: NavController?) {
 @Composable
 @Preview(showSystemUi = true)
 fun BorrowersListScreenPreview() {
-    BorrowersListScreen(null)
+    val viewModel: BorrowerViewModel = hiltViewModel()
+    BorrowersListScreen(viewModel, null)
 }
 
 /**
