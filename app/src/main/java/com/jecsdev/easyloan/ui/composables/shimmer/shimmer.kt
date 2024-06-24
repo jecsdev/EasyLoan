@@ -11,6 +11,11 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 
+/**
+ * Shimmer effect.
+ * @param showShimmer Boolean value to show or hide the shimmer effect.
+ * @param targetValue Float value to set the shimmer effect.
+ */
 @Composable
 fun shimmer(showShimmer: Boolean = true, targetValue: Float = 1000f): Brush {
     return if (showShimmer) {
@@ -25,7 +30,7 @@ fun shimmer(showShimmer: Boolean = true, targetValue: Float = 1000f): Brush {
             initialValue = 0f,
             targetValue = targetValue,
             animationSpec = infiniteRepeatable(
-                animation = tween(1000), repeatMode = RepeatMode.Reverse
+                animation = tween(2000), repeatMode = RepeatMode.Reverse
             ), label = ""
         )
         Brush.linearGradient(

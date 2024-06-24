@@ -13,6 +13,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,6 +34,7 @@ import com.jecsdev.easyloan.ui.composables.textfield.SearchTextField
 import com.jecsdev.easyloan.ui.state.BorrowerState
 import com.jecsdev.easyloan.ui.theme.navyBlueColor
 import com.jecsdev.easyloan.ui.viewmodel.BorrowerViewModel
+import kotlinx.coroutines.delay
 
 
 /**
@@ -61,6 +63,18 @@ fun BorrowersListScreen(viewModel: BorrowerViewModel, navController: NavControll
         }
     }, containerColor = colorResource(id = R.color.phantom_gray_color)) {
         it.calculateTopPadding()
+
+        LaunchedEffect(key1 = true) {
+            when (state) {
+                is BorrowerState.Loading -> {
+                    delay(5000)
+                    showShimmer.value = false
+                }
+                else -> {
+                    showShimmer.value = false
+                }
+            }
+        }
         Column(
             modifier = Modifier
                 .fillMaxSize()

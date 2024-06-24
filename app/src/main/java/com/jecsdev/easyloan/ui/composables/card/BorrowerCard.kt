@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -48,7 +49,6 @@ fun BorrowerCard(borrower: Borrower?, showShimmer: Boolean) {
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-
                 AsyncImage(
                     model = borrower?.photo,
                     contentDescription = stringResource(R.string.profile_picture),
@@ -67,6 +67,11 @@ fun BorrowerCard(borrower: Borrower?, showShimmer: Boolean) {
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier
+                        .wrapContentWidth()
+                        .background(
+                            shimmer(targetValue = 1300f, showShimmer = showShimmer)
+                        ),
+                    showShimmer = showShimmer
                 )
 
                 CustomText(
@@ -74,6 +79,11 @@ fun BorrowerCard(borrower: Borrower?, showShimmer: Boolean) {
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier
+                        .wrapContentWidth()
+                        .background(
+                            shimmer(targetValue = 1300f, showShimmer = showShimmer)
+                        ),
+                    showShimmer = showShimmer
                 )
 
                 CustomText(
@@ -81,6 +91,22 @@ fun BorrowerCard(borrower: Borrower?, showShimmer: Boolean) {
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier
+                        .wrapContentWidth()
+                        .background(
+                            shimmer(targetValue = 1300f, showShimmer = showShimmer)
+                        ),
+                    showShimmer = showShimmer
+                )
+                CustomText(
+                    text = borrower?.address,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .wrapContentWidth()
+                        .background(
+                            shimmer(targetValue = 1300f, showShimmer = showShimmer)
+                        ),
+                    showShimmer = showShimmer
                 )
             }
         }
