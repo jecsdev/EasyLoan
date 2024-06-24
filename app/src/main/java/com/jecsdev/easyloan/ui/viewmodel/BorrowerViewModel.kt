@@ -22,8 +22,8 @@ import javax.inject.Inject
 class BorrowerViewModel @Inject constructor(private val borrowerUseCases: BorrowerUseCases) :
     ViewModel() {
 
-    private val _state = mutableStateOf(BorrowerState.Success())
-    val state: State<BorrowerState.Success> = _state
+    private val _state = mutableStateOf<BorrowerState>(BorrowerState.Loading)
+    val state: State<BorrowerState> = _state
 
     private var getBorrowersJob: Job? = null
 
@@ -53,6 +53,7 @@ class BorrowerViewModel @Inject constructor(private val borrowerUseCases: Borrow
     suspend fun addBorrower(borrower: Borrower) {
         viewModelScope.launch {
             borrowerUseCases.addBorrower(borrower)
+            getBorrowers()
         }
     }
 

@@ -38,7 +38,6 @@ import com.jecsdev.easyloan.ui.composables.textfield.SimpleTextField
 import com.jecsdev.easyloan.ui.theme.navyBlueColor
 import com.jecsdev.easyloan.ui.viewmodel.BorrowerViewModel
 import kotlinx.coroutines.launch
-import java.util.UUID
 
 /**
  * This is the borrower creation screen.

@@ -15,6 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,6 +30,7 @@ import com.jecsdev.easyloan.presentation.navigation.Destination
 import com.jecsdev.easyloan.ui.composables.card.BorrowerCard
 import com.jecsdev.easyloan.ui.composables.header.TitleHeader
 import com.jecsdev.easyloan.ui.composables.textfield.SearchTextField
+import com.jecsdev.easyloan.ui.state.BorrowerState
 import com.jecsdev.easyloan.ui.theme.navyBlueColor
 import com.jecsdev.easyloan.ui.viewmodel.BorrowerViewModel
 
@@ -44,6 +46,7 @@ fun BorrowersListScreen(viewModel: BorrowerViewModel, navController: NavControll
     val searchResource = stringResource(R.string.search)
     val searchValue by rememberSaveable { mutableStateOf("") }
     val state = viewModel.state.value
+    val showShimmer = remember { mutableStateOf(true) }
 
     Scaffold(floatingActionButton = {
         FloatingActionButton(
@@ -69,18 +72,36 @@ fun BorrowersListScreen(viewModel: BorrowerViewModel, navController: NavControll
                 navController = navController
             )
             Spacer(modifier = Modifier.height(24.dp))
-            SearchTextField(
-                searchText = searchValue,
-                labelString = searchResource,
-                supportingTextLegend = stringResource(R.string.borrower_text_field_disclaimer),
-                modifier = Modifier
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            LazyColumn {
-                items(state.borrowers) { borrower ->
-                    BorrowerCard(borrower)
+            when (state) {
+                is BorrowerState.Loading -> {
+                    LazyColumn {
+                        items(8) {
+                            BorrowerCard(null, showShimmer = showShimmer.value)
+                        }
+                    }
                 }
+
+                is BorrowerState.Success -> {
+                    SearchTextField(
+                        searchText = searchValue,
+                        labelString = searchResource,
+                        supportingTextLegend = stringResource(R.string.borrower_text_field_disclaimer),
+                        modifier = Modifier
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    LazyColumn {
+                        items(state.borrowers) { borrower ->
+                            BorrowerCard(borrower, false)
+                        }
+                    }
+
+                }
+
+                is BorrowerState.Editing -> TODO()
+                BorrowerState.Empty -> TODO()
+                is BorrowerState.ReadyToSave -> TODO()
             }
+
         }
     }
 }

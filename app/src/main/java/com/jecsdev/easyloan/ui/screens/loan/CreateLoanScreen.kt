@@ -106,7 +106,7 @@ fun CreateLoanScreen(navController: NavController?) {
                 )
             }
         }
-        BorrowerCard(null)
+        BorrowerCard(null, false)
         SimpleTextField(
             textTyped = loanAmount,
             labelValue = stringResource(id = R.string.dummy_ammount),
