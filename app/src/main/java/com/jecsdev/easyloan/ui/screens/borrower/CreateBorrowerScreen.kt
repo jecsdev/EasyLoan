@@ -82,8 +82,8 @@ fun CreateBorrowerScreen(viewModel: BorrowerViewModel, navController: NavControl
                 stringResource(R.string.floating_action_button_add_borrower_description)
             )
         }
-    }, containerColor = colorResource(id = R.color.phantom_gray_color)) {
-        it.calculateTopPadding()
+    }, containerColor = colorResource(id = R.color.phantom_gray_color)) { paddingValues ->
+        paddingValues.calculateBottomPadding()
         Column(
             modifier = Modifier
                 .fillMaxSize()

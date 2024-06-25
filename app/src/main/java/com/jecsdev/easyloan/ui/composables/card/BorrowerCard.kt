@@ -36,9 +36,9 @@ import com.jecsdev.easyloan.ui.theme.lightGrayColor
  * Borrower's information card.
  */
 @Composable
-fun BorrowerCard(borrower: Borrower?, showShimmer: Boolean) {
+fun BorrowerCard(borrower: Borrower?, showShimmer: Boolean, modifier: Modifier = Modifier) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = lightGrayColor),
         shape = RoundedCornerShape(8.dp)
     ) {
@@ -52,7 +52,7 @@ fun BorrowerCard(borrower: Borrower?, showShimmer: Boolean) {
                 AsyncImage(
                     model = borrower?.photo,
                     contentDescription = stringResource(R.string.profile_picture),
-                    modifier = Modifier
+                    modifier = modifier
                         .size(48.dp)
                         .clip(CircleShape)
                         .background(shimmer(targetValue = 1300f, showShimmer = showShimmer)),
@@ -60,13 +60,13 @@ fun BorrowerCard(borrower: Borrower?, showShimmer: Boolean) {
                 )
 
             }
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = modifier.width(8.dp))
             Column {
                 CustomText(
                     text = borrower?.name,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier
+                    modifier = modifier
                         .wrapContentWidth()
                         .background(
                             shimmer(targetValue = 1300f, showShimmer = showShimmer)
@@ -78,7 +78,7 @@ fun BorrowerCard(borrower: Borrower?, showShimmer: Boolean) {
                     text = borrower?.lastName,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier
+                    modifier = modifier
                         .wrapContentWidth()
                         .background(
                             shimmer(targetValue = 1300f, showShimmer = showShimmer)
@@ -90,7 +90,7 @@ fun BorrowerCard(borrower: Borrower?, showShimmer: Boolean) {
                     text = borrower?.identificationNumber,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier
+                    modifier = modifier
                         .wrapContentWidth()
                         .background(
                             shimmer(targetValue = 1300f, showShimmer = showShimmer)
@@ -101,7 +101,7 @@ fun BorrowerCard(borrower: Borrower?, showShimmer: Boolean) {
                     text = borrower?.address,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier
+                    modifier = modifier
                         .wrapContentWidth()
                         .background(
                             shimmer(targetValue = 1300f, showShimmer = showShimmer)
@@ -111,7 +111,7 @@ fun BorrowerCard(borrower: Borrower?, showShimmer: Boolean) {
             }
         }
     }
-    Spacer(Modifier.height(4.dp))
+    Spacer(modifier.height(4.dp))
 }
 
 @Composable
@@ -126,6 +126,7 @@ fun BorrowerCardPreview() {
             "Calle demo 123",
             ""
         ),
-        showShimmer = true
+        showShimmer = true,
+        modifier = Modifier
     )
 }

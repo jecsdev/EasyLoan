@@ -1,5 +1,11 @@
 package com.jecsdev.easyloan.ui.screens.borrower
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,12 +19,12 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
@@ -34,7 +40,6 @@ import com.jecsdev.easyloan.ui.composables.textfield.SearchTextField
 import com.jecsdev.easyloan.ui.state.BorrowerState
 import com.jecsdev.easyloan.ui.theme.navyBlueColor
 import com.jecsdev.easyloan.ui.viewmodel.BorrowerViewModel
-import kotlinx.coroutines.delay
 
 
 /**
@@ -43,13 +48,17 @@ import kotlinx.coroutines.delay
  * @param navController Navigation controller which handles this transaction.
  * @author John Campusano.
  */
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun BorrowersListScreen(viewModel: BorrowerViewModel, navController: NavController?) {
     val searchResource = stringResource(R.string.search)
     val searchValue by rememberSaveable { mutableStateOf("") }
     val state = viewModel.state.value
     val showShimmer = remember { mutableStateOf(true) }
-
+    val alpha by animateFloatAsState(
+        targetValue = if (!showShimmer.value) 0f else 10f, animationSpec = tween(2000),
+        label = ""
+    )
     Scaffold(floatingActionButton = {
         FloatingActionButton(
             onClick = { navigateToCreateBorrowerScreen(navController) },
@@ -61,20 +70,9 @@ fun BorrowersListScreen(viewModel: BorrowerViewModel, navController: NavControll
                 stringResource(R.string.floating_action_button_add_borrower_description)
             )
         }
-    }, containerColor = colorResource(id = R.color.phantom_gray_color)) {
-        it.calculateTopPadding()
+    }, containerColor = colorResource(id = R.color.phantom_gray_color)) { paddingValues ->
+        paddingValues.calculateBottomPadding()
 
-        LaunchedEffect(key1 = true) {
-            when (state) {
-                is BorrowerState.Loading -> {
-                    delay(5000)
-                    showShimmer.value = false
-                }
-                else -> {
-                    showShimmer.value = false
-                }
-            }
-        }
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -90,25 +88,35 @@ fun BorrowersListScreen(viewModel: BorrowerViewModel, navController: NavControll
                 is BorrowerState.Loading -> {
                     LazyColumn {
                         items(8) {
-                            BorrowerCard(null, showShimmer = showShimmer.value)
+                            BorrowerCard(null, showShimmer = showShimmer.value, modifier = Modifier)
                         }
                     }
                 }
 
                 is BorrowerState.Success -> {
-                    SearchTextField(
-                        searchText = searchValue,
-                        labelString = searchResource,
-                        supportingTextLegend = stringResource(R.string.borrower_text_field_disclaimer),
-                        modifier = Modifier
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    LazyColumn {
-                        items(state.borrowers) { borrower ->
-                            BorrowerCard(borrower, false)
+                    AnimatedVisibility(
+                        visible = state.borrowers.isNotEmpty(),
+                        enter = fadeIn(),
+                        exit = fadeOut()
+                    ) {
+                        Column() {
+                            SearchTextField(
+                                searchText = searchValue,
+                                labelString = searchResource,
+                                supportingTextLegend = stringResource(R.string.borrower_text_field_disclaimer),
+                                modifier = Modifier
+                            )
+                            Spacer(modifier = Modifier.height(16.dp))
+                            LazyColumn {
+                                items(state.borrowers) { borrower ->
+                                    BorrowerCard(
+                                        borrower, false, modifier = Modifier.animateEnterExit()
+                                            .alpha(alpha)
+                                    )
+                                }
+                            }
                         }
                     }
-
                 }
 
                 is BorrowerState.Editing -> TODO()
