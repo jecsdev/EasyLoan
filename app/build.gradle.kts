@@ -75,7 +75,7 @@ dependencies {
     testImplementation("io.mockk:mockk:1.13.7")
 
     androidTestImplementation("io.mockk:mockk-android:1.13.7")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.0")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.6.8")
 
     debugImplementation("androidx.compose.ui:ui-tooling:1.6.8")
@@ -99,8 +99,10 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx:23.0.0")
     implementation("com.google.android.gms:play-services-auth:21.2.0")
 
-    implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
+    implementation(platform("com.google.firebase:firebase-bom:33.1.1"))
     implementation("com.google.firebase:firebase-firestore")
+
+    implementation("com.google.firebase:firebase-storage-ktx")
 
     // Credential manager
     implementation("androidx.credentials:credentials:1.2.2")

@@ -1,6 +1,10 @@
 package com.jecsdev.easyloan.ui.screens.borrower
 
-import androidx.compose.foundation.Image
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,12 +28,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.jecsdev.easyloan.R
 import com.jecsdev.easyloan.feature_borrower.data.model.Borrower
 import com.jecsdev.easyloan.presentation.uihelpers.InputType
@@ -47,16 +51,19 @@ fun CreateBorrowerScreen(viewModel: BorrowerViewModel, navController: NavControl
     var name by rememberSaveable {
         mutableStateOf("")
     }
-    var lastName by rememberSaveable {
-        mutableStateOf("")
-    }
     var identificationNumber by rememberSaveable {
         mutableStateOf("")
     }
     var address by rememberSaveable {
         mutableStateOf("")
     }
+    var photoUri by rememberSaveable {
+        mutableStateOf<Uri?>(null)
+    }
     val coroutineScope = rememberCoroutineScope()
+    val photoPicketLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = { uri -> photoUri = uri })
     Scaffold(floatingActionButton = {
         FloatingActionButton(
             onClick = {
@@ -64,12 +71,10 @@ fun CreateBorrowerScreen(viewModel: BorrowerViewModel, navController: NavControl
                     saveBorrower(
                         viewModel = viewModel,
                         borrower = Borrower(
-                            id = null,
                             name = name,
-                            lastName = lastName,
                             identificationNumber = identificationNumber,
                             address = address,
-                            photo = ""
+                            photo = photoUri.toString()
                         ), navController = navController
                     )
                 }
@@ -99,8 +104,7 @@ fun CreateBorrowerScreen(viewModel: BorrowerViewModel, navController: NavControl
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.borrower_icon),
+                AsyncImage(model = photoUri ?: R.drawable.borrower_icon,
                     contentDescription = stringResource(
                         R.string.selected_image_description
                     ),
@@ -108,21 +112,16 @@ fun CreateBorrowerScreen(viewModel: BorrowerViewModel, navController: NavControl
                         .height(120.dp)
                         .width(120.dp)
                         .clip(CircleShape)
-                )
+                        .clickable {
+                            photoPicketLauncher.launch(
+                                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                            )
+                        })
                 Spacer(modifier = Modifier.height(12.dp))
                 SimpleTextField(
                     textTyped = name,
                     labelValue = stringResource(id = R.string.name),
                     onValueChange = { value -> name = value },
-                    isSingleLine = true,
-                    inputType = InputType.TEXT,
-                    modifier = Modifier
-                )
-                Spacer(modifier = Modifier.height(12.dp))
-                SimpleTextField(
-                    textTyped = lastName,
-                    labelValue = stringResource(id = R.string.last_name),
-                    onValueChange = { value -> lastName = value },
                     isSingleLine = true,
                     inputType = InputType.TEXT,
                     modifier = Modifier

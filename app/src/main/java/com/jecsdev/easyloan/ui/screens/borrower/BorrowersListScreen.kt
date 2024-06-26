@@ -19,10 +19,13 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
@@ -59,6 +62,7 @@ fun BorrowersListScreen(viewModel: BorrowerViewModel, navController: NavControll
         targetValue = if (!showShimmer.value) 0f else 10f, animationSpec = tween(2000),
         label = ""
     )
+    var key by remember { mutableIntStateOf(0) }
     Scaffold(floatingActionButton = {
         FloatingActionButton(
             onClick = { navigateToCreateBorrowerScreen(navController) },
@@ -94,6 +98,9 @@ fun BorrowersListScreen(viewModel: BorrowerViewModel, navController: NavControll
                 }
 
                 is BorrowerState.Success -> {
+                    LaunchedEffect(state.borrowers.size) {
+                        key++
+                    }
                     AnimatedVisibility(
                         visible = state.borrowers.isNotEmpty(),
                         enter = fadeIn(),

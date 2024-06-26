@@ -75,18 +75,6 @@ fun BorrowerCard(borrower: Borrower?, showShimmer: Boolean, modifier: Modifier =
                 )
 
                 CustomText(
-                    text = borrower?.lastName,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = modifier
-                        .wrapContentWidth()
-                        .background(
-                            shimmer(targetValue = 1300f, showShimmer = showShimmer)
-                        ),
-                    showShimmer = showShimmer
-                )
-
-                CustomText(
                     text = borrower?.identificationNumber,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
@@ -121,7 +109,6 @@ fun BorrowerCardPreview() {
         borrower = Borrower(
             "100",
             "John",
-            "Doe",
             "0001-00052545-8",
             "Calle demo 123",
             ""
