@@ -117,7 +117,8 @@ fun BorrowersListScreen(viewModel: BorrowerViewModel, navController: NavControll
                             LazyColumn {
                                 items(state.borrowers) { borrower ->
                                     BorrowerCard(
-                                        borrower, false, modifier = Modifier.animateEnterExit()
+                                        borrower, false, modifier = Modifier
+                                            .animateEnterExit()
                                             .alpha(alpha)
                                     )
                                 }

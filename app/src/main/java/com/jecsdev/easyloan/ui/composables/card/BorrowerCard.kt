@@ -109,6 +109,7 @@ fun BorrowerCardPreview() {
         borrower = Borrower(
             "100",
             "John",
+            "123456789",
             "0001-00052545-8",
             "Calle demo 123",
             ""

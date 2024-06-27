@@ -11,11 +11,12 @@ package com.jecsdev.easyloan.feature_borrower.data.model
  */
 data class Borrower(
     var id: String? = "",
+    var userId: String? = "",
     var name: String,
     var identificationNumber: String,
     var address: String,
     var photo: String
 ) {
     // Empty constructor.
-    constructor() : this("", "", "", "", "")
+    constructor() : this("", "","", "", "", "")
 }

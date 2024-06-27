@@ -32,8 +32,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.jecsdev.easyloan.R
 import com.jecsdev.easyloan.feature_borrower.data.model.Borrower
 import com.jecsdev.easyloan.presentation.uihelpers.InputType
@@ -42,6 +45,8 @@ import com.jecsdev.easyloan.ui.composables.textfield.SimpleTextField
 import com.jecsdev.easyloan.ui.theme.navyBlueColor
 import com.jecsdev.easyloan.ui.viewmodel.BorrowerViewModel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import java.util.UUID
 
 /**
  * This is the borrower creation screen.
@@ -70,6 +75,7 @@ fun CreateBorrowerScreen(viewModel: BorrowerViewModel, navController: NavControl
                 coroutineScope.launch {
                     saveBorrower(
                         viewModel = viewModel,
+                        photoUri = photoUri,
                         borrower = Borrower(
                             name = name,
                             identificationNumber = identificationNumber,
@@ -164,10 +170,28 @@ fun CreateBorrowerScreenPreview() {
  */
 suspend fun saveBorrower(
     viewModel: BorrowerViewModel,
+    photoUri: Uri?,
     borrower: Borrower,
     navController: NavController?
 ) {
-    viewModel.addBorrower(borrower)
-    navController?.navigateUp()
+    viewModel.viewModelScope.launch {
+        val photoUrl = photoUri?.let { uploadPhotoToStorage(it) }
+        photoUrl?.let { borrower.photo = it }
+
+        viewModel.addBorrower(borrower)
+        navController?.navigateUp()
+    }
+
 }
 
+suspend fun uploadPhotoToStorage(photoUri: Uri): String? {
+    return try {
+        val storageRef: StorageReference = FirebaseStorage.getInstance().reference
+        val photoRef = storageRef.child("borrowers/${UUID.randomUUID()}")
+        photoRef.putFile(photoUri).await()
+        photoRef.downloadUrl.await().toString()
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
+    }
+}
