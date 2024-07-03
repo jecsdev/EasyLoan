@@ -1,6 +1,6 @@
 package com.jecsdev.easyloan.di
 
-import com.jecsdev.easyloan.feature_borrower.data.repository.BorrowerRepositoryImplementation
+import com.jecsdev.easyloan.feature_borrower.domain.repository.BorrowerRepository
 import com.jecsdev.easyloan.feature_borrower.domain.use_case.AddBorrower
 import com.jecsdev.easyloan.feature_borrower.domain.use_case.BorrowerUseCases
 import com.jecsdev.easyloan.feature_borrower.domain.use_case.DeleteBorrower
@@ -21,7 +21,7 @@ import javax.inject.Singleton
 object UseCasesModule {
     @Provides
     @Singleton
-    fun provideBorrowerUseCases(repository: BorrowerRepositoryImplementation): BorrowerUseCases {
+    fun provideBorrowerUseCases(repository: BorrowerRepository): BorrowerUseCases {
         return BorrowerUseCases(
             getBorrower = GetBorrower(repository),
             getBorrowers = GetBorrowers(repository),

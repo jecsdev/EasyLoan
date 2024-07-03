@@ -16,9 +16,11 @@ import com.google.firebase.ktx.Firebase
 import com.jecsdev.easyloan.R
 import com.jecsdev.easyloan.feature_authentication.data.model.UserData
 import com.jecsdev.easyloan.utils.constants.firebaseClientId
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.tasks.await
 import java.util.concurrent.CancellationException
+import javax.inject.Inject
 
 /**
  * This clas manages the Google Authentication
@@ -26,41 +28,34 @@ import java.util.concurrent.CancellationException
  *
  * @param context Application Context
  */
-class GoogleAuthClient(
-    private val context: Context
+class GoogleAuthClient @Inject constructor(
+    @ApplicationContext private val context: Context
 ) {
     private val auth = Firebase.auth
     private val emptyString = context.getString(R.string.empty_string)
     private val credentialManager = CredentialManager.create(context)
-
     private lateinit var signInResult: SignInResult
 
     /**
      * Handles the sign in
      */
     suspend fun signIn() {
-
         val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
             .setFilterByAuthorizedAccounts(true)
             .setServerClientId(firebaseClientId)
             .setNonce("")
             .build()
-
         val request: GetCredentialRequest = GetCredentialRequest.Builder()
             .addCredentialOption(googleIdOption)
             .build()
-
         coroutineScope {
             try {
                 val result = credentialManager.getCredential(
                     request = request,
                     context = context
                 )
-
                 val credential: Credential = result.credential
-
                 val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
-
                 val googleIdToken = googleIdTokenCredential.idToken
 
                 signInResult(googleIdToken)
@@ -80,7 +75,6 @@ class GoogleAuthClient(
      * @param idToken token received from credentials result.
      */
     private suspend fun signInResult(idToken: String) {
-
         val googleCredentials = GoogleAuthProvider.getCredential(idToken, null)
         try {
             val user = auth.signInWithCredential(googleCredentials).await().user
@@ -123,7 +117,6 @@ class GoogleAuthClient(
             if (exception is CancellationException) throw exception
         }
     }
-
 
     /**
      * Retrieves the data once the user is signed in

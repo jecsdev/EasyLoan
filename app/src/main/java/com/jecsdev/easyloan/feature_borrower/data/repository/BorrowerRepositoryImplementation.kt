@@ -21,10 +21,9 @@ import javax.inject.Singleton
 class BorrowerRepositoryImplementation @Inject constructor(
     firestore: FirebaseFirestore
 ) : BorrowerRepository {
-
     private val borrowerCollection = firestore.collection(borrowers)
-    override suspend fun getBorrowers(): Flow<List<Borrower>> = flow {
-        val snapshot = borrowerCollection.get().await()
+    override suspend fun getBorrowers(userId: String): Flow<List<Borrower>> = flow {
+        val snapshot = borrowerCollection.whereEqualTo("userId", userId).get().await()
         val borrowers = snapshot.documents.map { document ->
             document.toObject(Borrower::class.java)!!.copy(id = document.id)
         }

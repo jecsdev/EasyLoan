@@ -22,15 +22,13 @@ import com.jecsdev.easyloan.presentation.navigation.Destination.CreateBorrower
 import com.jecsdev.easyloan.presentation.navigation.Destination.CreateLoan
 import com.jecsdev.easyloan.presentation.navigation.Destination.Home
 import com.jecsdev.easyloan.presentation.navigation.Destination.LogIn
-import com.jecsdev.easyloan.presentation.signin.GoogleAuthClient
 import com.jecsdev.easyloan.ui.screens.borrower.BorrowersListScreen
 import com.jecsdev.easyloan.ui.screens.borrower.CreateBorrowerScreen
 import com.jecsdev.easyloan.ui.screens.home.HomeScreen
 import com.jecsdev.easyloan.ui.screens.loan.CreateLoanScreen
-import com.jecsdev.easyloan.ui.screens.login.LogInScreen
 import com.jecsdev.easyloan.ui.theme.EasyLoanTheme
+import com.jecsdev.easyloan.ui.viewmodel.AuthViewModel
 import com.jecsdev.easyloan.ui.viewmodel.BorrowerViewModel
-import com.jecsdev.easyloan.ui.viewmodel.SignInViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -41,36 +39,25 @@ import kotlinx.coroutines.launch
  */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val googleAuthUiClient by lazy {
-        GoogleAuthClient(
-            context = applicationContext
-        )
-    }
-    private val viewModel: SignInViewModel by viewModels()
+    private val viewModel: AuthViewModel by viewModels()
     private val borrowerViewModel: BorrowerViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             EasyLoanTheme {
-
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = colorResource(R.color.phantom_gray_color)
                 ) {
-
                     val navController = rememberNavController()
                     NavHost(navController = navController, startDestination = LogIn.route) {
                         composable(LogIn.route) {
-
-                            val state by viewModel.state.collectAsStateWithLifecycle()
-
-
+                            val state by viewModel.signInState.collectAsStateWithLifecycle()
                             LaunchedEffect(key1 = Unit) {
-                                if (googleAuthUiClient.getSignedUser() != null) {
+                                if (viewModel.getSignedUser() != null) {
                                     navController.navigate(Home.route)
                                 }
                             }
-
                             LaunchedEffect(key1 = state.isSuccessful) {
                                 if (state.isSuccessful) {
                                     Toast.makeText(
@@ -82,22 +69,13 @@ class MainActivity : ComponentActivity() {
                                     viewModel.resetState()
                                 }
                             }
-
-                            LogInScreen(state = state, onSignInClick = {
-                                lifecycleScope.launch {
-                                    googleAuthUiClient.signIn()
-                                    viewModel.onSignInResult(result = googleAuthUiClient.getUserSigned())
-                                }
-
-                            })
                         }
                         composable(Home.route) {
-
                             HomeScreen(
-                                userData = googleAuthUiClient.getSignedUser(),
+                                userData = viewModel.getSignedUser(),
                                 onSignOut = {
                                     lifecycleScope.launch {
-                                        googleAuthUiClient.signOut()
+                                        viewModel.signOut()
                                         Toast.makeText(
                                             applicationContext,
                                             getString(R.string.session_closed),
@@ -112,6 +90,7 @@ class MainActivity : ComponentActivity() {
                         composable(BorrowersList.route) {
                             BorrowersListScreen(
                                 viewModel = borrowerViewModel,
+                                userData = viewModel.getSignedUser(),
                                 navController = navController
                             )
                         }
@@ -122,7 +101,6 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable(CreateLoan.route) {
-
                             CreateLoanScreen(navController = navController)
                         }
                     }

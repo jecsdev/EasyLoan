@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.jecsdev.easyloan.R
+import com.jecsdev.easyloan.feature_authentication.data.model.UserData
 import com.jecsdev.easyloan.presentation.navigation.Destination
 import com.jecsdev.easyloan.ui.composables.card.BorrowerCard
 import com.jecsdev.easyloan.ui.composables.header.TitleHeader
@@ -53,7 +54,9 @@ import com.jecsdev.easyloan.ui.viewmodel.BorrowerViewModel
  */
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun BorrowersListScreen(viewModel: BorrowerViewModel, navController: NavController?) {
+fun BorrowersListScreen(viewModel: BorrowerViewModel,
+                        userData: UserData?,
+                        navController: NavController?) {
     val searchResource = stringResource(R.string.search)
     val searchValue by rememberSaveable { mutableStateOf("") }
     val state = viewModel.state.value
@@ -62,6 +65,7 @@ fun BorrowersListScreen(viewModel: BorrowerViewModel, navController: NavControll
         targetValue = if (!showShimmer.value) 0f else 10f, animationSpec = tween(2000),
         label = ""
     )
+
     var key by remember { mutableIntStateOf(0) }
     Scaffold(floatingActionButton = {
         FloatingActionButton(
@@ -144,7 +148,7 @@ fun BorrowersListScreen(viewModel: BorrowerViewModel, navController: NavControll
 @Preview(showSystemUi = true)
 fun BorrowersListScreenPreview() {
     val viewModel: BorrowerViewModel = hiltViewModel()
-    BorrowersListScreen(viewModel, null)
+    BorrowersListScreen(viewModel, null, null)
 }
 
 /**

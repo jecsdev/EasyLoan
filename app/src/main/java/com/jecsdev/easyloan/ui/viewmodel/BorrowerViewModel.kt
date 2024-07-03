@@ -37,7 +37,7 @@ class BorrowerViewModel @Inject constructor(private val borrowerUseCases: Borrow
     private fun getBorrowers() {
         getBorrowersJob?.cancel()
         getBorrowersJob = viewModelScope.launch {
-            borrowerUseCases.getBorrowers().onEach { borrowers ->
+            borrowerUseCases.getBorrowers("").onEach { borrowers ->
                 _state.value = BorrowerState.Success(borrowers)
             }.launchIn(viewModelScope)
         }
