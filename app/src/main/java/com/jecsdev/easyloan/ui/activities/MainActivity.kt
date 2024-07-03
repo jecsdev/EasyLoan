@@ -22,7 +22,6 @@ import com.jecsdev.easyloan.presentation.navigation.Destination.CreateBorrower
 import com.jecsdev.easyloan.presentation.navigation.Destination.CreateLoan
 import com.jecsdev.easyloan.presentation.navigation.Destination.Home
 import com.jecsdev.easyloan.presentation.navigation.Destination.LogIn
-import com.jecsdev.easyloan.presentation.signin.GoogleAuthClient
 import com.jecsdev.easyloan.ui.screens.borrower.BorrowersListScreen
 import com.jecsdev.easyloan.ui.screens.borrower.CreateBorrowerScreen
 import com.jecsdev.easyloan.ui.screens.home.HomeScreen
@@ -31,7 +30,6 @@ import com.jecsdev.easyloan.ui.screens.login.LogInScreen
 import com.jecsdev.easyloan.ui.theme.EasyLoanTheme
 import com.jecsdev.easyloan.ui.viewmodel.AuthViewModel
 import com.jecsdev.easyloan.ui.viewmodel.BorrowerViewModel
-import com.jecsdev.easyloan.ui.viewmodel.SignInViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -104,7 +102,6 @@ class MainActivity : ComponentActivity() {
                         composable(BorrowersList.route) {
                             BorrowersListScreen(
                                 viewModel = borrowerViewModel,
-                                userData = viewModel.getSignedUser(),
                                 navController = navController
                             )
                         }

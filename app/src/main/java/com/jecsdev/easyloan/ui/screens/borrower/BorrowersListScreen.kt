@@ -55,7 +55,6 @@ import com.jecsdev.easyloan.ui.viewmodel.BorrowerViewModel
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun BorrowersListScreen(viewModel: BorrowerViewModel,
-                        userData: UserData?,
                         navController: NavController?) {
     val searchResource = stringResource(R.string.search)
     val searchValue by rememberSaveable { mutableStateOf("") }
@@ -148,7 +147,7 @@ fun BorrowersListScreen(viewModel: BorrowerViewModel,
 @Preview(showSystemUi = true)
 fun BorrowersListScreenPreview() {
     val viewModel: BorrowerViewModel = hiltViewModel()
-    BorrowersListScreen(viewModel, null, null)
+    BorrowersListScreen(viewModel, null)
 }
 
 /**
