@@ -2,7 +2,6 @@ package com.jecsdev.easyloan.presentation.signin
 
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import androidx.credentials.Credential
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
@@ -15,6 +14,9 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.jecsdev.easyloan.R
 import com.jecsdev.easyloan.feature_authentication.data.model.UserData
+import com.jecsdev.easyloan.utils.constants.ExceptionConstants.GOOGLE_ID_TOKEN_PARSING_EXCEPTION_TAG
+import com.jecsdev.easyloan.utils.constants.ExceptionConstants.LOGIN_TAG
+import com.jecsdev.easyloan.utils.constants.ExceptionConstants.SIGN_IN_EXCEPTION_TAG
 import com.jecsdev.easyloan.utils.constants.firebaseClientId
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.coroutineScope
@@ -59,13 +61,11 @@ class GoogleAuthClient @Inject constructor(
                 val googleIdToken = googleIdTokenCredential.idToken
 
                 signInResult(googleIdToken)
-                Log.i("Login", googleIdToken)
-
-                Toast.makeText(context, "logged in", Toast.LENGTH_SHORT).show()
+                Log.i(LOGIN_TAG, googleIdToken)
             } catch (exception: GetCredentialException) {
-                Toast.makeText(context, exception.message, Toast.LENGTH_SHORT).show()
+                Log.i(SIGN_IN_EXCEPTION_TAG, exception.message.toString())
             } catch (exception: GoogleIdTokenParsingException) {
-                Toast.makeText(context, exception.message, Toast.LENGTH_SHORT).show()
+                Log.i(GOOGLE_ID_TOKEN_PARSING_EXCEPTION_TAG, exception.message.toString())
             }
         }
     }

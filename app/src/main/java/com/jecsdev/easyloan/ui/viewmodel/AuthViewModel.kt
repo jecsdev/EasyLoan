@@ -26,7 +26,7 @@ class AuthViewModel @Inject constructor(private val authRepository: AuthReposito
      * Handles the result in Sign In
      * @param result this is the Sign In Result
      */
-    fun onSignInResult(result: SignInResult){
+    private fun onSignInResult(result: SignInResult){
         _state.update {signInState->
             signInState.copy(
                 isSuccessful = result.data != null,
@@ -43,6 +43,7 @@ class AuthViewModel @Inject constructor(private val authRepository: AuthReposito
        viewModelScope.launch {
            val result = authRepository.googleSignIn()
             _authState.value = result
+           onSignInResult(result)
        }
     }
 
