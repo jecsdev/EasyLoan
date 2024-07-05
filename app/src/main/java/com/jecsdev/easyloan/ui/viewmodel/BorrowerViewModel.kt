@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.jecsdev.easyloan.feature_authentication.repository.AuthRepository
 import com.jecsdev.easyloan.feature_borrower.data.model.Borrower
 import com.jecsdev.easyloan.feature_borrower.domain.use_case.BorrowerUseCases
 import com.jecsdev.easyloan.ui.state.BorrowerState
@@ -19,25 +20,26 @@ import javax.inject.Inject
  * @param borrowerUseCases: BorrowerUseCases instance.
  */
 @HiltViewModel
-class BorrowerViewModel @Inject constructor(private val borrowerUseCases: BorrowerUseCases) :
+class BorrowerViewModel @Inject constructor(private val borrowerUseCases: BorrowerUseCases, authRepository: AuthRepository) :
     ViewModel() {
 
     private val _state = mutableStateOf<BorrowerState>(BorrowerState.Loading)
     val state: State<BorrowerState> = _state
 
     private var getBorrowersJob: Job? = null
-
+    private val userId = authRepository.getSignedInUser()?.userId
     init {
-        getBorrowers()
+        getBorrowers(userId = userId)
     }
 
     /**
      * Retrieves a list of borrowers.
      */
-    private fun getBorrowers() {
+    private fun getBorrowers
+                (userId: String?) {
         getBorrowersJob?.cancel()
         getBorrowersJob = viewModelScope.launch {
-            borrowerUseCases.getBorrowers("").onEach { borrowers ->
+            borrowerUseCases.getBorrowers(userId).onEach { borrowers ->
                 _state.value = BorrowerState.Success(borrowers)
             }.launchIn(viewModelScope)
         }
@@ -53,7 +55,7 @@ class BorrowerViewModel @Inject constructor(private val borrowerUseCases: Borrow
     suspend fun addBorrower(borrower: Borrower) {
         viewModelScope.launch {
             borrowerUseCases.addBorrower(borrower)
-            getBorrowers()
+            getBorrowers(userId)
         }
     }
 
@@ -74,4 +76,6 @@ class BorrowerViewModel @Inject constructor(private val borrowerUseCases: Borrow
             borrowerUseCases.updateBorrower(borrower)
         }
     }
+
+    fun getSignedUserId(): String? = userId
 }

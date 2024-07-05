@@ -9,5 +9,5 @@ import kotlinx.coroutines.flow.Flow
  * @param borrowerRepository: BorrowerRepositoryImplementation instance.
  * */
 class GetBorrowers (private val borrowerRepository: BorrowerRepository){
-    suspend operator fun invoke(userId: String): Flow<List<Borrower>> = borrowerRepository.getBorrowers(userId)
+    suspend operator fun invoke(userId: String?): Flow<List<Borrower>> = borrowerRepository.getBorrowers(userId)
 }

@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.credentials.Credential
 import androidx.credentials.CredentialManager
 import androidx.credentials.GetCredentialRequest
-import androidx.credentials.exceptions.GetCredentialException
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
@@ -27,7 +26,6 @@ import javax.inject.Inject
 /**
  * This clas manages the Google Authentication
  * @author John Campusano
- *
  * @param context Application Context
  */
 class GoogleAuthClient @Inject constructor(
@@ -39,11 +37,12 @@ class GoogleAuthClient @Inject constructor(
     private lateinit var signInResult: SignInResult
 
     /**
-     * Handles the sign in
+     * Handles the sign in from Google Login.
+     * @param activityContext Activity Context.
      */
-    suspend fun signIn() {
+    suspend fun signIn(activityContext: Context) {
         val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
-            .setFilterByAuthorizedAccounts(true)
+            .setFilterByAuthorizedAccounts(false)
             .setServerClientId(firebaseClientId)
             .setNonce("")
             .build()
@@ -54,7 +53,7 @@ class GoogleAuthClient @Inject constructor(
             try {
                 val result = credentialManager.getCredential(
                     request = request,
-                    context = context
+                    context = activityContext
                 )
                 val credential: Credential = result.credential
                 val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
@@ -62,10 +61,12 @@ class GoogleAuthClient @Inject constructor(
 
                 signInResult(googleIdToken)
                 Log.i(LOGIN_TAG, googleIdToken)
-            } catch (exception: GetCredentialException) {
+            } catch (exception: Exception) {
                 Log.i(SIGN_IN_EXCEPTION_TAG, exception.message.toString())
+                signInResult = SignInResult(data = null, errorMessage = exception.message)
             } catch (exception: GoogleIdTokenParsingException) {
                 Log.i(GOOGLE_ID_TOKEN_PARSING_EXCEPTION_TAG, exception.message.toString())
+                signInResult = SignInResult(data = null, errorMessage = exception.message)
             }
         }
     }

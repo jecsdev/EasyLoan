@@ -77,6 +77,7 @@ fun CreateBorrowerScreen(viewModel: BorrowerViewModel, navController: NavControl
                         viewModel = viewModel,
                         photoUri = photoUri,
                         borrower = Borrower(
+                            userId = viewModel.getSignedUserId(),
                             name = name,
                             identificationNumber = identificationNumber,
                             address = address,

@@ -78,7 +78,7 @@ class MainActivity : ComponentActivity() {
 
                             LogInScreen(state = state, onSignInClick = {
                                 lifecycleScope.launch {
-                                    viewModel.signIn()
+                                    viewModel.signIn(this@MainActivity)
                                 }
                             })
                         }

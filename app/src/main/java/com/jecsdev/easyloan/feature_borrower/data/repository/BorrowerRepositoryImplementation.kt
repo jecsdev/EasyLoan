@@ -1,8 +1,6 @@
 package com.jecsdev.easyloan.feature_borrower.data.repository
 
 import android.util.Log
-import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
 import com.jecsdev.easyloan.feature_borrower.data.model.Borrower
@@ -22,7 +20,7 @@ class BorrowerRepositoryImplementation @Inject constructor(
     firestore: FirebaseFirestore
 ) : BorrowerRepository {
     private val borrowerCollection = firestore.collection(borrowers)
-    override suspend fun getBorrowers(userId: String): Flow<List<Borrower>> = flow {
+    override suspend fun getBorrowers(userId: String?): Flow<List<Borrower>> = flow {
         val snapshot = borrowerCollection.whereEqualTo("userId", userId).get().await()
         val borrowers = snapshot.documents.map { document ->
             document.toObject(Borrower::class.java)!!.copy(id = document.id)
@@ -39,21 +37,15 @@ class BorrowerRepositoryImplementation @Inject constructor(
         emit(borrower)
     }.catch { exception ->
         Log.e(ExceptionConstants.EXCEPTION_TAG, ExceptionConstants.EXCEPTION_MESSAGE, exception)
-        val emptyBorrower = Borrower("", "","", "", "", "")
+        val emptyBorrower = Borrower("", "", "", "", "", "")
         emit(emptyBorrower)
     }
 
     override suspend fun addBorrower(borrower: Borrower) {
         try {
-            val currentUser = Firebase.auth.currentUser
-            if (currentUser != null) {
-                borrower.userId = currentUser.uid
-                val documentReference = borrowerCollection.add(borrower).await()
-                borrowerCollection.document(documentReference.id).update(id, documentReference.id)
-                    .await()
-            } else {
-                throw RuntimeException("User is not authenticated")
-            }
+            val documentReference = borrowerCollection.add(borrower).await()
+            borrowerCollection.document(documentReference.id).update(id, documentReference.id)
+                .await()
         } catch (exception: RuntimeException) {
             throw exception
         }

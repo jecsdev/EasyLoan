@@ -1,5 +1,7 @@
 package com.jecsdev.easyloan.ui.viewmodel
 
+import android.app.Activity
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jecsdev.easyloan.feature_authentication.data.model.UserData
@@ -39,9 +41,9 @@ class AuthViewModel @Inject constructor(private val authRepository: AuthReposito
         _state.update { SignInState() }
     }
 
-    fun signIn() {
+    fun signIn(context: Context) {
        viewModelScope.launch {
-           val result = authRepository.googleSignIn()
+           val result = authRepository.googleSignIn(context)
             _authState.value = result
            onSignInResult(result)
        }
