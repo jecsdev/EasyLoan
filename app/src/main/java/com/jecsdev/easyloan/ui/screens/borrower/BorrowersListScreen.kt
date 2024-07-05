@@ -20,12 +20,16 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
@@ -43,6 +47,8 @@ import com.jecsdev.easyloan.ui.composables.textfield.SearchTextField
 import com.jecsdev.easyloan.ui.state.BorrowerState
 import com.jecsdev.easyloan.ui.theme.navyBlueColor
 import com.jecsdev.easyloan.ui.viewmodel.BorrowerViewModel
+import com.jecsdev.easyloan.utils.constants.FirebaseCollectionNames.borrowers
+import kotlinx.coroutines.delay
 
 
 /**
@@ -57,13 +63,12 @@ fun BorrowersListScreen(viewModel: BorrowerViewModel,
                         navController: NavController?) {
     val searchResource = stringResource(R.string.search)
     val searchValue by rememberSaveable { mutableStateOf("") }
-    val state = viewModel.state.value
+    val state = viewModel.state.collectAsState().value
     val showShimmer = remember { mutableStateOf(true) }
     val alpha by animateFloatAsState(
         targetValue = if (!showShimmer.value) 0f else 10f, animationSpec = tween(2000),
         label = ""
     )
-
     var key by remember { mutableIntStateOf(0) }
     Scaffold(floatingActionButton = {
         FloatingActionButton(
@@ -100,14 +105,13 @@ fun BorrowersListScreen(viewModel: BorrowerViewModel,
                 }
 
                 is BorrowerState.Success -> {
-                    LaunchedEffect(state.borrowers.size) {
-                        key++
-                    }
+
                     AnimatedVisibility(
                         visible = state.borrowers.isNotEmpty(),
                         enter = fadeIn(),
                         exit = fadeOut()
                     ) {
+
                         Column() {
                             SearchTextField(
                                 searchText = searchValue,
@@ -132,6 +136,7 @@ fun BorrowersListScreen(viewModel: BorrowerViewModel,
                 is BorrowerState.Editing -> TODO()
                 BorrowerState.Empty -> TODO()
                 is BorrowerState.ReadyToSave -> TODO()
+                is BorrowerState.Error -> TODO()
             }
 
         }

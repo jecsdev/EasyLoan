@@ -1,7 +1,5 @@
 package com.jecsdev.easyloan.ui.viewmodel
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jecsdev.easyloan.feature_authentication.repository.AuthRepository
@@ -10,8 +8,9 @@ import com.jecsdev.easyloan.feature_borrower.domain.use_case.BorrowerUseCases
 import com.jecsdev.easyloan.ui.state.BorrowerState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,14 +19,18 @@ import javax.inject.Inject
  * @param borrowerUseCases: BorrowerUseCases instance.
  */
 @HiltViewModel
-class BorrowerViewModel @Inject constructor(private val borrowerUseCases: BorrowerUseCases, authRepository: AuthRepository) :
+class BorrowerViewModel @Inject constructor(
+    private val borrowerUseCases: BorrowerUseCases,
+    private val authRepository: AuthRepository
+) :
     ViewModel() {
 
-    private val _state = mutableStateOf<BorrowerState>(BorrowerState.Loading)
-    val state: State<BorrowerState> = _state
+    private val _state = MutableStateFlow<BorrowerState>(BorrowerState.Loading)
+    val state: StateFlow<BorrowerState> = _state.asStateFlow()
 
     private var getBorrowersJob: Job? = null
     private val userId = authRepository.getSignedInUser()?.userId
+
     init {
         getBorrowers(userId = userId)
     }
@@ -35,15 +38,19 @@ class BorrowerViewModel @Inject constructor(private val borrowerUseCases: Borrow
     /**
      * Retrieves a list of borrowers.
      */
-    private fun getBorrowers
-                (userId: String?) {
+    private fun getBorrowers(userId: String?) {
         getBorrowersJob?.cancel()
         getBorrowersJob = viewModelScope.launch {
-            borrowerUseCases.getBorrowers(userId).onEach { borrowers ->
-                _state.value = BorrowerState.Success(borrowers)
-            }.launchIn(viewModelScope)
+            try {
+                borrowerUseCases.getBorrowers(userId).collect { borrowers ->
+                    _state.value = BorrowerState.Success(borrowers)
+                }
+            } catch (exception: Exception) {
+                _state.value = BorrowerState.Error(exception.message.toString())
+            }
         }
     }
+
     /*
      * Retrieves a borrower from the repository.
      */

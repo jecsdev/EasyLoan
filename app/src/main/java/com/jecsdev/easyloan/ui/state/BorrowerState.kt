@@ -12,7 +12,7 @@ sealed class BorrowerState {
         val identificationNumber: String,
         val address: String
     ) : BorrowerState()
-
+    data class Error(val message: String): BorrowerState()
     data class ReadyToSave(
         val borrower: Borrower
     ) : BorrowerState()

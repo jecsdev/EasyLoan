@@ -1,6 +1,5 @@
 package com.jecsdev.easyloan.ui.viewmodel
 
-import android.app.Activity
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,7 +18,6 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthViewModel @Inject constructor(private val authRepository: AuthRepository) : ViewModel(){
     private val _authState = MutableStateFlow<SignInResult?>(null)
-    val authState: StateFlow<SignInResult?> = _authState
 
     private val _state = MutableStateFlow(SignInState())
     val signInState = _state.asStateFlow()
