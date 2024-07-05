@@ -1,14 +1,11 @@
 package com.jecsdev.easyloan.feature_authentication.data.repository
 
-import android.app.Activity
 import android.content.Context
 import com.jecsdev.easyloan.feature_authentication.data.model.UserData
 import com.jecsdev.easyloan.feature_authentication.repository.AuthRepository
 import com.jecsdev.easyloan.presentation.signin.GoogleAuthClient
 import com.jecsdev.easyloan.presentation.signin.SignInResult
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
