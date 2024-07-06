@@ -112,7 +112,6 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable(CreateLoan.route) {
-
                             CreateLoanScreen(navController = navController)
                         }
                     }

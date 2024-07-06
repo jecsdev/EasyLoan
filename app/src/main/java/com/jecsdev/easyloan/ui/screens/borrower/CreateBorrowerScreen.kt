@@ -1,6 +1,7 @@
 package com.jecsdev.easyloan.ui.screens.borrower
 
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -20,6 +21,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -40,10 +42,14 @@ import com.google.firebase.storage.StorageReference
 import com.jecsdev.easyloan.R
 import com.jecsdev.easyloan.feature_borrower.data.model.Borrower
 import com.jecsdev.easyloan.presentation.uihelpers.InputType
+import com.jecsdev.easyloan.ui.composables.dialog.InfoDialog
+import com.jecsdev.easyloan.ui.composables.dialog.MessageDialog
 import com.jecsdev.easyloan.ui.composables.header.TitleHeader
 import com.jecsdev.easyloan.ui.composables.textfield.SimpleTextField
+import com.jecsdev.easyloan.ui.state.BorrowerState
 import com.jecsdev.easyloan.ui.theme.navyBlueColor
 import com.jecsdev.easyloan.ui.viewmodel.BorrowerViewModel
+import com.jecsdev.easyloan.utils.constants.ExceptionConstants.EXCEPTION_TAG
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.util.UUID
@@ -69,21 +75,31 @@ fun CreateBorrowerScreen(viewModel: BorrowerViewModel, navController: NavControl
     val photoPicketLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = { uri -> photoUri = uri })
+    var showErrorDialog by remember { mutableStateOf(false) }
+    var showInfoDialog by remember { mutableStateOf(false) }
     Scaffold(floatingActionButton = {
         FloatingActionButton(
             onClick = {
-                coroutineScope.launch {
-                    saveBorrower(
-                        viewModel = viewModel,
-                        photoUri = photoUri,
-                        borrower = Borrower(
-                            userId = viewModel.getSignedUserId(),
-                            name = name,
-                            identificationNumber = identificationNumber,
-                            address = address,
-                            photo = photoUri.toString()
-                        ), navController = navController
-                    )
+                if (validateInputs(name, identificationNumber, address)) {
+                    showInfoDialog = true
+                    coroutineScope.launch {
+                        saveBorrower(
+                            viewModel = viewModel,
+                            photoUri = photoUri,
+                            borrowerState = BorrowerState.ReadyToSave(
+                                Borrower(
+                                    userId = viewModel.getSignedUserId(),
+                                    name = name,
+                                    identificationNumber = identificationNumber,
+                                    address = address,
+                                    photo = photoUri.toString()
+                                )
+                            ),
+                            navController = navController
+                        )
+                    }
+                } else {
+                    showErrorDialog = true
                 }
             },
             containerColor = navyBlueColor,
@@ -154,7 +170,27 @@ fun CreateBorrowerScreen(viewModel: BorrowerViewModel, navController: NavControl
             }
         }
     }
+    if (showErrorDialog) {
+        MessageDialog(
+            dialogTitle = stringResource(R.string.error_saving_borrower),
+            dialogMessage = stringResource(R.string.all_field_must_be_fulfilled),
+            shouldShowConfirmButton = true,
+            shouldShowCancelButton = false,
+            onCancelButtonClicked = { showErrorDialog = false },
+            onConfirmButtonClicked = { showErrorDialog = false }
+        )
+    }
+
+    if (showInfoDialog) {
+        InfoDialog(
+            dialogTitle = stringResource(R.string.processing),
+            dialogMessage = stringResource(R.string.saving_borrower_info),
+            onDismissRequest = { showInfoDialog = false }
+        )
+
+    }
 }
+
 
 /**
  * Create borrower Screen preview.
@@ -172,15 +208,19 @@ fun CreateBorrowerScreenPreview() {
 suspend fun saveBorrower(
     viewModel: BorrowerViewModel,
     photoUri: Uri?,
-    borrower: Borrower,
+    borrowerState: BorrowerState.ReadyToSave,
     navController: NavController?
 ) {
     viewModel.viewModelScope.launch {
-        val photoUrl = photoUri?.let { uploadPhotoToStorage(it) }
-        photoUrl?.let { borrower.photo = it }
+        try {
+            val photoUrl = photoUri?.let { uploadPhotoToStorage(it) }
+            val borrower = borrowerState.borrower.copy(photo = photoUrl.toString())
 
-        viewModel.addBorrower(borrower)
-        navController?.navigateUp()
+            viewModel.addBorrower(borrower)
+            navController?.navigateUp()
+        } catch (exception: Exception) {
+            Log.e(EXCEPTION_TAG, exception.message.toString())
+        }
     }
 
 }
@@ -195,4 +235,8 @@ suspend fun uploadPhotoToStorage(photoUri: Uri): String? {
         e.printStackTrace()
         null
     }
+}
+
+fun validateInputs(name: String, identificationNumber: String, address: String): Boolean {
+    return name.isNotEmpty() && identificationNumber.isNotEmpty() && address.isNotEmpty()
 }

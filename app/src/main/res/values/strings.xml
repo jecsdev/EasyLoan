@@ -58,4 +58,11 @@
     <string name="loan_start_date">Fecha inicio</string>
     <string name="loan_end_date">Fecha fin</string>
     <string name="create">Crear</string>
+    <string name="cancel">Cancelar</string>
+    <string name="accept">Aceptar</string>
+    <string name="error_saving_borrower">Error guardando su prestatario.</string>
+    <string name="all_field_must_be_fulfilled">Todos los campos son requeridos.</string>
+    <string name="processing">Procesando…</string>
+    <string name="saving_borrower_info">Guardando información del prestatario.</string>
+
 </resources>

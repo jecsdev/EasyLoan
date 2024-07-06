@@ -19,10 +19,9 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -44,8 +43,6 @@ import com.jecsdev.easyloan.ui.composables.textfield.SearchTextField
 import com.jecsdev.easyloan.ui.state.BorrowerState
 import com.jecsdev.easyloan.ui.theme.navyBlueColor
 import com.jecsdev.easyloan.ui.viewmodel.BorrowerViewModel
-import com.jecsdev.easyloan.utils.constants.FirebaseCollectionNames.borrowers
-import kotlinx.coroutines.delay
 
 
 /**
@@ -56,8 +53,10 @@ import kotlinx.coroutines.delay
  */
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun BorrowersListScreen(viewModel: BorrowerViewModel,
-                        navController: NavController?) {
+fun BorrowersListScreen(
+    viewModel: BorrowerViewModel,
+    navController: NavController?
+) {
     val searchResource = stringResource(R.string.search)
     val searchValue by rememberSaveable { mutableStateOf("") }
     val state = viewModel.state.collectAsState().value
@@ -66,7 +65,6 @@ fun BorrowersListScreen(viewModel: BorrowerViewModel,
         targetValue = if (!showShimmer.value) 0f else 10f, animationSpec = tween(2000),
         label = ""
     )
-    var key by remember { mutableIntStateOf(0) }
     Scaffold(floatingActionButton = {
         FloatingActionButton(
             onClick = { navigateToCreateBorrowerScreen(navController) },
@@ -102,13 +100,11 @@ fun BorrowersListScreen(viewModel: BorrowerViewModel,
                 }
 
                 is BorrowerState.Success -> {
-
                     AnimatedVisibility(
                         visible = state.borrowers.isNotEmpty(),
                         enter = fadeIn(),
                         exit = fadeOut()
                     ) {
-
                         Column() {
                             SearchTextField(
                                 searchText = searchValue,
@@ -119,11 +115,22 @@ fun BorrowersListScreen(viewModel: BorrowerViewModel,
                             Spacer(modifier = Modifier.height(16.dp))
                             LazyColumn {
                                 items(state.borrowers) { borrower ->
-                                    BorrowerCard(
-                                        borrower, false, modifier = Modifier
-                                            .animateEnterExit()
-                                            .alpha(alpha)
-                                    )
+                                    var isAnimated by remember{ mutableStateOf(false) }
+                                    LaunchedEffect(isAnimated){
+                                        isAnimated = true
+                                    }
+                                    AnimatedVisibility(
+                                        visible = isAnimated,
+                                        enter = fadeIn(),
+                                        exit = fadeOut()
+                                    ) {
+                                        BorrowerCard(
+                                            borrower, false, modifier = Modifier
+                                                .animateEnterExit()
+                                                .alpha(alpha)
+                                        )
+                                    }
+                                    Spacer(modifier = Modifier.height(8.dp))
                                 }
                             }
                         }
