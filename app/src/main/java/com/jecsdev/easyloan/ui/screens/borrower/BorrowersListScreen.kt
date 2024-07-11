@@ -24,6 +24,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -43,6 +44,7 @@ import com.jecsdev.easyloan.ui.composables.textfield.SearchTextField
 import com.jecsdev.easyloan.ui.state.BorrowerState
 import com.jecsdev.easyloan.ui.theme.navyBlueColor
 import com.jecsdev.easyloan.ui.viewmodel.BorrowerViewModel
+import kotlinx.coroutines.launch
 
 
 /**
@@ -65,6 +67,7 @@ fun BorrowersListScreen(
         targetValue = if (!showShimmer.value) 0f else 10f, animationSpec = tween(2000),
         label = ""
     )
+    val coroutineScope = rememberCoroutineScope()
     Scaffold(floatingActionButton = {
         FloatingActionButton(
             onClick = { navigateToCreateBorrowerScreen(navController) },
@@ -94,7 +97,11 @@ fun BorrowersListScreen(
                 is BorrowerState.Loading -> {
                     LazyColumn {
                         items(8) {
-                            BorrowerCard(null, showShimmer = showShimmer.value, modifier = Modifier)
+                            BorrowerCard(
+                                null,
+                                showShimmer = showShimmer.value, modifier = Modifier,
+                                onDelete = {}
+                            )
                         }
                     }
                 }
@@ -115,8 +122,8 @@ fun BorrowersListScreen(
                             Spacer(modifier = Modifier.height(16.dp))
                             LazyColumn {
                                 items(state.borrowers) { borrower ->
-                                    var isAnimated by remember{ mutableStateOf(false) }
-                                    LaunchedEffect(isAnimated){
+                                    var isAnimated by remember { mutableStateOf(false) }
+                                    LaunchedEffect(isAnimated) {
                                         isAnimated = true
                                     }
                                     AnimatedVisibility(
@@ -124,12 +131,17 @@ fun BorrowersListScreen(
                                         enter = fadeIn(),
                                         exit = fadeOut()
                                     ) {
-                                        BorrowerCard(
-                                            borrower, false, modifier = Modifier
-                                                .animateEnterExit()
-                                                .alpha(alpha)
-                                        )
                                     }
+                                    BorrowerCard(
+                                        borrower = borrower, showShimmer = false,
+                                        modifier = Modifier
+                                            .animateEnterExit()
+                                            .alpha(alpha),
+                                        onDelete = {
+                                            coroutineScope.launch {
+                                                viewModel.deleteBorrower(borrower)
+                                            }
+                                        })
                                     Spacer(modifier = Modifier.height(8.dp))
                                 }
                             }
