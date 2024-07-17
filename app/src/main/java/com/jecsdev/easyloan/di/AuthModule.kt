@@ -2,8 +2,6 @@ package com.jecsdev.easyloan.di
 
 import android.content.Context
 import com.google.firebase.auth.FirebaseAuth
-import com.jecsdev.easyloan.feature_authentication.data.repository.AuthRepositoryImplementation
-import com.jecsdev.easyloan.feature_authentication.repository.AuthRepository
 import com.jecsdev.easyloan.presentation.signin.GoogleAuthClient
 import dagger.Module
 import dagger.Provides
@@ -29,10 +27,6 @@ object AuthModule {
         return GoogleAuthClient(context)
     }
 
-    @Provides
-    @Singleton
-    fun providesAuthRepositoryImplementation(googleAuthClient: GoogleAuthClient): AuthRepository {
-        return AuthRepositoryImplementation(googleAuthClient)
-    }
+
 
 }

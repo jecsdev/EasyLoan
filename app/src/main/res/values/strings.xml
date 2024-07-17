@@ -64,5 +64,7 @@
     <string name="all_field_must_be_fulfilled">Todos los campos son requeridos.</string>
     <string name="processing">Procesando…</string>
     <string name="saving_borrower_info">Guardando información del prestatario.</string>
+    <string name="delete_borrower">Eliminar prestatario</string>
+    <string name="delete_borrower_confirm_message">¿Está seguro de eliminar el prestatario?</string>
 
 </resources>

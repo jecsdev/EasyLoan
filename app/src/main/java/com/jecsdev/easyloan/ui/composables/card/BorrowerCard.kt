@@ -26,11 +26,16 @@ import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,9 +44,11 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.jecsdev.easyloan.R
 import com.jecsdev.easyloan.feature_borrower.data.model.Borrower
+import com.jecsdev.easyloan.ui.composables.dialog.MessageDialog
 import com.jecsdev.easyloan.ui.composables.shimmer.shimmer
 import com.jecsdev.easyloan.ui.composables.text.CustomText
 import com.jecsdev.easyloan.ui.theme.lightGrayColor
+import kotlinx.coroutines.launch
 
 /**
  * Borrower's information card.
@@ -54,19 +61,21 @@ fun BorrowerCard(
     modifier: Modifier = Modifier,
     onDelete: () -> Unit
 ) {
-
+    val context = LocalContext.current
+    var showDialog by remember { mutableStateOf(false) }
     val dismissState = rememberSwipeToDismissBoxState(
         initialValue = SwipeToDismissBoxValue.Settled,
         confirmValueChange = { swipeToDismissBoxValue: SwipeToDismissBoxValue ->
             if (swipeToDismissBoxValue == SwipeToDismissBoxValue.EndToStart) {
-                onDelete()
+                showDialog = true
                 true
             } else {
+                
                 false
             }
         }
     )
-
+    val coroutineScope = rememberCoroutineScope()
     SwipeToDismissBox(
         state = dismissState,
         backgroundContent = {
@@ -157,6 +166,21 @@ fun BorrowerCard(
                 }
             }
         }
+    }
+
+    if (showDialog) {
+        MessageDialog(dialogTitle = context.getString(R.string.delete_borrower),
+            dialogMessage = context.getString(R.string.delete_borrower_confirm_message),
+            shouldShowConfirmButton = true,
+            shouldShowCancelButton = true,
+            onConfirmButtonClicked = { onDelete() },
+            onCancelButtonClicked = {
+                showDialog = false
+                coroutineScope.launch {
+                    dismissState.reset()
+                }
+            }
+        )
     }
 }
 

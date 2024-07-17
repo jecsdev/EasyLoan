@@ -21,7 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class BorrowerViewModel @Inject constructor(
     private val borrowerUseCases: BorrowerUseCases,
-    private val authRepository: AuthRepository
+    authRepository: AuthRepository
 ) :
     ViewModel() {
 
