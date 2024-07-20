@@ -30,6 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -40,6 +41,7 @@ import com.jecsdev.easyloan.R
 import com.jecsdev.easyloan.presentation.navigation.Destination
 import com.jecsdev.easyloan.ui.composables.card.BorrowerCard
 import com.jecsdev.easyloan.ui.composables.header.TitleHeader
+import com.jecsdev.easyloan.ui.composables.swipetodismiss.CustomSwipeToDismissBox
 import com.jecsdev.easyloan.ui.composables.textfield.SearchTextField
 import com.jecsdev.easyloan.ui.state.BorrowerState
 import com.jecsdev.easyloan.ui.theme.navyBlueColor
@@ -100,7 +102,6 @@ fun BorrowersListScreen(
                             BorrowerCard(
                                 null,
                                 showShimmer = showShimmer.value, modifier = Modifier,
-                                onDelete = {}
                             )
                         }
                     }
@@ -112,7 +113,7 @@ fun BorrowersListScreen(
                         enter = fadeIn(),
                         exit = fadeOut()
                     ) {
-                        Column() {
+                        Column {
                             SearchTextField(
                                 searchText = searchValue,
                                 labelString = searchResource,
@@ -132,16 +133,24 @@ fun BorrowersListScreen(
                                         exit = fadeOut()
                                     ) {
                                     }
-                                    BorrowerCard(
-                                        borrower = borrower, showShimmer = false,
-                                        modifier = Modifier
-                                            .animateEnterExit()
-                                            .alpha(alpha),
+                                    CustomSwipeToDismissBox(
+                                        context = LocalContext.current,
+                                        onEdit = { coroutineScope.launch {
+                                            viewModel.updateBorrower(borrower)
+                                        } },
                                         onDelete = {
-                                            coroutineScope.launch {
-                                                viewModel.deleteBorrower(borrower)
-                                            }
-                                        })
+                                           coroutineScope.launch {
+                                               viewModel.deleteBorrower(borrower)
+                                           }
+                                        }) {
+                                        BorrowerCard(
+                                            borrower = borrower, showShimmer = false,
+                                            modifier = Modifier
+                                                .animateEnterExit()
+                                                .alpha(alpha)
+                                        )
+                                    }
+
                                     Spacer(modifier = Modifier.height(8.dp))
                                 }
                             }
