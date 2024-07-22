@@ -7,10 +7,12 @@ import com.jecsdev.easyloan.feature_borrower.data.model.Borrower
 import com.jecsdev.easyloan.feature_borrower.domain.use_case.BorrowerUseCases
 import com.jecsdev.easyloan.ui.state.BorrowerState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -42,7 +44,7 @@ class BorrowerViewModel @Inject constructor(
         getBorrowersJob?.cancel()
         getBorrowersJob = viewModelScope.launch {
             try {
-                borrowerUseCases.getBorrowers(userId).collect { borrowers ->
+                borrowerUseCases.getBorrowers(userId).flowOn(Dispatchers.IO).collect{ borrowers ->
                     _state.value = BorrowerState.Success(borrowers)
                 }
             } catch (exception: Exception) {
