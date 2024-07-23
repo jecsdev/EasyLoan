@@ -17,11 +17,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.jecsdev.easyloan.R
-import com.jecsdev.easyloan.presentation.navigation.Destination.BorrowersList
-import com.jecsdev.easyloan.presentation.navigation.Destination.CreateBorrower
-import com.jecsdev.easyloan.presentation.navigation.Destination.CreateLoan
-import com.jecsdev.easyloan.presentation.navigation.Destination.Home
-import com.jecsdev.easyloan.presentation.navigation.Destination.LogIn
+import com.jecsdev.easyloan.presentation.navigation.Destination.*
+import com.jecsdev.easyloan.ui.screens.borrower.BorrowerDetails
 import com.jecsdev.easyloan.ui.screens.borrower.BorrowersListScreen
 import com.jecsdev.easyloan.ui.screens.borrower.CreateBorrowerScreen
 import com.jecsdev.easyloan.ui.screens.home.HomeScreen
@@ -47,12 +44,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             EasyLoanTheme {
-
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = colorResource(R.color.phantom_gray_color)
                 ) {
-
                     val navController = rememberNavController()
                     NavHost(navController = navController, startDestination = LogIn.route) {
                         composable(LogIn.route) {
@@ -113,6 +108,9 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(CreateLoan.route) {
                             CreateLoanScreen(navController = navController)
+                        }
+                        composable(BorrowerDetails.route){
+                            BorrowerDetails(navController = navController)
                         }
                     }
                 }
