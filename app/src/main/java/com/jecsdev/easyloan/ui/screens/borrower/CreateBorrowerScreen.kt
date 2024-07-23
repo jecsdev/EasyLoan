@@ -33,8 +33,6 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.google.firebase.storage.FirebaseStorage
@@ -50,6 +48,8 @@ import com.jecsdev.easyloan.ui.state.BorrowerState
 import com.jecsdev.easyloan.ui.theme.navyBlueColor
 import com.jecsdev.easyloan.ui.viewmodel.BorrowerViewModel
 import com.jecsdev.easyloan.utils.constants.ExceptionConstants.EXCEPTION_TAG
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.util.UUID
@@ -59,6 +59,27 @@ import java.util.UUID
  */
 @Composable
 fun CreateBorrowerScreen(viewModel: BorrowerViewModel, navController: NavController?) {
+    val coroutineScope = rememberCoroutineScope()
+    val userId = viewModel.getSignedUserId() ?: ""
+    CreateBorrowerScreenContent(
+        userId = userId,
+        scope = coroutineScope,
+        onAddBorrower = { borrower ->
+            coroutineScope.launch(Dispatchers.IO) {
+                viewModel.addBorrower(borrower = borrower)
+            }
+        },
+        navController = navController
+    )
+}
+
+@Composable
+fun CreateBorrowerScreenContent(
+    userId: String,
+    scope: CoroutineScope,
+    onAddBorrower: (Borrower) -> Unit,
+    navController: NavController?
+) {
     var name by rememberSaveable {
         mutableStateOf("")
     }
@@ -71,7 +92,6 @@ fun CreateBorrowerScreen(viewModel: BorrowerViewModel, navController: NavControl
     var photoUri by rememberSaveable {
         mutableStateOf<Uri?>(null)
     }
-    val coroutineScope = rememberCoroutineScope()
     val photoPicketLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = { uri -> photoUri = uri })
@@ -82,13 +102,14 @@ fun CreateBorrowerScreen(viewModel: BorrowerViewModel, navController: NavControl
             onClick = {
                 if (validateInputs(name, identificationNumber, address)) {
                     showInfoDialog = true
-                    coroutineScope.launch {
+                    scope.launch(Dispatchers.IO) {
                         saveBorrower(
-                            viewModel = viewModel,
+                            scope = scope,
+                            onAddBorrower = onAddBorrower,
                             photoUri = photoUri,
                             borrowerState = BorrowerState.ReadyToSave(
                                 Borrower(
-                                    userId = viewModel.getSignedUserId(),
+                                    userId = userId,
                                     name = name,
                                     identificationNumber = identificationNumber,
                                     address = address,
@@ -155,7 +176,7 @@ fun CreateBorrowerScreen(viewModel: BorrowerViewModel, navController: NavControl
                     labelValue = stringResource(id = R.string.identification_number),
                     onValueChange = { value -> identificationNumber = value },
                     isSingleLine = true,
-                    inputType = InputType.TEXT,
+                    inputType = InputType.NUMBER,
                     modifier = Modifier
                 )
                 Spacer(modifier = Modifier.height(12.dp))
@@ -191,32 +212,38 @@ fun CreateBorrowerScreen(viewModel: BorrowerViewModel, navController: NavControl
     }
 }
 
-
 /**
  * Create borrower Screen preview.
  */
 @Composable
 @Preview(showSystemUi = true)
 fun CreateBorrowerScreenPreview() {
-    val viewModel: BorrowerViewModel = hiltViewModel()
-    CreateBorrowerScreen(viewModel = viewModel, navController = null)
+    val coroutineScope = rememberCoroutineScope()
+    CreateBorrowerScreenContent(
+        userId = "",
+        scope = coroutineScope,
+        onAddBorrower = {},
+        navController = null
+    )
 }
 
 /**
  * Stores the current borrower in database.
  */
 suspend fun saveBorrower(
-    viewModel: BorrowerViewModel,
+    scope: CoroutineScope,
+    onAddBorrower: (Borrower) -> Unit,
     photoUri: Uri?,
     borrowerState: BorrowerState.ReadyToSave,
     navController: NavController?
 ) {
-    viewModel.viewModelScope.launch {
+
+    scope.launch {
         try {
             val photoUrl = photoUri?.let { uploadPhotoToStorage(it) }
             val borrower = borrowerState.borrower.copy(photo = photoUrl.toString())
 
-            viewModel.addBorrower(borrower)
+            onAddBorrower(borrower)
             navController?.navigateUp()
         } catch (exception: Exception) {
             Log.e(EXCEPTION_TAG, exception.message.toString())

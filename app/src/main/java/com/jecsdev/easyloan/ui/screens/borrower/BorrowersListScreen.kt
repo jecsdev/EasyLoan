@@ -35,9 +35,9 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.jecsdev.easyloan.R
+import com.jecsdev.easyloan.feature_borrower.data.model.Borrower
 import com.jecsdev.easyloan.presentation.navigation.Destination
 import com.jecsdev.easyloan.ui.composables.card.BorrowerCard
 import com.jecsdev.easyloan.ui.composables.header.TitleHeader
@@ -46,6 +46,7 @@ import com.jecsdev.easyloan.ui.composables.textfield.SearchTextField
 import com.jecsdev.easyloan.ui.state.BorrowerState
 import com.jecsdev.easyloan.ui.theme.navyBlueColor
 import com.jecsdev.easyloan.ui.viewmodel.BorrowerViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
@@ -55,15 +56,29 @@ import kotlinx.coroutines.launch
  * @param navController Navigation controller which handles this transaction.
  * @author John Campusano.
  */
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun BorrowersListScreen(
     viewModel: BorrowerViewModel,
     navController: NavController?
 ) {
+    val state = viewModel.state.collectAsState().value
+    val coroutineScope = rememberCoroutineScope()
+    BorrowersListContent(state = state,
+        navController = navController,
+        onDeleteData = { borrower ->  coroutineScope.launch(Dispatchers.IO) {viewModel.deleteBorrower(borrower)}},
+        onEditData = { borrower ->  coroutineScope.launch(Dispatchers.IO) {viewModel.updateBorrower(borrower)}})
+}
+
+@OptIn(ExperimentalAnimationApi::class)
+@Composable
+fun BorrowersListContent(
+    state: BorrowerState,
+    navController: NavController?,
+    onDeleteData: (Borrower) -> Unit,
+    onEditData: (Borrower) -> Unit
+) {
     val searchResource = stringResource(R.string.search)
     val searchValue by rememberSaveable { mutableStateOf("") }
-    val state = viewModel.state.collectAsState().value
     val showShimmer = remember { mutableStateOf(true) }
     val alpha by animateFloatAsState(
         targetValue = if (!showShimmer.value) 0f else 10f, animationSpec = tween(2000),
@@ -135,13 +150,15 @@ fun BorrowersListScreen(
                                     }
                                     CustomSwipeToDismissBox(
                                         context = LocalContext.current,
-                                        onEdit = { coroutineScope.launch {
-                                            viewModel.updateBorrower(borrower)
-                                        } },
+                                        onEdit = {
+                                            coroutineScope.launch {
+                                                onEditData(borrower)
+                                            }
+                                        },
                                         onDelete = {
-                                           coroutineScope.launch {
-                                               viewModel.deleteBorrower(borrower)
-                                           }
+                                            coroutineScope.launch {
+                                                onDeleteData(borrower)
+                                            }
                                         }) {
                                         BorrowerCard(
                                             borrower = borrower, showShimmer = false,
@@ -168,15 +185,18 @@ fun BorrowersListScreen(
     }
 }
 
-
 /**
  * Borrowers list Screen preview.
  */
 @Composable
 @Preview(showSystemUi = true)
 fun BorrowersListScreenPreview() {
-    val viewModel: BorrowerViewModel = hiltViewModel()
-    BorrowersListScreen(viewModel, null)
+    BorrowersListContent(
+        state = BorrowerState.Loading,
+        navController = null,
+        onEditData = {},
+        onDeleteData = {}
+    )
 }
 
 /**
