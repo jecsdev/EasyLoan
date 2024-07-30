@@ -6,6 +6,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -65,8 +66,20 @@ fun BorrowersListScreen(
     val coroutineScope = rememberCoroutineScope()
     BorrowersListContent(state = state,
         navController = navController,
-        onDeleteData = { borrower ->  coroutineScope.launch(Dispatchers.IO) {viewModel.deleteBorrower(borrower)}},
-        onEditData = { borrower ->  coroutineScope.launch(Dispatchers.IO) {viewModel.updateBorrower(borrower)}})
+        onDeleteData = { borrower ->
+            coroutineScope.launch(Dispatchers.IO) {
+                viewModel.deleteBorrower(
+                    borrower
+                )
+            }
+        },
+        onEditData = { borrower ->
+            coroutineScope.launch(Dispatchers.IO) {
+                viewModel.updateBorrower(
+                    borrower
+                )
+            }
+        })
 }
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -161,10 +174,17 @@ fun BorrowersListContent(
                                             }
                                         }) {
                                         BorrowerCard(
-                                            borrower = borrower, showShimmer = false,
+                                            borrower = borrower,
+                                            showShimmer = false,
                                             modifier = Modifier
                                                 .animateEnterExit()
                                                 .alpha(alpha)
+                                                .clickable {
+                                                    navigateToDetail(
+                                                        navController = navController,
+                                                        borrower = borrower
+                                                    )
+                                                }
                                         )
                                     }
 
@@ -205,4 +225,8 @@ fun BorrowersListScreenPreview() {
  */
 fun navigateToCreateBorrowerScreen(navController: NavController?) {
     navController?.navigate(Destination.CreateBorrower.route)
+}
+
+fun navigateToDetail(navController: NavController?, borrower: Borrower) {
+    navController?.navigate(Destination.BorrowerDetails.route + "/{${borrower.id}}")
 }

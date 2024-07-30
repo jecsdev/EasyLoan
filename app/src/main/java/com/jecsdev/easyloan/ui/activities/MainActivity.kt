@@ -1,6 +1,6 @@
 package com.jecsdev.easyloan.ui.activities
 
-import android.os.Bundle
+import  android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,9 +13,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.jecsdev.easyloan.R
 import com.jecsdev.easyloan.presentation.navigation.Destination.*
 import com.jecsdev.easyloan.ui.screens.borrower.BorrowerDetails
@@ -37,7 +39,6 @@ import kotlinx.coroutines.launch
  */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
     private val viewModel: AuthViewModel by viewModels()
     private val borrowerViewModel: BorrowerViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -109,8 +110,15 @@ class MainActivity : ComponentActivity() {
                         composable(CreateLoan.route) {
                             CreateLoanScreen(navController = navController)
                         }
-                        composable(BorrowerDetails.route){
-                            BorrowerDetails(navController = navController)
+                        composable(route = BorrowerDetails.route + "/{borrowerId}",
+                            arguments = listOf(navArgument("borrowerId") {
+                                type = NavType.IntType
+                            })){ backStackEntry ->
+                            val borrowerId = backStackEntry.arguments?.getString("borrowerId")
+                            BorrowerDetails(
+                                viewModel = borrowerViewModel,
+                                navController = navController,
+                                borrowerId = borrowerId)
                         }
                     }
                 }

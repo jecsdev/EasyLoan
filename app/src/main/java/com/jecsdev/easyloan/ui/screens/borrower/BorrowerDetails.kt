@@ -9,6 +9,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -18,12 +21,30 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.jecsdev.easyloan.R
+import com.jecsdev.easyloan.feature_borrower.data.model.Borrower
+
 import com.jecsdev.easyloan.ui.composables.header.TitleHeader
+import com.jecsdev.easyloan.ui.viewmodel.BorrowerViewModel
 
 @Composable
 fun BorrowerDetails(
-    navController: NavController?
+    viewModel: BorrowerViewModel?,
+    navController: NavController?,
+    borrowerId: String?
 ) {
+    val borrower = viewModel?.borrowerState?.collectAsState()?.value
+    val id = borrowerId ?: ""
+    LaunchedEffect(Unit) {
+        viewModel?.getBorrower(id)
+    }
+
+    if (borrower != null) {
+        BorrowerDetailsContent(borrower = borrower, navController = navController)
+    }
+}
+
+@Composable
+fun BorrowerDetailsContent(borrower: Borrower, navController: NavController?){
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -46,15 +67,15 @@ fun BorrowerDetails(
         )
         Spacer(modifier = Modifier.height(12.dp))
         Text(
-            text = ""
+            text = borrower.name
         )
         Spacer(modifier = Modifier.height(12.dp))
         Text(
-            text = ""
+            text = borrower.identificationNumber
         )
         Spacer(modifier = Modifier.height(12.dp))
         Text(
-            text = ""
+            text = borrower.address
         )
     }
 }
@@ -62,5 +83,12 @@ fun BorrowerDetails(
 @Preview(showSystemUi = true)
 @Composable
 fun BorrowerDetailsPreview() {
-    BorrowerDetails(null)
+    val borrower = Borrower(
+        "0000",
+        "000000",
+        "John Doe",
+        "000000000",
+        "address",
+        "profile pic")
+    BorrowerDetailsContent(borrower = borrower, navController = null)
 }
