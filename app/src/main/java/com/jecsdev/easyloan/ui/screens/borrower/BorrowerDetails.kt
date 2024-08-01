@@ -18,12 +18,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.jecsdev.easyloan.R
 import com.jecsdev.easyloan.feature_borrower.data.model.Borrower
-
 import com.jecsdev.easyloan.ui.composables.header.TitleHeader
 import com.jecsdev.easyloan.ui.viewmodel.BorrowerViewModel
+import com.jecsdev.easyloan.utils.formatters.StringFormatter
 
 @Composable
 fun BorrowerDetails(
@@ -32,7 +33,7 @@ fun BorrowerDetails(
     borrowerId: String?
 ) {
     val borrower = viewModel?.borrowerState?.collectAsState()?.value
-    val id = borrowerId ?: ""
+    val id = StringFormatter.removeKeysFormatter(borrowerId.toString())
     LaunchedEffect(Unit) {
         viewModel?.getBorrower(id)
     }
@@ -43,12 +44,12 @@ fun BorrowerDetails(
 }
 
 @Composable
-fun BorrowerDetailsContent(borrower: Borrower, navController: NavController?){
+fun BorrowerDetailsContent(borrower: Borrower, navController: NavController?) {
+
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.height(24.dp))
         TitleHeader(
             titleText = stringResource(id = R.string.add_borrower),
             navController = navController
@@ -66,17 +67,21 @@ fun BorrowerDetailsContent(borrower: Borrower, navController: NavController?){
         )
         Spacer(modifier = Modifier.height(12.dp))
         Text(
-            text = borrower.name
+            text = borrower.name,
+            fontSize = 18.sp
         )
         Spacer(modifier = Modifier.height(12.dp))
         Text(
-            text = borrower.identificationNumber
+            text = borrower.identificationNumber,
+            fontSize = 18.sp
         )
         Spacer(modifier = Modifier.height(12.dp))
         Text(
-            text = borrower.address
+            text = borrower.address,
+            fontSize = 18.sp
         )
     }
+
 }
 
 @Preview(showSystemUi = true)
@@ -88,6 +93,7 @@ fun BorrowerDetailsPreview() {
         "John Doe",
         "000000000",
         "address",
-        "profile pic")
+        "profile pic"
+    )
     BorrowerDetailsContent(borrower = borrower, navController = null)
 }

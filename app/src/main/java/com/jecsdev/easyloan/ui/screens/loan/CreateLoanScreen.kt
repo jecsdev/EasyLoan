@@ -63,7 +63,6 @@ fun CreateLoanScreen(navController: NavController?) {
             .fillMaxSize()
             .padding(start = 8.dp, end = 8.dp)
     ) {
-        Spacer(modifier = Modifier.height(24.dp))
         TitleHeader(
             titleText = stringResource(R.string.loan_creation),
             navController = navController

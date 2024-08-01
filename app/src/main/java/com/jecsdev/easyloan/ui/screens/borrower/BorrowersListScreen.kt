@@ -111,13 +111,11 @@ fun BorrowersListContent(
         }
     }, containerColor = colorResource(id = R.color.phantom_gray_color)) { paddingValues ->
         paddingValues.calculateBottomPadding()
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(start = 8.dp, end = 8.dp)
         ) {
-            Spacer(modifier = Modifier.height(24.dp))
             TitleHeader(
                 titleText = stringResource(id = R.string.borrowers_list),
                 navController = navController

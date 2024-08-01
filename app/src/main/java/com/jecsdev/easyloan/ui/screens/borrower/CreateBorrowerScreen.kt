@@ -138,7 +138,6 @@ fun CreateBorrowerScreenContent(
                 .fillMaxSize()
                 .padding(start = 8.dp, end = 8.dp)
         ) {
-            Spacer(modifier = Modifier.height(24.dp))
             TitleHeader(
                 titleText = stringResource(id = R.string.add_borrower),
                 navController = navController

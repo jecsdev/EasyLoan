@@ -5,10 +5,13 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -47,78 +50,88 @@ class MainActivity : ComponentActivity() {
             EasyLoanTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = colorResource(R.color.phantom_gray_color)
+                    color = colorResource(R.color.phantom_gray_color),
                 ) {
-                    val navController = rememberNavController()
-                    NavHost(navController = navController, startDestination = LogIn.route) {
-                        composable(LogIn.route) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .systemBarsPadding(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        val navController = rememberNavController()
+                        NavHost(navController = navController, startDestination = LogIn.route) {
+                            composable(LogIn.route) {
 
-                            val state by viewModel.signInState.collectAsStateWithLifecycle()
-                            LaunchedEffect(key1 = Unit) {
-                                if (viewModel.getSignedUser() != null) {
-                                    navController.navigate(Home.route)
+                                val state by viewModel.signInState.collectAsStateWithLifecycle()
+                                LaunchedEffect(key1 = Unit) {
+                                    if (viewModel.getSignedUser() != null) {
+                                        navController.navigate(Home.route)
+                                    }
                                 }
-                            }
 
-                            LaunchedEffect(key1 = state.isSuccessful) {
-                                if (state.isSuccessful) {
-                                    Toast.makeText(
-                                        applicationContext,
-                                        getString(R.string.session_started),
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                    navController.navigate(Home.route)
-                                    viewModel.resetState()
-                                }
-                            }
-
-                            LogInScreen(state = state, onSignInClick = {
-                                lifecycleScope.launch {
-                                    viewModel.signIn(this@MainActivity)
-                                }
-                            })
-                        }
-                        composable(Home.route) {
-                            HomeScreen(
-                                userData = viewModel.getSignedUser(),
-                                onSignOut = {
-                                    lifecycleScope.launch {
-                                        viewModel.signOut()
+                                LaunchedEffect(key1 = state.isSuccessful) {
+                                    if (state.isSuccessful) {
                                         Toast.makeText(
                                             applicationContext,
-                                            getString(R.string.session_closed),
+                                            getString(R.string.session_started),
                                             Toast.LENGTH_LONG
                                         ).show()
-                                        navController.popBackStack()
+                                        navController.navigate(Home.route)
+                                        viewModel.resetState()
                                     }
-                                },
-                                navController = navController
-                            )
-                        }
-                        composable(BorrowersList.route) {
-                            BorrowersListScreen(
-                                viewModel = borrowerViewModel,
-                                navController = navController
-                            )
-                        }
-                        composable(CreateBorrower.route) {
-                            CreateBorrowerScreen(
-                                viewModel = borrowerViewModel,
-                                navController = navController
-                            )
-                        }
-                        composable(CreateLoan.route) {
-                            CreateLoanScreen(navController = navController)
-                        }
-                        composable(route = BorrowerDetails.route + "/{borrowerId}",
-                            arguments = listOf(navArgument("borrowerId") {
-                                type = NavType.IntType
-                            })){ backStackEntry ->
-                            val borrowerId = backStackEntry.arguments?.getString("borrowerId")
-                            BorrowerDetails(
-                                viewModel = borrowerViewModel,
-                                navController = navController,
-                                borrowerId = borrowerId)
+                                }
+
+                                LogInScreen(state = state, onSignInClick = {
+                                    lifecycleScope.launch {
+                                        viewModel.signIn(this@MainActivity)
+                                    }
+                                })
+                            }
+                            composable(Home.route) {
+                                HomeScreen(
+                                    userData = viewModel.getSignedUser(),
+                                    onSignOut = {
+                                        lifecycleScope.launch {
+                                            viewModel.signOut()
+                                            Toast.makeText(
+                                                applicationContext,
+                                                getString(R.string.session_closed),
+                                                Toast.LENGTH_LONG
+                                            ).show()
+                                            navController.popBackStack()
+                                        }
+                                    },
+                                    navController = navController
+                                )
+                            }
+                            composable(BorrowersList.route) {
+                                BorrowersListScreen(
+                                    viewModel = borrowerViewModel,
+                                    navController = navController
+                                )
+                            }
+                            composable(CreateBorrower.route) {
+                                CreateBorrowerScreen(
+                                    viewModel = borrowerViewModel,
+                                    navController = navController
+                                )
+                            }
+                            composable(CreateLoan.route) {
+                                CreateLoanScreen(navController = navController)
+                            }
+                            composable(
+                                route = BorrowerDetails.route + "/{borrowerId}",
+                                arguments = listOf(navArgument("borrowerId") {
+                                    type = NavType.StringType
+                                })
+                            ) { backStackEntry ->
+                                val borrowerId = backStackEntry.arguments?.getString("borrowerId")
+                                BorrowerDetails(
+                                    viewModel = borrowerViewModel,
+                                    navController = navController,
+                                    borrowerId = borrowerId
+                                )
+                            }
                         }
                     }
                 }
