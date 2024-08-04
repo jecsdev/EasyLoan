@@ -54,7 +54,7 @@ android {
 }
 
 dependencies {
-
+    //Core dependencies
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.22")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.4")
@@ -72,6 +72,9 @@ dependencies {
 
     //Multidex
     implementation("androidx.multidex:multidex:2.0.1")
+
+    //System UI controller
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.28.0")
 
     //Test dependencies
     testImplementation("junit:junit:4.13.2")
