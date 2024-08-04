@@ -51,7 +51,11 @@ fun BorrowerDetails(
 
 @Composable
 fun BorrowerDetailsContent(borrower: Borrower?, navController: NavController?) {
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(start = 8.dp, end = 8.dp)
+    ) {
         TitleHeader(
             titleText = stringResource(id = R.string.borrower_details),
             navController = navController
@@ -74,8 +78,11 @@ fun BorrowerDetailsContent(borrower: Borrower?, navController: NavController?) {
                     .clip(CircleShape)
             )
             Spacer(modifier = Modifier.height(20.dp))
-            Column(Modifier.fillMaxSize()
-                .clip(RoundedCornerShape(16.dp))) {
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .clip(RoundedCornerShape(16.dp))
+            ) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
