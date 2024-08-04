@@ -9,8 +9,5 @@ object StringFormatter {
     /**
      * Creates a new amount formatter from an amount.
      */
-    fun amountFormatter(amount: Double): String =
-        String.format(Locale.getDefault(), "$%,.2f", amount)
-
-    fun removeKeysFormatter(text: String): String = text.replace(Regex("""[{}]"""), "")
+    fun amountFormatter(amount: Double): String = String.format(Locale.getDefault(), "$%,.2f", amount)
 }

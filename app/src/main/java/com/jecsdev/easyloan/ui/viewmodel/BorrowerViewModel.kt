@@ -2,7 +2,6 @@ package com.jecsdev.easyloan.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jecsdev.easyloan.feature_authentication.repository.AuthRepository
 import com.jecsdev.easyloan.feature_borrower.data.model.Borrower
 import com.jecsdev.easyloan.feature_borrower.domain.use_case.BorrowerUseCases
 import com.jecsdev.easyloan.ui.state.BorrowerState
@@ -22,8 +21,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class BorrowerViewModel @Inject constructor(
-    private val borrowerUseCases: BorrowerUseCases,
-    authRepository: AuthRepository
+    private val borrowerUseCases: BorrowerUseCases
 ) :
     ViewModel() {
 
@@ -34,16 +32,13 @@ class BorrowerViewModel @Inject constructor(
     val borrowerState: StateFlow<Borrower?> = _borrowerState
 
     private var getBorrowersJob: Job? = null
-    private val userId = authRepository.getSignedInUser()?.userId
+    var userId: String? = null
 
-    init {
-        getBorrowers(userId = userId)
-    }
 
     /**
      * Retrieves a list of borrowers.
      */
-    private fun getBorrowers(userId: String?) {
+    suspend fun getBorrowers(userId: String?) {
         getBorrowersJob?.cancel()
         getBorrowersJob = viewModelScope.launch {
             try {
@@ -59,7 +54,7 @@ class BorrowerViewModel @Inject constructor(
     /*
      * Retrieves a borrower from the repository.
      */
-    suspend fun getBorrower(id: String){
+    suspend fun getBorrower(id: String) {
         getBorrowersJob?.cancel()
         getBorrowersJob = viewModelScope.launch {
             try {

@@ -31,7 +31,6 @@ import com.jecsdev.easyloan.feature_borrower.data.model.Borrower
 import com.jecsdev.easyloan.ui.composables.header.TitleHeader
 import com.jecsdev.easyloan.ui.theme.lightGrayColor
 import com.jecsdev.easyloan.ui.viewmodel.BorrowerViewModel
-import com.jecsdev.easyloan.utils.formatters.StringFormatter
 
 @Composable
 fun BorrowerDetails(
@@ -40,9 +39,9 @@ fun BorrowerDetails(
     borrowerId: String?
 ) {
     val borrower = viewModel?.borrowerState?.collectAsState()?.value
-    val id = StringFormatter.removeKeysFormatter(borrowerId.toString())
+
     LaunchedEffect(Unit) {
-        viewModel?.getBorrower(id)
+        borrowerId?.let { viewModel?.getBorrower(it) }
     }
 
     if (borrower != null) {

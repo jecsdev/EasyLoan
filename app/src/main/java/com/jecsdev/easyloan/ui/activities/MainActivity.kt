@@ -56,7 +56,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = colorResource(R.color.phantom_gray_color),
                 ) {
-                    val systemUiController =  rememberSystemUiController()
+                    val systemUiController = rememberSystemUiController()
                     systemUiController.setStatusBarColor(phantomGrayColor)
 
                     Box(
@@ -111,10 +111,16 @@ class MainActivity : ComponentActivity() {
                                     navController = navController
                                 )
                             }
-                            composable(BorrowersList.route) {
+                            composable(
+                                route = BorrowersList.route + "/{userId}",
+                                arguments = listOf(navArgument("userId") {
+                                    type = NavType.StringType
+                                })) { navBackStackEntry ->
+                                val userId = navBackStackEntry.arguments?.getString("userId")
                                 BorrowersListScreen(
                                     viewModel = borrowerViewModel,
-                                    navController = navController
+                                    navController = navController,
+                                    userId = userId
                                 )
                             }
                             composable(CreateBorrower.route) {
@@ -131,8 +137,8 @@ class MainActivity : ComponentActivity() {
                                 arguments = listOf(navArgument("borrowerId") {
                                     type = NavType.StringType
                                 })
-                            ) { backStackEntry ->
-                                val borrowerId = backStackEntry.arguments?.getString("borrowerId")
+                            ) { navBackStackEntry ->
+                                val borrowerId = navBackStackEntry.arguments?.getString("borrowerId")
                                 BorrowerDetails(
                                     viewModel = borrowerViewModel,
                                     navController = navController,

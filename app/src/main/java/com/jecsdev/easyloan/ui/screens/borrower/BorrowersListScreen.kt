@@ -60,8 +60,13 @@ import kotlinx.coroutines.launch
 @Composable
 fun BorrowersListScreen(
     viewModel: BorrowerViewModel,
-    navController: NavController?
+    navController: NavController?,
+    userId: String?
 ) {
+    LaunchedEffect(Unit) {
+        viewModel.getBorrowers(userId)
+    }
+
     val state = viewModel.state.collectAsState().value
     val coroutineScope = rememberCoroutineScope()
     BorrowersListContent(state = state,
@@ -226,5 +231,5 @@ fun navigateToCreateBorrowerScreen(navController: NavController?) {
 }
 
 fun navigateToDetail(navController: NavController?, borrower: Borrower) {
-    navController?.navigate(Destination.BorrowerDetails.route + "/{${borrower.id}}")
+    navController?.navigate(Destination.BorrowerDetails.route + "/${borrower.id}")
 }
