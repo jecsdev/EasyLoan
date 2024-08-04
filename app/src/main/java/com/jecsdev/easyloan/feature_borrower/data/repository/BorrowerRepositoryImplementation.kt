@@ -37,7 +37,7 @@ class BorrowerRepositoryImplementation @Inject constructor(
         emit(borrower)
     }.catch { exception ->
         Log.e(ExceptionConstants.EXCEPTION_TAG, ExceptionConstants.EXCEPTION_MESSAGE, exception)
-        val emptyBorrower = Borrower("", "", "", "", "", "")
+        val emptyBorrower = Borrower("", "", "", "", "", "","")
         emit(emptyBorrower)
     }
 

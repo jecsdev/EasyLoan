@@ -86,6 +86,9 @@ fun CreateBorrowerScreenContent(
     var identificationNumber by rememberSaveable {
         mutableStateOf("")
     }
+    var phoneNumber by rememberSaveable {
+        mutableStateOf("")
+    }
     var address by rememberSaveable {
         mutableStateOf("")
     }
@@ -112,6 +115,7 @@ fun CreateBorrowerScreenContent(
                                     userId = userId,
                                     name = name,
                                     identificationNumber = identificationNumber,
+                                    phone = phoneNumber,
                                     address = address,
                                     photo = photoUri.toString()
                                 )
@@ -176,6 +180,15 @@ fun CreateBorrowerScreenContent(
                     onValueChange = { value -> identificationNumber = value },
                     isSingleLine = true,
                     inputType = InputType.NUMBER,
+                    modifier = Modifier
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                SimpleTextField(
+                    textTyped = phoneNumber,
+                    labelValue = stringResource(id = R.string.phone_number),
+                    onValueChange = { value -> phoneNumber = value },
+                    isSingleLine = true,
+                    inputType = InputType.PHONE,
                     modifier = Modifier
                 )
                 Spacer(modifier = Modifier.height(12.dp))

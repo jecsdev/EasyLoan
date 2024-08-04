@@ -102,6 +102,17 @@ fun BorrowerCard(
                     showShimmer = showShimmer
                 )
                 CustomText(
+                    text = borrower?.phone,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = modifier
+                        .wrapContentWidth()
+                        .background(
+                            shimmer(targetValue = 1300f, showShimmer = showShimmer)
+                        ),
+                    showShimmer = showShimmer
+                )
+                CustomText(
                     text = borrower?.address,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
@@ -126,6 +137,7 @@ fun BorrowerCardPreview() {
             "John",
             "123456789",
             "0001-00052545-8",
+            "8295548484",
             "Calle demo 123",
             ""
         ),

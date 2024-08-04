@@ -1,7 +1,6 @@
 package com.jecsdev.easyloan.ui.screens.borrower
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -126,6 +125,26 @@ fun BorrowerDetailsContent(borrower: Borrower?, navController: NavController?) {
                     horizontalAlignment = Alignment.Start
                 ) {
                     Text(
+                        text = stringResource(id = R.string.phone_number),
+                        fontSize = 14.sp,
+                        modifier = Modifier.padding(top = 8.dp, start = 12.dp)
+                    )
+                    Text(
+                        text = borrower?.phone ?: "",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(bottom = 8.dp, start = 12.dp)
+                    )
+                }
+                HorizontalDivider()
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .background(color = lightGrayColor),
+                    horizontalAlignment = Alignment.Start
+                ) {
+                    Text(
                         text = stringResource(id = R.string.address),
                         fontSize = 14.sp,
                         modifier = Modifier.padding(top = 8.dp, start = 12.dp)
@@ -151,7 +170,8 @@ fun BorrowerDetailsPreview() {
         "000000",
         "John Doe",
         "000000000",
-        "address",
+        "8295588787",
+        "Respaldo direccion no. 25",
         "profile pic"
     )
     BorrowerDetailsContent(borrower = borrower, navController = null)
