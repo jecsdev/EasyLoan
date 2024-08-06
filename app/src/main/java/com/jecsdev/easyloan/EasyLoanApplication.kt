@@ -1,10 +1,10 @@
 package com.jecsdev.easyloan
 
-import android.app.Application
+import androidx.multidex.MultiDexApplication
 import dagger.hilt.android.HiltAndroidApp
 
 /**
  * Application class
  */
 @HiltAndroidApp
-class EasyLoanApplication : Application()
+class EasyLoanApplication : MultiDexApplication()

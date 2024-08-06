@@ -50,7 +50,7 @@ fun HomeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp)
+            .padding(start = 24.dp, end = 24.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth()
@@ -174,7 +174,7 @@ fun HomeScreen(
                     modifier = Modifier.clickable {
                         navController?.let { navigation ->
                             navigateToBorrowersScreen(
-                                navigation
+                                navigation, userId = userData?.userId
                             )
                         }
                     }
@@ -205,9 +205,10 @@ fun HomeScreen(
 /**
  * Handles navigation to borrowers list screen.
  * @param navController navigation controller,
+ * @param userId ID from current user.
  */
-fun navigateToBorrowersScreen(navController: NavController) {
-    navController.navigate(Destination.BorrowersList.route)
+fun navigateToBorrowersScreen(navController: NavController, userId: String?) {
+    navController.navigate(Destination.BorrowersList.route + "/$userId")
 }
 
 /**

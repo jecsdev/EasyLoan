@@ -19,10 +19,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jecsdev.easyloan.R
+import com.jecsdev.easyloan.presentation.uihelpers.InputType
 import com.jecsdev.easyloan.ui.theme.brownGrayColor
 import com.jecsdev.easyloan.ui.theme.ghostColor
 import com.jecsdev.easyloan.ui.theme.navyBlueColor
-import com.jecsdev.easyloan.presentation.uihelpers.InputType
 
 /**
  * Composable to use to create simple text fields.
@@ -35,6 +35,7 @@ import com.jecsdev.easyloan.presentation.uihelpers.InputType
 fun SimpleTextField(
     textTyped: String?,
     labelValue: String?,
+    onValueChange: (String) -> Unit,
     isSingleLine: Boolean,
     inputType: InputType,
     modifier: Modifier
@@ -56,10 +57,18 @@ fun SimpleTextField(
             focusedContainerColor = ghostColor,
             unfocusedContainerColor = ghostColor
         ),
-        onValueChange = { value -> textValue = value },
-        label = { Text(text = labelValue ?: stringResource(id = R.string.empty_string), color = brownGrayColor) },
+        onValueChange = { value ->
+            textValue = value
+            onValueChange(value)
+        },
+        label = {
+            Text(
+                text = labelValue ?: stringResource(id = R.string.empty_string),
+                color = brownGrayColor
+            )
+        },
         singleLine = isSingleLine,
-        keyboardOptions = when(inputType){
+        keyboardOptions = when (inputType) {
             InputType.TEXT -> KeyboardOptions(keyboardType = KeyboardType.Text)
             InputType.ASCII -> KeyboardOptions(keyboardType = KeyboardType.Ascii)
             InputType.NUMBER -> KeyboardOptions(keyboardType = KeyboardType.Number)
@@ -82,6 +91,7 @@ fun SimpleTextFieldPreview() {
     SimpleTextField(
         stringResource(id = R.string.name),
         stringResource(id = R.string.last_name),
+        {},
         true,
         InputType.TEXT,
         Modifier
