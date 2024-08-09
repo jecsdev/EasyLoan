@@ -1,37 +1,30 @@
 package com.jecsdev.easyloan.ui.activities
 
-import android.os.Bundle
-import android.widget.Toast
+import  android.os.Bundle
+
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
+
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
+import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.jecsdev.easyloan.R
-import com.jecsdev.easyloan.presentation.navigation.Destination.BorrowersList
-import com.jecsdev.easyloan.presentation.navigation.Destination.CreateBorrower
-import com.jecsdev.easyloan.presentation.navigation.Destination.CreateLoan
-import com.jecsdev.easyloan.presentation.navigation.Destination.Home
-import com.jecsdev.easyloan.presentation.navigation.Destination.LogIn
-import com.jecsdev.easyloan.presentation.signin.GoogleAuthClient
-import com.jecsdev.easyloan.ui.screens.borrower.BorrowersListScreen
-import com.jecsdev.easyloan.ui.screens.borrower.CreateBorrowerScreen
-import com.jecsdev.easyloan.ui.screens.home.HomeScreen
-import com.jecsdev.easyloan.ui.screens.loan.CreateLoanScreen
-import com.jecsdev.easyloan.ui.screens.login.LogInScreen
+import com.jecsdev.easyloan.presentation.navigation.NavGraph
 import com.jecsdev.easyloan.ui.theme.EasyLoanTheme
-import com.jecsdev.easyloan.ui.viewmodel.SignInViewModel
+import com.jecsdev.easyloan.ui.theme.phantomGrayColor
+import com.jecsdev.easyloan.ui.viewmodel.AuthViewModel
+import com.jecsdev.easyloan.ui.viewmodel.BorrowerViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
+
 
 
 /**
@@ -40,89 +33,31 @@ import kotlinx.coroutines.launch
  */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    // Set Google Authentication client
-    private val googleAuthUiClient by lazy {
-        GoogleAuthClient(
-            context = applicationContext
-        )
-    }
-
-    private val viewModel: SignInViewModel by viewModels()
-
+    private val viewModel: AuthViewModel by viewModels()
+    private val borrowerViewModel: BorrowerViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             EasyLoanTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = colorResource(R.color.phantom_gray_color)
+                    color = colorResource(R.color.phantom_gray_color),
                 ) {
-                    // Navigation Host
-                    val navController = rememberNavController()
-                    NavHost(navController = navController, startDestination = LogIn.route) {
-                        composable(LogIn.route) {
+                    val systemUiController = rememberSystemUiController()
+                    systemUiController.setStatusBarColor(phantomGrayColor)
 
-                            val state by viewModel.state.collectAsStateWithLifecycle()
-
-                            // Check's if user's session is active
-                            LaunchedEffect(key1 = Unit) {
-                                if (googleAuthUiClient.getSignedUser() != null) {
-                                    navController.navigate(Home.route)
-                                }
-                            }
-                            // Handles The sign in successfully
-                            LaunchedEffect(key1 = state.isSuccessful) {
-                                if (state.isSuccessful) {
-                                    Toast.makeText(
-                                        applicationContext,
-                                        getString(R.string.session_started),
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                    navController.navigate(Home.route)
-                                    viewModel.resetState()
-                                }
-                            }
-                            // Sign In Screen
-                            LogInScreen(state = state, onSignInClick = {
-                                lifecycleScope.launch {
-                                    googleAuthUiClient.signIn()
-                                    viewModel.onSignInResult(result = googleAuthUiClient.getUserSigned())
-                                }
-
-                            })
-                        }
-                        composable(Home.route) {
-                            //Home screen
-                            HomeScreen(
-                                userData = googleAuthUiClient.getSignedUser(),
-                                onSignOut = {
-                                    lifecycleScope.launch {
-                                        googleAuthUiClient.signOut()
-                                        Toast.makeText(
-                                            applicationContext,
-                                            getString(R.string.session_closed),
-                                            Toast.LENGTH_LONG
-                                        ).show()
-                                        navController.popBackStack()
-                                    }
-                                },
-                                navController = navController
-                            )
-                        }
-                        composable(BorrowersList.route) {
-                            // Borrowers list screen
-                            BorrowersListScreen(navController = navController)
-                        }
-                        composable(CreateBorrower.route) {
-                            //Create Borrowers screen
-                            CreateBorrowerScreen(navController = navController)
-                        }
-                        composable(CreateLoan.route) {
-                            //Create Loan Screen
-                            CreateLoanScreen(navController = navController)
-                        }
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .systemBarsPadding()
+                            .padding(top = 12.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        val navController = rememberNavController()
+                        NavGraph(context = this@MainActivity,
+                            navController = navController,
+                            authViewModel = viewModel,
+                            borrowerViewModel = borrowerViewModel)
                     }
                 }
             }

@@ -10,4 +10,5 @@ sealed class Destination(val route: String) {
     object BorrowersList: Destination("borrowers_list")
     object CreateBorrower: Destination("create_borrower")
     object CreateLoan: Destination("create_loan")
+    object BorrowerDetails: Destination("borrower_details")
 }

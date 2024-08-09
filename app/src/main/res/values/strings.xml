@@ -37,10 +37,12 @@
     <string name="search_text_field_icon">Search text field icon</string>
     <string name="borrower_text_field_disclaimer">Encuentre rápidamente a sus prestatarios escribiendo su nombre aquí.</string>
     <string name="add_borrower">Agregar nuevo prestatario</string>
+    <string name="borrower_details">Detalles del prestatario</string>
     <string name="selected_image_description">selected_image_description</string>
     <string name="name">Nombre</string>
     <string name="last_name">Apellido</string>
-    <string name="identification_number">Cédula</string>
+    <string name="identification_number">No. de identificación</string>
+    <string name="phone_number">Teléfono</string>
     <string name="address">Dirección</string>
     <string name="loan">Préstamo</string>
     <string name="loans">Préstamos</string>
@@ -58,4 +60,13 @@
     <string name="loan_start_date">Fecha inicio</string>
     <string name="loan_end_date">Fecha fin</string>
     <string name="create">Crear</string>
+    <string name="cancel">Cancelar</string>
+    <string name="accept">Aceptar</string>
+    <string name="error_saving_borrower">Error guardando su prestatario.</string>
+    <string name="all_field_must_be_fulfilled">Todos los campos son requeridos.</string>
+    <string name="processing">Procesando…</string>
+    <string name="saving_borrower_info">Guardando información del prestatario.</string>
+    <string name="delete_borrower">Eliminar prestatario</string>
+    <string name="delete_borrower_confirm_message">¿Está seguro de eliminar el prestatario?</string>
+
 </resources>
