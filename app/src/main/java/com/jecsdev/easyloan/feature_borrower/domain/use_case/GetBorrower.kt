@@ -8,5 +8,5 @@ import kotlinx.coroutines.flow.Flow
  * Retrieves a borrower from the repository.
  */
 class GetBorrower(private val borrowerRepository: BorrowerRepository) {
-    suspend operator fun invoke(id: String): Flow<Borrower?> = borrowerRepository.getBorrower(id)
+    suspend operator fun invoke(id: String?): Flow<Borrower?> = borrowerRepository.getBorrower(id)
 }

@@ -9,12 +9,12 @@ plugins {
 
 android {
     namespace = "com.jecsdev.easyloan"
-    compileSdk = 35
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.jecsdev.easyloan"
         minSdk = 28
-        targetSdk = 35
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0.0"
 

@@ -31,13 +31,13 @@ class BorrowerRepositoryImplementation @Inject constructor(
         emit(emptyList())
     }
 
-    override suspend fun getBorrower(id: String): Flow<Borrower?> = flow {
-        val document = borrowerCollection.document(id).get().await()
-        val borrower = document.toObject<Borrower>()?.copy(id = document.id)
+    override suspend fun getBorrower(id: String?): Flow<Borrower> = flow {
+        val document = id?.let { borrowerCollection.document(it).get().await() }
+        val borrower = document?.toObject<Borrower>()!!.copy(id = document.id)
         emit(borrower)
     }.catch { exception ->
         Log.e(ExceptionConstants.EXCEPTION_TAG, ExceptionConstants.EXCEPTION_MESSAGE, exception)
-        val emptyBorrower = Borrower("", "", "", "", "", "","")
+        val emptyBorrower = Borrower()
         emit(emptyBorrower)
     }
 
