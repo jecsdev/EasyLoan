@@ -52,7 +52,6 @@ fun CustomSwipeToDismissBox(
     var isRemoved by remember {
         mutableStateOf(false)
     }
-    var 
 
     LaunchedEffect(key1 = isRemoved) {
         if (isRemoved) {
